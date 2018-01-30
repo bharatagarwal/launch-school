@@ -4,18 +4,18 @@
 words = []
 
 while true
-	puts "Say something: "
-	words.push(gets.chomp)
-	if words.last == ''
-		words.pop
-		break
-	end
+  puts "Say something: "
+  words.push(gets.chomp)
+  if words.last == ''
+    words.pop
+    break
+  end
 end
 
 if words.length != 0
-	words.sort!
-	puts "Your words in alphabetical order: "
-	puts words
+  words.sort!
+  puts "Your words in alphabetical order: "
+  puts words
 else
-	puts "You gotta say something!"
+  puts "You gotta say something!"
 end
