@@ -15,4 +15,3 @@ content.each do |line|
   puts line.center(width)
   end
 end
-  
