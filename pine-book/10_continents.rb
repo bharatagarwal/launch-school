@@ -15,13 +15,7 @@ world = [ [o,o,o,o,o,o,o,o,o,o,o],#0
 
 def continent_size world, x, y
 
-=begin 
-  if y < 0 || x < 0
-  puts 'ZERO!' to shout out when the coordinates are falling 
-  off the edge of the world
-=end
-
-  if world[y][x] != 'land'
+if world[y][x] != 'land'
     return 0
   end
 
@@ -43,10 +37,8 @@ def continent_size world, x, y
   size += continent_size(world, x, y+1)
 
   size += continent_size(world, x+1, y+1)
-
-  puts size
-
   size
+
 end
 
-continent_size(world, 5, 5)
+puts continent_size(world, 5, 5)
