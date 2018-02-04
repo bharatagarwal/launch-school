@@ -29,16 +29,24 @@ def continent_size world, x, y
   world[y][x] = 'counted land'
 
   size += continent_size(world, x-1, y-1)
+
   size += continent_size(world, x, y-1)
+
   size += continent_size(world, x+1, y-1)
+
   size += continent_size(world, x-1, y)
+
   size += continent_size(world, x+1, y)
+
   size += continent_size(world, x-1, y+1)
+
   size += continent_size(world, x, y+1)
+
   size += continent_size(world, x+1, y+1)
+
+  puts size
 
   size
 end
 
-puts continent_size(world, 5, 5)
-puts world
+continent_size(world, 5, 5)
