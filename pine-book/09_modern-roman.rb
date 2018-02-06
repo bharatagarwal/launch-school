@@ -1,4 +1,4 @@
-# convert number to old school roman numeral
+# convert number to modern school roman numeral
 
 conversion_table = [
   [1000,'M'],

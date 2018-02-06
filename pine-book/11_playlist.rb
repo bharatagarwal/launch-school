@@ -20,13 +20,13 @@ def random_sort array
 end
 
 # random sort from chap 10
-def random_sort_method array, random
-  while array.length > 0
-    rand_num = rand(array.length)
-    random.push(array[rand_num])
-    array.delete_at(rand_num)
+def random_sort_method original_array, randomised_array
+  while original_array.length > 0
+    random_number = rand(original_array.length)
+    randomised_array.push(original_array[random_number])
+    original_array.delete_at(random_number)
   end
-  random
+  randomised_array
 end
 
 #randomising array of songs
