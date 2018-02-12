@@ -11,10 +11,10 @@ words.each do |word|
   key = word.split('').sort.join
   # add to existing key
   if anagrams.has_key?(key)
-    anagrams[key].push(word)
+    anagrams[key].push(word) # value will be an array
   else
   # create new key value pair if none exist for the sorted word.
-    anagrams[key] = [word]
+    anagrams[key] = [word] # will be initiation of an array
   end
 end
 
