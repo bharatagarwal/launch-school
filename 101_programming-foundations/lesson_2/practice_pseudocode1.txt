@@ -1,0 +1,9 @@
+a method that returns the sum of two integers
+
+casual pseudocode
+
+- Check the two inputs are integers
+- If they are strings, check if the string conversion of their integer conversion equals the string itself i.e. that they are integer-only strings.
+- Add the value of the two strings and return the added value.
+
+formal pseudocode
