@@ -7,3 +7,16 @@ casual pseudocode
 - Add the value of the two strings and return the added value.
 
 formal pseudocode
+
+START
+
+# Given two inputs, num1 & num2.
+
+IF the two inputs are not integers
+THEN check whether they are string inputs of integers,
+CONVERT string values to integer values
+
+RETURN sum of the two integers
+
+EBD
+
