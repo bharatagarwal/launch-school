@@ -15,6 +15,7 @@ START
 IF the two inputs are not integers
 THEN check whether they are string inputs of integers,
 CONVERT string values to integer values
+ELSE throw an error
 
 RETURN sum of the two integers
 

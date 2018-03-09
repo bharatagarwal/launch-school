@@ -1,0 +1,15 @@
+a method that takes an array of integers, and returns a new array with every other element
+
+casual pseudocode
+
+check if values are integers
+ - throw error if the input has any other data type other than integer
+
+declare a new empty array
+- map over given array
+ - push value to new array if index is odd/even [choose one]
+
+ formal pseudocode
+
+# how do you express ideas like mapping and selection
+while sticking to rudiments of the formal pseudocode we're given.

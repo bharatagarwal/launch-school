@@ -1,2 +1,26 @@
-# a method that takes an array of strings, and returns a string that is all those strings concatenated together
+a method that takes an array of strings, and returns a string that is all those strings concatenated together
 
+casual pseudocode
+
+given an array with strings in it
+- create an empty string variable
+- map through array and concatenate the value to string
+- return string at the end of the mapping
+
+formal pseudocode
+
+START
+
+# Given an array of string, named 'content'
+
+SET an empty variable 'content_string'
+SET iterator = 0
+
+WHILE length of array > iterator
+
+	CONCATENATE content_string with value of array at index of iterator
+
+	INCREMENT iterator by 1
+END
+
+PRINT value of content_string
