@@ -3,7 +3,7 @@ puts str.match(/s/).inspect
 puts str.match(/x/)
 
 # match(pattern) → matchdata or nil
-# meta-characters: $ ^ + ? . ( ) [ ] { } | \ ?
+# meta-characters: $ ^ + ? . ( ) [ ] { } | \
 # meta characters need to be escaped with a leading backlash. \
 # non alphanumeric that you may think are are meta but aren't : & space.
 
@@ -44,3 +44,8 @@ puts 'matched 4' if "Four-score".match(/\s/)
 # Doc in a _big _ed box.
 # Hup!_ 2 3 _4
 # won't match red becayse the whitespace has already been taken up by the previous regex match in the engine!
+
+
+# * 0 or more occurances
+# + 1 or more occurances
+# ? 0 or 1 occurnaces
