@@ -14,18 +14,22 @@ end
 
 def compute_monthly_payment(loan_amount, annual_interest_rate, duration)
   loan_amount = Float(loan_amount)
-  monthly_interest_rate = Float(annual_interest_rate)/12.0
+  monthly_interest_rate = Float(annual_interest_rate)/12
   month_duration = Integer(duration[:years])*12 + Integer(duration[:months])
 
+  details = {}
   # changed formula because the given formula gave a NaN value when trying to compute a zero-interest loan
-  monthly_payment = if monthly_interest_rate == 0
-                      loan_amount/month_duration
+  details[:monthly_payment] = if monthly_interest_rate == 0
+                      (loan_amount/month_duration)
                     else
                       loan_amount *
                 ( (monthly_interest_rate/100) / (1- (1+ (monthly_interest_rate/100) )**(-month_duration) ) )
                     end
 
-  monthly_payment.round(2)
+  details[:monthly_principal] = loan_amount/month_duration
+  details[:monthly_interest_paid] = details[:monthly_payment] - details[:monthly_principal]
+  details[:total_interest] = details[:monthly_payment]*month_duration - loan_amount
+  details
 end
 
 loop do
@@ -90,8 +94,12 @@ loop do
     end
   end
 
-  payment_details = compute_monthly_payment(loan_amount,annual_interest_rate, duration)
-  prompt("Your monthly payment is #{payment_details}")
+  details = compute_monthly_payment(loan_amount,annual_interest_rate, duration)
+  prompt("Your monthly payment is #{details[:monthly_payment].round(2)}")
+  prompt("Your monthly interest is #{details[:monthly_interest_paid].round(2)}")
+  prompt("Your monthly principal paid is #{details[:monthly_principal].round(2)}")
+  prompt("Your total interest paid is #{details[:total_interest].round(2)}")
+
 
   prompt("Do you want to do another calculation? (Y/N)")
   continue = Kernel.gets().chomp()
