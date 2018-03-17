@@ -1,4 +1,4 @@
-Mortgage calculator
+# Mortgage calculator #
 
 Build a car payment calculator. You’ll need three pieces of information:
 the loan amount
@@ -7,7 +7,7 @@ the loan duration
 
 From this information, using the given formula, you have to output the monthly payment to be given.
 
-__Problem breakdown__
+## Problem breakdown ##
 
 Assumption - This is a calculator for estimating your EMI to give to bank.
 
@@ -24,7 +24,7 @@ Bonus - Map out how much is interest and how much is being returned in a typical
 
 Bonus^2 - Suggest time period, EMI and Principal Amount based on users' budgets
 
-__Data Stuctures__
+## Data Stuctures ##
 
 input:
 loan amount: string, parse to float.
@@ -34,7 +34,7 @@ duration: hash with keys 'month' and 'year'
 output: 
 monthly loan amount: float
 
-__Algorithm__
+## Algorithm ##
 
 m = p * (j / (1 - (1 + j)**(-n)))
 
@@ -42,3 +42,8 @@ m = p * (j / (1 - (1 + j)**(-n)))
 p = loan amounts [float/integer]
 j = monthly interest rate [float]
 n = loan duration in months [integer]
+
+This equation gives a value of Infinity when interest is 0%.
+
+m = p / n
+for calculating values for zero interest loans.
