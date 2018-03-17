@@ -3,12 +3,12 @@ def prompt(message)
 end
 
 def float?(num)
-  #coercing value coming from Float to true when valid input
+  #coercing value to reflect true nature of method
   !!(Float(num) rescue false)
 end
 
-def pos_integer?(num)
-  #coercing value coming from Integer to true when valid input
+def integer?(num)
+  #coercing value to reflect true nature of method
   !!(Integer(num) rescue false)
 end
 
@@ -18,52 +18,54 @@ def compute_monthly_payment(loan_amount, annual_interest_rate, duration)
   month_duration = Integer(duration[:years])*12 + Integer(duration[:months])
 
   details = {}
-  # changed formula because the given formula gave a NaN value when trying to compute a zero-interest loan
+  # adapted formula to allow for zero-interest calculations
   details[:monthly_payment] = if monthly_interest_rate == 0
-                      (loan_amount/month_duration)
-                    else
-                      loan_amount *
-                ( (monthly_interest_rate/100) / (1- (1+ (monthly_interest_rate/100) )**(-month_duration) ) )
+                                  loan_amount/month_duration
+                              else
+                                  loan_amount *
+                                  ( (monthly_interest_rate/100) / 
+                                    (1- (1+ (monthly_interest_rate/100) )**(-month_duration) ) )
                     end
 
   details[:monthly_principal] = loan_amount/month_duration
   details[:monthly_interest_paid] = details[:monthly_payment] - details[:monthly_principal]
-  details[:total_interest] = details[:monthly_payment]*month_duration - loan_amount
+  details[:total_paid] = details[:monthly_payment]*month_duration
+  details[:total_interest] = details[:total_paid] - loan_amount
+
   details
 end
 
 loop do
-  prompt("Welcome to the car loan calculator.")
+  prompt("Welcome to the Car Loan Calculator!")
   
   loan_amount = ''
   loop do
     prompt("What's the loan amount?")
     loan_amount = Kernel.gets().chomp()
+    # checking for amount being greater than zero, v/s being equal to or greater than zero for interest rate.
     if float?(loan_amount)
       if Float(loan_amount)>0
         break
       else
-        prompt("Sorry! Please enter a positive number.")
-      end
+        prompt("Sorry! Please enter a valid number.")
+      end  
     else 
       prompt("Sorry! Please enter a valid number.")
     end
   end
 
-  # declaring variable so that input can be taken inside loop
   annual_interest_rate = ''
   loop do
     prompt("What's the annual interest rate? Enter 5.4 for 5.4%")
     annual_interest_rate = Kernel.gets.chomp()
     if float?(annual_interest_rate)
-      # allowing for interest value for be zero, or greater.
       if Float(annual_interest_rate) >= 0
         break
       else
         prompt("Sorry! Please enter a valid number greater than or equal to zero.")
       end
     elsif annual_interest_rate.match(/\%/)
-      # parsing for situations when user enters % sign with interest rate
+    # parsing for when user enters % sign with interest rate
       annual_interest_rate.chomp!('%')
       if float?(annual_interest_rate) && Float(annual_interest_rate)>=0
         break
@@ -77,8 +79,12 @@ loop do
   loop do
     prompt("What's the duration of the loan? (in years)")
     duration[:years] = Kernel.gets().chomp()
-    if pos_integer?(duration[:years])
-      break
+    if integer?(duration[:years])
+      if Integer(duration[:years]) > 0
+        break
+      else
+      prompt("Sorry! Please enter a valid positive integer.")
+      end
     else
       prompt("Sorry! Please enter a valid positive integer.")
     end
@@ -87,8 +93,12 @@ loop do
   loop do
     prompt("What's the duration of the loan? (in months)")
     duration[:months] = Kernel.gets().chomp()
-    if (pos_integer?(duration[:months]) && Integer(duration[:months]) <= 12)
-      break
+    if integer?(duration[:months])
+      if (0..12).include?(Integer(duration[:months]))
+        break
+      else
+        prompt("Sorry! Please enter a valid integer between 0 and 12.")
+      end  
     else
       prompt("Sorry! Please enter a valid integer between 0 and 12.")
     end
@@ -98,6 +108,7 @@ loop do
   prompt("Your monthly payment is #{details[:monthly_payment].round(2)}")
   prompt("Your monthly interest is #{details[:monthly_interest_paid].round(2)}")
   prompt("Your monthly principal paid is #{details[:monthly_principal].round(2)}")
+  prompt("You pay #{details[:total_paid].round(2)} over a period of #{duration[:months]}.")
   prompt("Your total interest paid is #{details[:total_interest].round(2)}")
 
 
