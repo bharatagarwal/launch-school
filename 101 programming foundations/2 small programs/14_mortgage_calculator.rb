@@ -29,4 +29,4 @@ monthly_payment =
                 amount *
                 ( (monthly_rate/100) / (1- (1+ (monthly_rate/100) )**(-month_duration) ) )
 
-puts "Your monthly_payment is #{monthly_payment}"
+puts "Your monthly_payment is #{monthly_payment.round(2)}"
