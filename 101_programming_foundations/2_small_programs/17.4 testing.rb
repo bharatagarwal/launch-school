@@ -1,10 +1,8 @@
 a = 'hello'
 
-def modify var
-  p var
+def modify(var)
   var = 'yo!'
-  p var
 end
 
-modify a
-p a
+modify(a)
+puts a 
