@@ -14,7 +14,8 @@ rescue ArgumentError
   false
 end
 
-def compute_monthly_payment(loan_amount, annual_interest_rate, duration, details)
+def compute_monthly_payment(loan_amount, annual_interest_rate,
+                            duration, details)
   monthly_interest_rate = annual_interest_rate / 12
 
   details[:monthly_payment] = if monthly_interest_rate == 0
@@ -22,14 +23,19 @@ def compute_monthly_payment(loan_amount, annual_interest_rate, duration, details
                               else
                                 loan_amount *
                                   ((monthly_interest_rate / 100) /
-                                  (1 - (1 + (monthly_interest_rate / 100))**-duration))
+                                  (1 - (1 + (monthly_interest_rate / 100))**
+                                  -duration))
                               end
+
   details[:monthly_payment] = details[:monthly_payment].round(2)
 end
 
 def get_payment_breakdown(loan_amount, duration, details)
   details[:monthly_principal] = (loan_amount / duration).round(2)
-  details[:monthly_interest] = (details[:monthly_payment] - details[:monthly_principal]).round(2)
+
+  details[:monthly_interest] = (details[:monthly_payment] -
+  details[:monthly_principal]).round(2)
+
   details[:total_paid] = (details[:monthly_payment] * duration).round(2)
   details[:total_interest] = (details[:total_paid] - loan_amount).round(2)
 end
@@ -118,29 +124,30 @@ loop do
 
   months_total = years * 12 + months
 
-  compute_monthly_payment(loan_amount, annual_interest_rate, months_total, details)
+  compute_monthly_payment(loan_amount, annual_interest_rate,
+                          months_total, details)
 
   get_payment_breakdown(loan_amount, months_total, details)
 
-  prompt("Your monthly payment is" \
-    " #{details[:monthly_payment]}")
-  prompt("Your monthly principal paid is" \
-    " #{details[:monthly_principal]}")
-  prompt("Your monthly interest is" \
-    " #{details[:monthly_interest]}")
-  prompt("You pay #{details[:total_paid]}" \
-    " over a period of #{months_total} months.")
-  prompt("Your total interest paid is" \
-    " #{details[:total_interest]}")
+  prompt("Your monthly payment is #{details[:monthly_payment]}")
+  prompt("Your monthly principal paid is #{details[:monthly_principal]}")
+  prompt("Your monthly interest is " \
+    "#{details[:monthly_interest]}")
+  prompt("You pay #{details[:total_paid]} over "\
+    " a period of #{months_total} months.")
+  prompt("Your total interest paid is #{details[:total_interest]}")
 
-  prompt("Do you want to do another calculation? (Y/N)")
-  continue = Kernel.gets().chomp()
+  continue = ''
+  loop do
+    prompt("Do you want to do another calculation? (Y/N)")
+    continue = Kernel.gets().chomp()
 
-  if continue.downcase.start_with?('y')
-    next
-  elsif continue.downcase.start_with?('n')
-    break
-  else
-    puts "Please enter something starting with Y or N."
+    if continue.downcase.start_with?('y', 'n')
+      break
+    else
+      puts "Please enter something starting with Y or N."
+    end
   end
+
+  break unless continue.downcase.start_with?('y')
 end
