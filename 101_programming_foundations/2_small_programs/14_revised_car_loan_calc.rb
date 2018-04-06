@@ -15,7 +15,7 @@ rescue ArgumentError
 end
 
 def get_monthly_payment(loan_amount, annual_interest_rate,
-                            duration, details)
+                        duration, details)
   monthly_interest_rate = annual_interest_rate / 12
 
   details[:monthly_payment] = if monthly_interest_rate == 0
@@ -125,7 +125,7 @@ loop do
   months_total = years * 12 + months
 
   get_monthly_payment(loan_amount, annual_interest_rate,
-                          months_total, details)
+                      months_total, details)
 
   get_payment_breakdown(loan_amount, months_total, details)
 
