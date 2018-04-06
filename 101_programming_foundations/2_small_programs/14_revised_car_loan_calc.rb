@@ -41,7 +41,7 @@ def get_payment_breakdown(loan_amount, duration, details)
 end
 
 loop do
-  print %x(`clear`)
+  print `clear`
   prompt("Welcome to the Car Loan Calculator!")
 
   details = {}
@@ -133,7 +133,7 @@ loop do
   prompt("Your monthly principal paid is #{details[:monthly_principal]}")
   prompt("Your monthly interest is " \
     "#{details[:monthly_interest]}")
-  prompt("You pay #{details[:total_paid]} over "\
+  prompt("You pay #{details[:total_paid]} over " \
     " a period of #{months_total} months.")
   prompt("Your total interest paid is #{details[:total_interest]}")
 
