@@ -142,12 +142,12 @@ loop do
     prompt("Do you want to do another calculation? (Y/N)")
     continue = Kernel.gets().chomp()
 
-    if continue.downcase.start_with?('y', 'n')
+    if continue.downcase == 'y' || continue.downcase == 'n'
       break
     else
-      puts "Please enter something starting with Y or N."
+      puts "Please enter either Y or N."
     end
   end
 
-  break unless continue.downcase.start_with?('y')
+  break unless continue.downcase == 'y'
 end
