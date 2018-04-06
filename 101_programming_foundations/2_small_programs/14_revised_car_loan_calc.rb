@@ -14,7 +14,7 @@ rescue ArgumentError
   false
 end
 
-def compute_monthly_payment(loan_amount, annual_interest_rate,
+def get_monthly_payment(loan_amount, annual_interest_rate,
                             duration, details)
   monthly_interest_rate = annual_interest_rate / 12
 
@@ -124,7 +124,7 @@ loop do
 
   months_total = years * 12 + months
 
-  compute_monthly_payment(loan_amount, annual_interest_rate,
+  get_monthly_payment(loan_amount, annual_interest_rate,
                           months_total, details)
 
   get_payment_breakdown(loan_amount, months_total, details)
