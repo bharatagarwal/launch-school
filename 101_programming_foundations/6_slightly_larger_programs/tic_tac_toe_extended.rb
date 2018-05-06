@@ -5,6 +5,7 @@ WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'Ø'
+GO_FIRST = 'choose'
 
 score = {
   'Player' => 0,
@@ -15,7 +16,26 @@ def prompt(msg)
   puts "=> #{msg}"
 end
 
-# rubocop:disable Metrics/AbcSize
+def choose_starter
+  if GO_FIRST.downcase == 'player'
+    'Player'
+  elsif GO_FIRST.downcase == 'computer'
+    'Computer'
+  elsif GO_FIRST.downcase == 'choose'
+    starter = ''
+    loop do
+      puts "Who goes first? Player or Computer"
+      starter = gets.chomp
+      break if starter.downcase == 'player' ||
+               starter.downcase == 'computer'
+      puts "Sorry, please enter a valid choice."
+    end
+
+    starter.capitalize
+  end
+end
+
+# rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 def display_board(brd, score)
   system 'clear'
   puts "You're a #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
@@ -34,16 +54,16 @@ def display_board(brd, score)
   puts "     |     |"
   puts ""
 end
-# rubocop:enable Metrics/AbcSize
+# rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
 def initialize_board
   new_board = {}
-  (1..9).each { |num| new_board[num] = num }
+  (1..9).each { |num| new_board[num] = ' ' }
   new_board
 end
 
 def empty_squares(brd)
-  brd.keys.select { |num| brd[num] == num }
+  brd.keys.select { |num| brd[num] == ' ' }
 end
 
 def joinor(arr, separator = ', ', joining_word = 'or')
@@ -69,9 +89,53 @@ def player_places_piece!(brd) # should mutate board
   brd[square] = PLAYER_MARKER
 end
 
+def find_at_risk_square(brd)
+  WINNING_LINES.each do |line|
+    if brd.values_at(*line).count(PLAYER_MARKER) == 2 &&
+       brd.values_at(*line).count(COMPUTER_MARKER) == 0
+      risk_square = line.select do |ln|
+        brd[ln] != PLAYER_MARKER
+      end
+      return risk_square.first
+    end
+  end
+
+  nil
+end
+
+def comp_at_risk?(brd)
+  !!find_at_risk_square(brd)
+end
+
+def find_winning_opportunity(brd)
+  WINNING_LINES.each do |line|
+    if brd.values_at(*line).count(PLAYER_MARKER) == 0 &&
+       brd.values_at(*line).count(COMPUTER_MARKER) == 2
+      opportunity_square = line.select do |ln|
+        brd[ln] != COMPUTER_MARKER
+      end
+      return opportunity_square.first
+    end
+  end
+
+  nil
+end
+
+def comp_has_opportunity?(brd)
+  !!find_winning_opportunity(brd)
+end
+
 def computer_places_piece!(brd)
-  square = empty_squares(brd).sample
-  brd[square] = COMPUTER_MARKER
+  if comp_has_opportunity?(brd)
+    brd[find_winning_opportunity(brd)] = COMPUTER_MARKER
+  elsif comp_at_risk?(brd)
+    brd[find_at_risk_square(brd)] = COMPUTER_MARKER
+  elsif [PLAYER_MARKER, COMPUTER_MARKER].include?(brd[5]) == false
+    brd[5] = COMPUTER_MARKER
+  else
+    square = empty_squares(brd).sample
+    brd[square] = COMPUTER_MARKER
+  end
 end
 
 def board_full?(brd)
@@ -112,20 +176,37 @@ def overall_winner(scr)
   scr.key(5)
 end
 
+def place_piece!(board, current_player)
+  if current_player == 'Player'
+    player_places_piece!(board)
+  elsif current_player == 'Computer'
+    computer_places_piece!(board)
+  end
+end
+
+def alternate_player(current_player)
+  if current_player == 'Player'
+    'Computer'
+  elsif current_player == 'Computer'
+    'Player'
+  end
+end
+
+starter = choose_starter
+
 loop do
   board = initialize_board
+  current_player = starter
 
   loop do
     display_board(board, score)
-    player_places_piece!(board)
-    update_score(board, score)
-    break if someone_won?(board) || board_full?(board)
+    place_piece!(board, current_player)
 
-    computer_places_piece!(board)
-    update_score(board, score)
+    current_player = alternate_player(current_player)
     break if someone_won?(board) || board_full?(board)
   end
 
+  update_score(board, score)
   display_board(board, score)
 
   if someone_won?(board)

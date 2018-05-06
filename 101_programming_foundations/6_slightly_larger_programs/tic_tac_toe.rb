@@ -13,7 +13,7 @@ def prompt(msg)
 end
 
 # rubocop:disable Metrics/AbcSize
-def display_board(brd, score)
+def display_board(brd)
   system 'clear'
   puts "You're a #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
   puts ""
