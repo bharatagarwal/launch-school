@@ -223,7 +223,7 @@ loop do
     prompt "Play again? (y or n)"
     answer = gets.chomp
 
-    if answer.downcase == 'n' || answer.downcase == 'y'
+    if ['y', 'n'].include?(answer.downcase)
       break
     else
       prompt "Please choose between 'y or n'"
