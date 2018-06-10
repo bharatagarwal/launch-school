@@ -7,7 +7,6 @@ VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
 WINNING_VALUE = 31
 DEALER_THRESHOLD = WINNING_VALUE - 4
 
-
 def prompt(msg)
   puts "=> #{msg}"
 end
@@ -71,7 +70,7 @@ def detect_result(player, dealer)
   end
 end
 
-def update_score(player,dealer)
+def update_score(player, dealer)
   winner = detect_result(player, dealer)
   if [:player, :dealer_busted].include?(winner)
     player[:score] += 1
@@ -101,6 +100,7 @@ def grand_output(player, dealer)
   puts "=============="
 end
 
+# rubocop:disable Metrics/MethodLength
 def display_result(player, dealer)
   result = detect_result(player, dealer)
 
@@ -124,6 +124,7 @@ def display_result(player, dealer)
 
   grand_output(player, dealer)
 end
+# rubocop:enable Metrics/MethodLength
 
 def play_again?
   answer = ''
@@ -160,7 +161,7 @@ loop do
   # resetting player and dealer cards and totals.
   player[:cards] = []
   player[:total] = 0
-  
+
   dealer[:total] = 0
   dealer[:cards] = []
 
