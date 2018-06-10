@@ -7,15 +7,6 @@ VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10',
 WINNING_VALUE = 31
 DEALER_THRESHOLD = WINNING_VALUE - 4
 
-player = {
-  score: 0,
-  cards: [],
-}
-
-dealer = {
-  score: 0,
-  cards: [],
-}
 
 def prompt(msg)
   puts "=> #{msg}"
@@ -149,6 +140,14 @@ def play_again?
   answer.downcase == 'y'
 end
 
+player = {
+  score: 0
+}
+
+dealer = {
+  score: 0
+}
+
 loop do
   system 'clear'
   prompt "Welcome to Whatever-One!"
@@ -222,6 +221,7 @@ loop do
   # dealer turn
   puts
   prompt "Dealer turn..."
+  prompt "Dealer had #{dealer[:cards_display][0]} and ?"
 
   loop do
     break if dealer[:total] >= DEALER_THRESHOLD
