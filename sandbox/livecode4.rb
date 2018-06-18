@@ -5,18 +5,18 @@ odd = []
 even = []
 
 a.each_with_index do |element, index|
-  if index % 2  == 0
-    even.push(element)
-  else
-    odd.push(element)
+  if index.even?
+    even << element
+  elsif index.odd?
+    odd << element
   end
 end
 
 p odd
 p even
 
-sum_odd = odd.reduce { |sum, element| sum+=element }
-sum_even = even.reduce { |sum, element| sum+=element }
+sum_odd = odd.reduce(:+)
+sum_even = even.reduce(:+)
 
 p sum_odd
 p sum_even

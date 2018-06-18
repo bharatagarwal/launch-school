@@ -2,7 +2,6 @@
 # and prints the string as many times as the integer indicates.
 
 # problem breakdown
-
 # input - string, and integer > 0
 # output - string in a newline, the same number of times.
 
@@ -15,7 +14,6 @@
 # repeat(false, 5)
 
 # data structures
-
 # String and Integer, to be checked for both arguments passed to method
 
 # algorithm
@@ -40,27 +38,35 @@ def content_inside_string_a_valid_integer?(content)
   end
 end
 
+def get_string_input(string, number)
+  puts "Please enter a valid string: "
+  string = gets.chomp
+  repeat(string, number)
+end
+
+def get_number_input(string, number)
+  puts "Please enter a valid positive number: "
+  number = gets.chomp
+  if content_inside_string_a_valid_integer?(number)
+    number = number.to_i
+    repeat(string, number)
+  else
+    repeat(string, number)
+  end
+end
+
 def repeat(string, number)
   if string.is_a?(String) && positive_integer?(number)
     number.times do
       puts string
     end
   elsif !string.is_a?(String) && positive_integer?(number)
-    puts "Please enter a valid string: "
-    string = gets.chomp
-    repeat(string, number)
+    get_string_input(string, number)
   elsif string.is_a?(String) && !positive_integer?(number)
-    puts "Please enter a valid positive number: "
-    number = gets.chomp
-    if content_inside_string_a_valid_integer?(number)
-      number = number.to_i
-      repeat(string, number)
-    else
-      repeat(string, number)
-    end
+    get_number_input(string, number)
   elsif !string.is_a?(String) && !positive_integer?(number)
-    puts 'Please enter a valid string: '
-    string = gets.chomp
-    repeat(string, number)
+    get_string_input(string, number)
   end
 end
+
+repeat(44, -3)
