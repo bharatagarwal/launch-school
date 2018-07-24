@@ -22,3 +22,4 @@ puts "There are #{character_count(words)} characters in \"#{words}\"."
 
 # say input = 'Please write word or multiple words'
 # then input.delete(' ') == 'pleasewritewordormultiplewords'
+# walk don't run

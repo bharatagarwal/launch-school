@@ -3,9 +3,13 @@
 ALPHANUMERIC = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
 # no .+ method for Ranges.
 
-def real_palindrome?(string)
-  valid_chars = string.chars.select {|char| ALPHANUMERIC.include?(char)}
-  string = valid_chars.join('').downcase
+def real_palindrome?(str)
+  # valid_chars = string.chars.select {|char| ALPHANUMERIC.include?(char)}
+  # string = valid_chars.join('').downcase
+
+  string = str.dup
+  string.delete!('^a-zA-z0-9')
+  string.downcase!
   string == string.reverse
 end
 

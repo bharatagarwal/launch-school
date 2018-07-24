@@ -13,14 +13,13 @@
 # else true
 
 
-def leap_year?(number)
-  if number % 4 == 0
-    if number % 100 == 0 && !(number % 400 == 0)
-      return false
-    end
+def leap_year?(year)
+  if year % 400 == 0
     true
-  else
+  elsif year % 100 == 0
     false
+  else
+    year % 4 == 0
   end
 end
 

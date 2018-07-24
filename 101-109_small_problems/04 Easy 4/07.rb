@@ -26,17 +26,16 @@ def string_to_integer(string)
      end
    end
 
-  number = 0
+  # number = 0
 
-  # digits_num.each_with_index do |num, index|
-  #   number += num * 10**(digits_num.size - 1 - index)
-  # end
+  # # digits_num.each_with_index do |num, index|
+  # #   number += num * 10**(digits_num.size - 1 - index)
+  # # end
 
-  digits_num.each do |num|
-    number = 10 * number + num
+
+  digits_num.reduce(0) do |sum, value|
+    10 * sum + value
   end
-
-  number
 end
 
 p string_to_integer('4321') == 4321
