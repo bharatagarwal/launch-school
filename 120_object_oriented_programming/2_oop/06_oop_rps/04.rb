@@ -1,4 +1,48 @@
-require 'pry'
+class Move
+  VALUES = %w[rock paper scissors]
+
+  def initialize(value)
+    @value = value
+  end
+
+  def scissors?
+    @value == 'scissors'
+  end
+
+  def rock?
+    @value == 'rock'
+  end
+
+  def paper?
+    @value == 'paper'
+  end
+
+  def >(other_move)
+    if rock?
+      return true if other_move.scissors?
+    elsif paper?
+      return true if other_move.rock?
+    elsif scissors?
+      return true if other_move.paper?
+    end
+    false
+  end
+
+  def <(other_move)
+    if rock?
+      return true if other_move.paper?
+    elsif paper?
+      return true if other_move.scissors?
+    elsif scissors?
+      return true if other_move.rock?
+    end
+    false
+  end
+
+  def to_s
+    @value
+  end
+end
 
 class Player
   attr_accessor :move, :name
@@ -6,18 +50,12 @@ class Player
   def initialize
     set_name
   end
-
 end
 
 class Human < Player
-
-  # def initialize
-  #   super
-  # end
-  # either do super, or don't initialize at all when subclassing, otherwise you'll override the method of the superclass. 
-
   def set_name
     n = nil
+
     loop do
       puts "What's your name?"
       n = gets.chomp
@@ -33,27 +71,20 @@ class Human < Player
     loop do
       puts "Please choose rock, paper, or scissors:"
       choice = gets.chomp
-      break if ['rock', 'paper', 'scissors'].include?(choice)
+      break if Move::VALUES.include?(choice)
       puts "Sorry, invalid choice."
     end
-    self.move = choice
+    self.move = Move.new(choice)
   end
-
 end
 
 class Computer < Player
-
-  
-  def initialize
-    super
-  end
-
   def set_name
     self.name = ['R2D2', 'HAL 9000'].sample
   end
 
   def choose
-    self.move = ['rock', 'paper', 'scissors'].sample
+    self.move = Move.new(Move::VALUES.sample)
   end
 end
 
@@ -77,21 +108,13 @@ class RPSGame
   def display_winner
     puts "#{human.name} chose: #{human.move}"
     puts "#{computer.name} chose: #{computer.move}"
-    # binding.pry
 
-    case human.move
-    when 'rock'
-      puts "It's a tie!" if computer.move == 'rock'
-      puts "#{human.name} win!" if computer.move == 'scissors'
-      puts "#{computer.name} wins!" if computer.move == 'paper'
-    when 'paper'
-      puts "It's a tie!" if computer.move == 'paper'
-      puts "#{human.name} win!" if computer.move == 'rock'
-      puts "#{computer.name} wins!" if computer.move == 'scissors'
-    when 'scissors'
-      puts "It's a tie!" if computer.move == 'scissors'
-      puts "#{human.name} win!" if computer.move == 'paper'
-      puts "#{computer.name} wins!" if computer.move == 'rock'
+    if human.move > computer.move
+      puts "#{human.name} won!"
+    elsif human.move < computer.move
+      puts "#{computer.name} won!"
+    else
+      puts "It's a tie!"
     end
   end
 
@@ -105,7 +128,7 @@ class RPSGame
     end
 
     return true if answer == 'y'
-    return false
+    false
   end
 
   def play
@@ -117,6 +140,7 @@ class RPSGame
       display_winner
       break unless play_again?
     end
+
     display_goodbye_message
   end
 end
