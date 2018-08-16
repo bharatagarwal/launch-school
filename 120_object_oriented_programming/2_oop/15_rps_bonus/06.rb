@@ -151,32 +151,32 @@ class Player
   end
 
   def display_score
-    puts "#{self.name} has score: #{self.score}"
+    puts "#{name} has score: #{score}"
   end
 
   def record_choice
-    self.game_record[:choice] << self.move.to_s
+    game_record[:choice] << move.to_s
   end
 
   def display_choice
-    puts "#{self.name} chose: #{self.move}"
+    puts "#{name} chose: #{move}"
   end
 
   def record_result(other)
-    if self.move > other.move
-     self.game_record[:result] << :won
-     self.score += 1
-    elsif self.move < other.move
-      self.game_record[:result] << :lost
+    if move > other.move
+     game_record[:result] << :won
+     score += 1
+    elsif move < other.move
+      game_record[:result] << :lost
       other.score += 1
     else
-      self.game_record[:result] << :draw
+      game_record[:result] << :draw
     end
   end
 
   def display_result(other)
-    if self.game_record[:result].last == :won
-      puts "#{self.name} won!"
+    if game_record[:result].last == :won
+      puts "#{name} won!"
     else
       puts "#{other.name} won!"
     end
