@@ -149,6 +149,39 @@ class Player
     when 'spock' then self.move = Spock.new
     end
   end
+
+  def display_score
+    puts "#{self.name} has score: #{self.score}"
+  end
+
+  def record_choice
+    self.game_record[:choice] << self.move.to_s
+  end
+
+  def display_choice
+    puts "#{self.name} chose: #{self.move}"
+  end
+
+  def record_result(other)
+    if self.move > other.move
+     self.game_record[:result] << :won
+     self.score += 1
+    elsif self.move < other.move
+      self.game_record[:result] << :lost
+      other.score += 1
+    else
+      self.game_record[:result] << :draw
+    end
+  end
+
+  def display_result(other)
+    if self.game_record[:result].last == :won
+      puts "#{self.name} won!"
+    else
+      puts "#{other.name} won!"
+    end
+  end
+
 end
 
 class Human < Player
@@ -190,7 +223,7 @@ class Computer < Player
 end
 
 # Game Orchestration Engine
-class RPSGame
+class RPSLSGame
   MAX_SCORE = 3
   attr_accessor :human, :computer
 
@@ -210,62 +243,6 @@ class RPSGame
 
   def display_goodbye_message
     puts "Thanks for playing #{Move::VALUES.join(', ')}. Goodbye!"
-  end
-
-  def display_choices
-    puts "#{human.name} chose: #{human.move}"
-    puts "#{computer.name} chose: #{computer.move}"
-  end
-
-  def record_choices
-    human.game_record[:choice] << human.move.class
-    computer.game_record[:choice] << computer.move.class
-  end
-
-  def record_result
-    human_result = human.game_record[:result]
-    computer_result = computer.game_record[:result]
-
-    case compute_winner
-    when :human
-      human_result << :won
-      computer_result << :lost
-    when :computer
-      human_result << :lost
-      computer_result << :won
-    when :draw
-      human_result << :draw
-      computer_result << :draw
-    end
-  end
-
-  def compute_winner
-    if human.move > computer.move
-      :human
-    elsif computer.move > human.move
-      :computer
-    else
-      :draw
-    end
-  end
-
-  def display_result
-    case compute_winner
-    when :human
-      puts "#{human.name} won!"
-    when :computer
-      puts "#{computer.name} won!"
-    when :draw
-      puts "It's a tie!"
-    end
-  end
-
-  def update_score
-    if human.move > computer.move
-      human.score += 1
-    elsif computer.move > human.move
-      computer.score += 1
-    end
   end
 
   def play_again?
@@ -300,16 +277,16 @@ class RPSGame
 
     loop do
       system('clear')
-      display_score
+      human.display_score
+      computer.display_score
       human.choose
       computer.choose
-      record_choices
-      display_choices
-      record_result
-      display_result
-      update_score
-      p human.game_record
-      p computer.game_record
+      human.record_choice
+      computer.record_choice
+      human.display_choice
+      computer.display_choice
+      human.record_result(computer)
+      human.display_result(computer)
       display_overall_winner if max_reached?
       break if max_reached? || !play_again?
     end
@@ -318,4 +295,4 @@ class RPSGame
   end
 end
 
-RPSGame.new.play
+RPSLSGame.new.play
