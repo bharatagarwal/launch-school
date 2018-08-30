@@ -1,3 +1,49 @@
+# Move
+# inheritance:
+# responsibilities:
+# has a value
+# checks whether value is rock, paper or scissor
+# compares value of individual moves
+# does string interpolation
+# collaborators: (showing how messages are sent)
+
+# Player
+# inheritance: superclass to Human and Computer.
+# responsibilities:
+# has a name and a move choice
+# initialise player name setting process
+# collaborators: Move(thru inheritance?)
+
+# Human
+# inheritance: subclass of Player.
+# responsibilities:
+# sets name
+# chooses move
+# collaborators: Move
+
+# Computer
+# inheritance: subclass of Player
+# responsibilities:
+# has a name and a move choice
+# chooses name
+# chooses a move
+# collaborators: Move
+
+# RPSGame
+# inheritance: none
+# responsibilities:
+# has a human and computer player
+# display welcome message
+# display choices
+# check whether player wants to play again
+# display goodbye message
+# collaborators: Player, Human
+
+# Score
+# has a current move
+# gets updated when moves are shown.
+# update depending on moves passed to it.
+
 class Move
   VALUES = %w[rock paper scissors]
 

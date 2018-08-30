@@ -1,0 +1,28 @@
+Inspecting 1 file
+C
+
+Offenses:
+
+07_refactored.rb:237:3: C: Metrics/AbcSize: Assignment Branch Condition size for choose is too high. [33.9/18]  (http://c2.com/cgi/wiki?AbcMetric)
+  def choose
+  ^^^
+07_refactored.rb:237:3: C: Metrics/MethodLength: Method has too many lines. [27/15]  (https://github.com/bbatsov/ruby-style-guide#short-methods)
+  def choose ...
+  ^^^^^^^^^^
+07_refactored.rb:237:3: C: Metrics/PerceivedComplexity: Perceived complexity for choose is too high. [8/7] 
+  def choose
+  ^^^
+07_refactored.rb:242:81: C: Metrics/LineLength: Line is too long. [89/80]  (https://github.com/bbatsov/ruby-style-guide#80-character-limits)
+      dominator = @opponent_win_percentage.key(opponent_win_percentage.values.max).to_sym
+                                                                                ^^^^^^^^^
+07_refactored.rb:251:81: C: Metrics/LineLength: Line is too long. [89/80]  (https://github.com/bbatsov/ruby-style-guide#80-character-limits)
+        if chc == dominator && (@current_choice_percentages[chc] - subtraction_value > 0)
+                                                                                ^^^^^^^^^
+07_refactored.rb:320:3: C: Metrics/AbcSize: Assignment Branch Condition size for play is too high. [36.12/18]  (http://c2.com/cgi/wiki?AbcMetric)
+  def play
+  ^^^
+07_refactored.rb:320:3: C: Metrics/MethodLength: Method has too many lines. [19/15]  (https://github.com/bbatsov/ruby-style-guide#short-methods)
+  def play ...
+  ^^^^^^^^
+
+1 file inspected, 7 offenses detected

@@ -232,27 +232,27 @@ class Computer < Player
   end
 
   def choose
-    choice = ''
+    choice = '' # a 1
 
     if @opponent_win_percentage.values.max > 40 &&
-       @no_of_turns > 3
-      dominator = @opponent_win_percentage.key(opponent_win_percentage.values.max).to_sym
+       @no_of_turns > 3 # c 1 2
+      dominator = @opponent_win_percentage.key(opponent_win_percentage.values.max).to_sym # a 2
 
       difference = @opponent_win_percentage.values.max -
-                   @current_choice_percentages[dominator]
+                   @current_choice_percentages[dominator] # a 3
 
-      subtraction_value = difference / 4
-      addition_value = subtraction_value / 4
+      subtraction_value = difference / 4 # a 4
+      addition_value = subtraction_value / 4 # a 5
 
       @current_choice_percentages.each do |chc, _|
-        if chc == dominator && (@current_choice_percentages[chc] - subtraction_value > 0)
-          @current_choice_percentages[chc] -= subtraction_value
-        elsif @current_choice_percentages.values.reduce(:+) <= 100
-          @current_choice_percentages[chc] += addition_value
+        if chc == dominator && (@current_choice_percentages[chc] - subtraction_value > 0) # c 3 4
+          @current_choice_percentages[chc] -= subtraction_value # a 6
+        elsif @current_choice_percentages.values.reduce(:+) <= 100 # c 5
+          @current_choice_percentages[chc] += addition_value # a 7
         end
       end
 
-      choice_set = []
+      choice_set = [] # a 8
       @current_choice_percentages.each do |chc, value|
         value.times do
           choice_set << chc.to_s
@@ -260,9 +260,9 @@ class Computer < Player
       end
 
       puts "choosing less randomly!"
-      choice = choice_set.sample
+      choice = choice_set.sample # a 9
     else
-      choice = Move::VALUES.sample
+      choice = Move::VALUES.sample # a 10
     end
 
     super(choice)
@@ -320,23 +320,30 @@ class RPSLSGame
     loop do
       system('clear')
 
-      human.display_score
-      computer.display_score
+      human_player = human
+      computer_player = computer
 
-      human.choose
-      computer.choose
+      human_player.display_score
+      computer_player.display_score
 
-      human.record_choice
-      computer.record_choice
+      human_player.choose
+      computer_player.choose
 
-      human.display_choice
-      computer.display_choice
+      human_player.record_choice
+      computer_player.record_choice
 
-      human.record_result(computer)
-      computer.record_result(human)
+      human_player.display_choice
+      computer_player.display_choice
 
-      human.display_result(computer)
-      computer.compute_loss_count
+      human_player.record_result(computer_player)
+      computer_player.record_result(human_player)
+
+      human_player.display_result(computer_player)
+      computer_player.compute_loss_count
+
+      # result
+      # choice
+      # reduce method calls
       display_overall_winner if max_reached?
       break if max_reached? || !play_again?
     end

@@ -117,6 +117,9 @@ class Spock < Move
   end
 end
 
+class Choice
+end
+
 class Player
   attr_accessor :move, :name, :score, :game_record
 
@@ -337,6 +340,10 @@ class RPSLSGame
 
       human.display_result(computer)
       computer.compute_loss_count
+
+      # result
+      # choice
+      # reduce method calls
       display_overall_winner if max_reached?
       break if max_reached? || !play_again?
     end
