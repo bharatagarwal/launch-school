@@ -1,9 +1,8 @@
-require 'pry'
-
 class Move
   VALUES = [:rock, :paper, :scissors, :lizard, :spock]
   NUMBER_OF_MOVE_OPTIONS = VALUES.size
-  @value = nil
+
+  attr_reader :value
 
   def scissors?
     false
@@ -23,14 +22,6 @@ class Move
 
   def lizard?
     false
-  end
-
-  def to_s
-    @value
-  end
-
-  def to_sym
-    @value.to_sym
   end
 end
 
@@ -128,7 +119,6 @@ class Player
   attr_accessor :move, :name, :score, :game_record
 
   def initialize
-    set_name
     @score = 0
     @game_record = { choice: [], result: [] }
   end
@@ -148,11 +138,11 @@ class Player
   end
 
   def record_choice
-    game_record[:choice] << move.to_sym
+    game_record[:choice] << move.value
   end
 
   def display_choice
-    puts "#{name} chose: #{move.to_sym}"
+    puts "#{name} chose: #{move.value}"
   end
 
   def record_result(other)
@@ -181,8 +171,10 @@ class Human < Player
   attr_accessor :move_win_history
 
   def initialize
+    set_name
     super
     @move_win_history = {}
+
     Move::VALUES.each do |val|
       @move_win_history[val.to_sym] = { wins: 0,
                                         win_percentage: 0 }
@@ -260,29 +252,25 @@ class Computer < Player
   MODELS = ['HAL 9000', 'R2D2', 'Deep Thought']
 
   def initialize
-    @choice_percentages = {}
+    @choice_distribution = {}
 
     Move::VALUES.each do |val|
-      @choice_percentages[val] = 100 / Move::NUMBER_OF_MOVE_OPTIONS
+      @choice_distribution[val] = 100 / Move::NUMBER_OF_MOVE_OPTIONS
     end
     super
   end
 
-  def set_name
-    self.name = ['R2D2', 'HAL 9000', 'Deep Thought'].sample
-  end
+  def update_choice_distribution(addition, subtraction)
+    @choice_distribution.each do |chc, _|
+      subtracted_percentage_value = @choice_distribution[chc] -
+                                    subtraction
 
-  def update_choice_percentages(addition_value, subtraction_value)
-    @choice_percentages.each do |chc, _|
-      subtracted_percentage_value = @choice_percentages[chc] -
-                                    subtraction_value
-
-      sum_of_percentage_values = @choice_percentages.values.reduce(:+)
+      sum_of_percentage_values = @choice_distribution.values.reduce(:+)
 
       if chc == @dominator &&  subtracted_percentage_value > 0
-        @choice_percentages[chc] -= subtraction_value
+        @choice_distribution[chc] -= subtraction
       elsif sum_of_percentage_values <= 100
-        @choice_percentages[chc] += addition_value
+        @choice_distribution[chc] += addition
       end
     end
   end
@@ -290,7 +278,7 @@ class Computer < Player
   def create_choice_set
     choice_set = []
 
-    @choice_percentages.each do |chc, value|
+    @choice_distribution.each do |chc, value|
       value.times do
         choice_set << chc
       end
@@ -300,14 +288,13 @@ class Computer < Player
   end
 
   def choose_smartly
-    difference_in_percentages = @dominator_win_percentage -
-                                @choice_percentages[@dominator]
+    distribution_difference = @dominator_win_percentage -
+                              @choice_distribution[@dominator]
 
-    subtraction_value = difference_in_percentages /
-                        (Move::NUMBER_OF_MOVE_OPTIONS - 1)
-    addition_value = subtraction_value / (Move::NUMBER_OF_MOVE_OPTIONS - 1)
+    subtraction = distribution_difference / (Move::NUMBER_OF_MOVE_OPTIONS - 1)
+    addition = subtraction / (Move::NUMBER_OF_MOVE_OPTIONS - 1)
 
-    update_choice_percentages(addition_value, subtraction_value)
+    update_choice_distribution(addition, subtraction)
 
     choice_set = create_choice_set
     puts "choosing less randomly!"
@@ -352,17 +339,11 @@ class Hal < Computer
 
   def choose(other)
     puts "HAL likes scissors like a pyscho!"
-    choice_percentages = { rock: 10, paper: 2, scissors: 72,
-                           lizard: 8, spock: 8 }
+    @choice_distribution = { rock: 10, paper: 2, scissors: 72,
+                             lizard: 8, spock: 8 }
 
-    choice_set = []
-    choice_percentages.each do |chc, value|
-      value.times do
-        choice_set << chc
-      end
-    end
+    choice_set = create_choice_set
 
-    puts "HAL 9000 loves scissors for some reason."
     choice = choice_set.sample
     super(other, choice)
   end
@@ -376,15 +357,10 @@ class R2D2 < Computer
 
   def choose(other)
     puts "R2D2 has an affinity for the rocks of Tattooine."
-    choice_percentages = { rock: 90, paper: 2, scissors: 2,
-                           lizard: 2, spock: 2 }
+    @choice_distribution = { rock: 90, paper: 2, scissors: 2,
+                             lizard: 2, spock: 2 }
 
-    choice_set = []
-    choice_percentages.each do |chc, value|
-      value.times do
-        choice_set << chc
-      end
-    end
+    choice_set = create_choice_set
 
     choice = choice_set.sample
     super(other, choice)
@@ -399,7 +375,7 @@ class DeepThought < Computer
 
   def choose(other)
     puts "Deep Thought analyses and chooses smartly."
-    super
+    super(other)
   end
 end
 
@@ -407,14 +383,24 @@ end
 class RPSLSGame
   MAX_SCORE = 9
 
+  attr_reader :human, :computer
+
   def initialize
     @human = Human.new
 
+    @computer = case choose_computer_model
+                when 1 then Hal.new
+                when 2 then R2D2.new
+                when 3 then DeepThought.new
+                end
+  end
+
+  def choose_computer_model
     puts "Do you want to play as: "
     Computer::MODELS.each_with_index do |model, index|
       puts "#{index + 1}. #{model}"
     end
-    
+
     model = ''
     loop do
       puts "Enter a number: "
@@ -423,11 +409,7 @@ class RPSLSGame
       puts "Please enter a number between 1 and 3 to choose the model."
     end
 
-    @computer = case model
-                when 1 then Hal.new
-                when 2 then R2D2.new
-                when 3 then DeepThought.new
-                end
+    model
   end
 
   def display_welcome_message
@@ -452,42 +434,46 @@ class RPSLSGame
   end
 
   def max_reached?
-    @human.score == MAX_SCORE || @computer.score == MAX_SCORE
+    human.score == MAX_SCORE || computer.score == MAX_SCORE
   end
 
   def display_overall_winner
-    if @human.score == MAX_SCORE
-      winner = @human.name
-    elsif @computer.score == MAX_SCORE
-      winner = @computer.name
+    if human.score == MAX_SCORE
+      winner = human.name
+    elsif computer.score == MAX_SCORE
+      winner = computer.name
     end
 
     puts "#{winner} has won the match by reaching #{MAX_SCORE} wins."
   end
 
   def display_scores
-    @human.display_score
-    @computer.display_score
+    human.display_score
+    computer.display_score
   end
 
   def make_choices
-    @human.choose
-    @computer.choose(@human)
+    human.choose
+    computer.choose(human)
   end
 
   def record_choices
-    @human.record_choice
-    @computer.record_choice
+    human.record_choice
+    computer.record_choice
   end
 
   def display_choices
-    @human.display_choice
-    @computer.display_choice
+    human.display_choice
+    computer.display_choice
   end
 
   def record_results
-    @human.record_result(@computer)
-    @computer.record_result(@human)
+    human.record_result(computer)
+    computer.record_result(human)
+  end
+
+  def display_result
+    human.display_result(computer)
   end
 
   def play
@@ -501,7 +487,7 @@ class RPSLSGame
       record_choices
       display_choices
       record_results
-      @human.display_result(@computer)
+      display_result
 
       display_overall_winner if max_reached?
       break if max_reached? || !play_again?
