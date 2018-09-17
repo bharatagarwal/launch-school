@@ -52,7 +52,7 @@ class Board
     puts "  #{@squares[7]}  |  #{@squares[8]}  |  #{@squares[9]}"
     puts "     |     |"
   end
-  # rubocop:enable Metrics/AbcSize
+  # rubocop:ensable Metrics/AbcSize
 
   private
 

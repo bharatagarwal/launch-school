@@ -115,12 +115,55 @@ class Spock < Move
   end
 end
 
+class Record
+  attr_accessor :score, :game_history, :move_win_percentage
+
+  @move_win_history = {}
+
+    Move::VALUES.each do |val|
+      @move_win_history[val.to_sym] = { wins: 0,
+                                        win_percentage: 0 }
+    end
+
+    def update_move_wins
+    move_made = record.game_history[:choice].last
+    current_move_history = move_win_history[move_made]
+    current_move_history[:wins] += 1
+  end
+
+  def update_move_win_percentages
+    move_made = record.game_history[:choice].last
+    current_move_history = move_win_history[move_made]
+    match_length = record.game_history[:result].size
+
+    current_move_history[:win_percentage] =
+      (current_move_history[:wins] * 100 / match_length.to_f).round(0)
+  end
+
+  def dominant_move
+    dominator = nil
+    dominator_win_percentage = 0
+
+    move_win_history.each do |move, history|
+      if history[:win_percentage] > dominator_win_percentage
+        dominator = move
+        dominator_win_percentage = history[:win_percentage]
+      end
+    end
+
+    dominator
+  end
+
+end
+
+module choose_smartly
+end
+
 class Player
-  attr_accessor :move, :name, :score, :game_record
+  attr_accessor :move, :name, :record
 
   def initialize
-    @score = 0
-    @game_record = { choice: [], result: [] }
+    @record = Record.new
   end
 
   def choose(choice)
@@ -134,33 +177,33 @@ class Player
   end
 
   def display_score
-    puts "#{name} has score: #{score}"
+    puts "#{name} has score: #{record.score}"
   end
 
   def record_choice
-    game_record[:choice] << move.value
+    record.game_history[:choice] << move.value
   end
 
   def display_choice
     puts "#{name} chose: #{move.value}"
   end
 
-  def record_result(other)
-    if move > other.move
-      game_record[:result] << :won
-      self.score += 1
-    elsif move < other.move
-      game_record[:result] << :lost
+  def record_result(other_player)
+    if move > other_player.move
+      record.game_history[:result] << :won
+      record.score += 1
+    elsif move < other_player.move
+      record.game_history[:result] << :lost
     else
-      game_record[:result] << :draw
+      record.game_history[:result] << :draw
     end
   end
 
-  def display_result(other)
-    if game_record[:result].last == :won
+  def display_result(other_player)
+    if record.game_history[:result].last == :won
       puts "#{name} won!"
-    elsif game_record[:result].last == :lost
-      puts "#{other.name} won!"
+    elsif record.game_history[:result].last == :lost
+      puts "#{other_player.name} won!"
     else
       puts "It's a tie!"
     end
@@ -168,26 +211,26 @@ class Player
 end
 
 class Human < Player
+  VALUES_SHORTHAND = [ r: :rock, 
+                       p: :paper, 
+                       x: :scissors, 
+                       l: :lizard, 
+                       s: :spock ]
   attr_accessor :move_win_history
 
   def initialize
     set_name
     super
-    @move_win_history = {}
-
-    Move::VALUES.each do |val|
-      @move_win_history[val.to_sym] = { wins: 0,
-                                        win_percentage: 0 }
-    end
   end
 
   def set_name
     n = nil
 
     loop do
+      system 'clear'
       puts "What's your name?"
       n = gets.chomp
-      break unless n.empty?
+      break unless n.empty? || n.squeeze == ''
       puts "Sorry, you must enter a value."
     end
 
@@ -210,40 +253,12 @@ class Human < Player
   def record_result(other)
     super
     if move > other.move
-      update_move_wins
+      record.update_move_wins
     end
 
-    update_move_win_percentages
+    record.update_move_win_percentages
   end
 
-  def update_move_wins
-    move_made = game_record[:choice].last
-    current_move_history = move_win_history[move_made]
-    current_move_history[:wins] += 1
-  end
-
-  def update_move_win_percentages
-    move_made = game_record[:choice].last
-    current_move_history = move_win_history[move_made]
-    match_length = game_record[:result].size
-
-    current_move_history[:win_percentage] =
-      (current_move_history[:wins] * 100 / match_length.to_f).round(0)
-  end
-
-  def dominant_move
-    dominator = nil
-    dominator_win_percentage = 0
-
-    move_win_history.each do |move, history|
-      if history[:win_percentage] > dominator_win_percentage
-        dominator = move
-        dominator_win_percentage = history[:win_percentage]
-      end
-    end
-
-    dominator
-  end
 end
 
 class Computer < Player
@@ -257,6 +272,7 @@ class Computer < Player
     Move::VALUES.each do |val|
       @choice_distribution[val] = 100 / Move::NUMBER_OF_MOVE_OPTIONS
     end
+    binding.pry
     super
   end
 
@@ -311,7 +327,7 @@ class Computer < Player
   def choose(other_player, choice=nil)
     return super(choice) if choice
 
-    match_length = game_record[:result].size
+    match_length = record.game_history[:result].size
 
     if match_length > DATA_GATHERING_LIMIT
       @dominator = other_player.dominant_move
