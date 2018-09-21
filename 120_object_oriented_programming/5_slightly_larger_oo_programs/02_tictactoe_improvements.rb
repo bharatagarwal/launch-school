@@ -1,3 +1,5 @@
+require 'pry'
+
 class Board
   WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                   [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # columns
@@ -26,6 +28,7 @@ class Board
 
   def winning_marker
     WINNING_LINES.each do |line|
+      # binding.pry
       squares = @squares.values_at(*line)
       if three_identical_markers?(squares)
         return squares.first.marker
@@ -52,7 +55,7 @@ class Board
     puts "  #{@squares[7]}  |  #{@squares[8]}  |  #{@squares[9]}"
     puts "     |     |"
   end
-  # rubocop:ensable Metrics/AbcSize
+  # rubocop:enable Metrics/AbcSize
 
   private
 
