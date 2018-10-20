@@ -1,3 +1,5 @@
+# We created a simple BankAccount class with overdraft protection, that does not allow a withdrawal greater than the amount of the current balance. We wrote some example code to test our program. However, we are surprised by what we see when we test its behavior. Why are we seeing this unexpected output? Make changes to the code so that we see the appropriate behavior.
+
 class BankAccount
   attr_reader :balance
 
@@ -17,7 +19,7 @@ class BankAccount
   end
 
   def withdraw(amount)
-    if amount > 0
+    if self.balance - amount > 0
       success = (self.balance -= amount)
     else
       success = false

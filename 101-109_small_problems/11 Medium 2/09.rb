@@ -16,14 +16,13 @@
 # array == [3, 5]
 
 def bubble_sort!(array)
-  # make pairs
   size = array.length
   
   
  loop do
    swap_count = 0
   (0..(array.length - 2)).each do |index|
-    first, second = array[index..index+1]
+    first, second = array[index], array[index + 1]
     if array[index] > array[index + 1]
       array[index], array[index + 1] = array[index + 1], array[index]
       swap_count += 1

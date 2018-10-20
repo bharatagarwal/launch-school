@@ -1,7 +1,6 @@
 require "pry"
 
 def minilang(program)
-  p program
   stack = []
   register = 0
   program.split.each do |token|
@@ -16,8 +15,6 @@ def minilang(program)
     when 'PRINT' then puts register
     else              register = token.to_i
     end
-    p "stack: #{stack}"
-    p "register: #{register}"
   end
 end
 
