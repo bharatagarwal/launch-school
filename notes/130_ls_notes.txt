@@ -1,0 +1,79 @@
+a closure is called a closure because it binds its surrounding artifacts - variables, methods, objects - and builds an enclosure around them.
+
+it's sometimes useful to think of a closure as a method that you can pass around and execute, but it's not defined with an explicit name. some programming languages call them an anonymous function.
+
+A proc, by keeping reference to its binding, allows a method to step back into the context the block is defined in, as opposed to calling another method, that has stricter scope and will only have access to variables defined with it.
+---
+
+[1, 2, 3].each do |num|
+  puts num
+end
+
+[1, 2, 3]               # => receiver || calling object
+
+         .each 	        # => method
+
+               do |num| # => block, an argument
+  puts num
+end
+
+#block_given? is a Kernel method.
+# Kernel.block_given?, where Kernel is the receiver.
+
+|num| block parameter
+within the block, num is a local variable.
+
+variable shadowing - when outside scope and block parameter have the same value.
+
+if you change the value of an outside variable without variable shadowing, the change will continue on the outside.
+---
+
+like methods, blocks can mutate the argument with a destructive method call, or the block can return a value.
+---
+
+when to use blocks:
+
+1. defer implementation
+to allow for flexibility with a caller
+
+# .each, .map, .select
+iteration, transformation, selection
+concept is maintained, actual implementation of that is left to the user.
+
+iterate over and ______
+transform collection based on ______
+selected from collection based on _______
+
+select is generic rather than select_idd, select_greater_than.
+
+when you're calling a method from various places, but with small tweaks in implementation, blocks are useful.
+
+2. sandwiching code (-- discuss --)
+
+cleaning up i/o operations like closing files, which naturally go along with opening the file and having some logic attached.
+
+when you want some action to be performed in between states. you're defining the structure in the method, but the actual varying logic can go into the code.
+---
+
+Why explicit block?
+Additional flexibility -- pass to another method.
+
+Proc calls and local variable reassignment (-- discuss --)
+---
+
+binding generated afresh is generated at the point of method invocation with a closure?
+--- discuss this in particular
+
+def call_block(some_proc)
+  some_proc.call
+end
+
+name = 'foo'
+
+my_proc = Proc.new { puts name }
+
+call_block(my_proc) # => 'foo'
+
+name = 'bar'
+
+call_block(my_proc) # => 'bar'

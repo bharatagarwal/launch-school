@@ -1,5 +1,5 @@
 require "minitest/autorun"
-require_relative '08_phone_number.rb'
+require_relative '08_phone_number_regex.rb'
 
 class PhoneNumberTest < Minitest::Test
   def test_cleans_number

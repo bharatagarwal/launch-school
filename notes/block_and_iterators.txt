@@ -1,0 +1,88 @@
+Blocks can appear in Ruby source code only immediately after the invocation of some method.	
+
+You can think of a block as being somewhat like the body of an anonymous method. Just like a method, the block can take parameters (but, unlike a method, those parameters appear at the start of the block between vertical bars).
+---
+
+class Shape
+  def initialize(sides: nil)
+  end
+  
+  def draw
+  end
+end
+
+square = Shape.new(sides: 4)
+
+sum = 0
+
+[1, 2, 3, 4].each do |value| 
+  square = value * value 
+  sum += square 
+end
+
+puts sum
+
+square.draw # undefined method 'draw' for Integer
+
+
+A block will reassign a variable that has been defined prior to it.
+---
+
+A block's loose arity can provide some flexibility to work with, and you can explicitly define a parameter in case you're worried about unintentionally reassigning a value outside - explicitly making it local to the scope of your block.
+
+sum = 0
+
+[1, 2, 3, 4].each do |value, square|
+  square = value**2  
+  sum += square
+end  
+
+sum # => 30
+----
+
+Or use a block local variable by adding them to the parameters using semi-colon (;) as a separator.
+
+square = "some shape"
+sum = 0 
+
+[1, 2, 3, 4].each do |value; square|
+  square = value * value # this is a different variable
+  sum += square 
+end 
+
+puts sum    # => 30
+puts square # => some shape
+
+This is called a closure—variables in the surrounding scope that are referenced in a block remain accessible for the life of that block and the life of any Proc object created from that block.
+---
+
+A code block/proc/lambda/closure preserves the local variable bindings that are in effect when it is created.
+---
+
+We can't pass multiple blocks to a function! As it turns out, there can be only zero
+or one &block_params to a function, and the &param *must* be the last in the list.
+
+None of these will compile:
+
+   def f(&block1, &block2) ...
+   def f(&block1, arg_after_block) ...
+   f { puts "block1" } { puts "block2" }
+---
+
+Inside a lambda, a return statement only returns from the lambda, and flow continues normally.
+
+So a lambda is like a function unto itself, whereas a Proc remains dependent on the control flow of its caller.
+---
+
+arity count for lambdae:
+
+One-arg lambda:
+1
+Three-arg lambda:
+3
+No-args lambda: 
+0
+*arg lambda: 
+-1
+---
+

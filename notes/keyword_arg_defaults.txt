@@ -1,0 +1,13 @@
+class Shape
+  def initialize(sides: nil)
+    p sides
+  end
+  
+  def draw
+  end
+end
+
+Shape.new(sides: 4)   # => 4
+Shape.new() 	      # => nil
+Shape.new(sides: 11)  # => 11
+

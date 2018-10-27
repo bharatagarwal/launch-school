@@ -1,0 +1,34 @@
+Primary reason for testing:
+
+Regression tests check for bugs that occur in formerly working code after you make changes somewhere in the codebase. Using tests to identify these bugs means we don't have to verify that everything works manually after each change.
+
+
+MiniTest comes installed with Ruby; RSpec doesn't.
+MiniTest lets you use normal Ruby syntax; RSpec is a DSL that uses code that reads like natural English.
+
+Set Up
+Instantiate any objects that will be used in the tests.
+
+
+Execute
+Run code against the object being tested.
+
+
+Assert
+Affirm the results of code execution.
+
+Tear Down
+Clean up any lingering artifacts.
+
+Including Set Up and Tear Down steps reduces redundancy in the Test Suite code.
+The setup method runs before each test and the teardown method after each test.
+
+It compares the objects using the #== method.
+
+def assert_equal exp, act, msg = nil
+  assert(exp == act)
+end
+
+The arguments, the expected and actual values, are reversed here. This won't cause the test to fail in this example, but it could with other cases. If the test did fail, the message would be misleading, confusing the expected and actual values. It's good practice to correctly order the arguments
+---
+

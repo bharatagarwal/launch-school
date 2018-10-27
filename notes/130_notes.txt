@@ -1,0 +1,59 @@
+Notes from LS material
+--
+
+including Enumerable and defining an `each` method automatically gives access to other methods of the module: like map, select and reduce.
+---
+
+def any?(collection)
+  collection.each { |item| return true if yield(item) }
+  false
+end
+
+def none?(collection)
+  !any?(collection) # => LocalJumpError
+end
+
+def none?(collection, &block)
+  !any?(collection, &block)
+end
+---
+
+A closure lets you save a chunk of code and execute it later.
+You can pass closures around like objects: in the form of procs and lambdas.
+
+Closure binding:
+A closure retains access to variables, constants, and methods that were in scope at the time and location you created the closure. It binds some code with the in-scope items.
+
+---
+
+What will this output?
+
+def call_block
+  yield
+end
+
+name = 'Bharat'
+
+call_block { puts name }
+
+name = 'Jeremy'
+---
+
+A closure retains access to variables within its binding rather than the specific values of those variables at the time the closure was created; if the value of those variables changes, the closure accesses the new values.
+
+Methods are not closures, as they do not carry their surrounding environment around, giving access to their variables. They also don't have lexical scope, which is a requirement for a closure.
+---
+
+Blocks are useful in methods where we have to do some before or after action, but want to leave the specifics of that action to the user.
+
+If you encounter a scenario where you're calling a method from multiple places, with one little tweak in each case, it may be a good idea to try implementing the method in a generic way by yielding to a block.
+---
+
+closures have lexical scope.
+
+---
+
+lambda return vs block and proc return
+---
+
+
