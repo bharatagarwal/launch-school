@@ -1,4 +1,7 @@
+require "benchmark"
+
 def bubble_sort! array
+  new_array = array.clone
   loop do
     swapped = false
 

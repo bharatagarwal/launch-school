@@ -1,0 +1,72 @@
+http://web.archive.org/web/20071020051936/http://iq.org/#Selfdestructingpaper
+
+Tue 05 Dec 2006 : Self destructing paper
+A spy opens an envelope. Inside is a thin sheet of paper with a cryptic message. After it is read the paper spontaneously bursts into flames.
+
+The message is the communicable distillation of your hopes, dreams and imagination. The paper is the internet. The internet is self destructing paper. A place where anything written is soon destroyed by rapacious competition and the only preservation is to forever copy writing from sheet to sheet faster than they can burn.
+
+If it's worth writing, it's worth keeping. If it can be kept, it might be worth writing. Would your store your brain in a startup company's vat? If you store your writing on a 3rd party site like blogger, livejournal or even on your own site, but in the complex format used by blog/wiki software de jour you will lose it forever as soon as hypersonic wings of internet labor flows direct people's energies elsewhere. For most information published on the internet, perhaps that is not a moment to soon, but how can the muse of originality soar when immolating transience brushes every feather?
+
+Readers have asked what software is used to run IQ.ORG. A mere page of handwritten ruby constructs the site out the most robust future proof storage form imaginable. A flat directory of text or html files. The directory, like any directory can be backed up, edited, emailed, zipped, transported, printed, trapped in amber etc.
+
+A lovely way to create these files remotely is to send email to a mail alias. Add the following to your unix ".forward" file; it will save all email sent to as filed under the name of their subjects. Want to change something? Just mail it in again under the same subject!
+
+#!/usr/bin/ruby
+# add this code to your .forward+secretname file like so:
+# "|/home/me/public_html/iq.org/strew_incoming_mail.rb"
+Dir.chdir(ENV['HOME'])
+Dir.chdir('public_html/iq.org/strew') # change iq.org here to reflect  
+your site's directory
+
+s = $stdin.read
+if /^Subject: ([^.\/].+?)\n/m =~ s
+   subject = $1
+   f = File.open(subject, "w")
+   f.write(s)
+   f.close
+   Dir.chdir('..')
+
+   exec "./index.rb > index.html"
+end
+Here is the code that scans the strew files and builds up the html output you see:
+
+#!/usr/bin/ruby
+# save as index.rb
+# puts "<html>" etc here
+strewdir="strew"
+Dir.chdir strewdir
+strews = `ls -t ???*`.map {|name| name.chomp}
+strews.each { |name|
+     File.open(name) { |f|
+       linkname = URI.escape(name.gsub(/ /, ''))
+       puts '<h3><a name="' + linkname + '">' +  
+f.stat.mtime.strftime("%a %d %h %Y") + ' : ' + name+ "</a></h3>\n"
+       s = f.read
+       firstline = s.split(/\n/)[0]
+       if firstline and /^(From |[A-Za-z_-]: )/m =~ firstline
+         body = s.match(/\n\r?\n/m).post_match
+       else
+         body = s
+       end
+       x = body.scan(/--\{\s(.+?)\s\}--\s/m).join
+       if x != ""
+         body = x
+       end
+       if /<blockquote>|<html>|<i>|<p>|<p ?\/>|<b>| 
+<a href/ =~ body
+         puts body
+       else
+         puts "<pre>" + body + "</pre>"
+       end
+       puts '<br>'
+       puts '<font size="-2"><i>'
+       puts "<a href=\"\##{linkname}\">link</a>"
+       puts '<hr>'
+       puts '</i></font>'
+    }
+}
+
+strews.each {|name| puts '<li><a href="#' + URI.escape(name.gsub 
+(/< /, '')) + '">' + name + '</a>'}
+#puts footers here
+That's it! The raw archive does not even depend on ruby; it's gold until civilization collapses, the neoluddites take control, or both, but then we will have other adventures to please us... 
