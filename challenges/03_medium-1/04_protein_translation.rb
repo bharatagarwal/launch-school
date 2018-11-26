@@ -41,7 +41,7 @@ class Translation
     CODON_TRANSLATION.key(codon_set)
   end
 
-  def self.of_rna(stra nd)
+  def self.of_rna(strand)
     codons = create_sets_of_three(strand)
 
     codons.reduce([]) do |protein, codon|
