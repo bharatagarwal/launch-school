@@ -1,0 +1,4365 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: http://sinatrarb.com/intro.html
+Subject: Sinatra: README
+Date: Thu, 6 Dec 2018 11:14:29 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--qja3FVW1R5LkrjMVyPIg8wrlOfLf9Ne7JR2VJQPT58----"
+
+
+------MultipartBoundary--qja3FVW1R5LkrjMVyPIg8wrlOfLf9Ne7JR2VJQPT58----
+Content-Type: text/html
+Content-ID: <frame-A24CE179DCF64DA6BCD0699F282BB72D@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://sinatrarb.com/intro.html
+
+<!DOCTYPE html><html><head><meta http-equiv=3D"Content-Type" content=3D"tex=
+t/html; charset=3DUTF-8">
+   =20
+<title>Sinatra: README</title>
+
+<link rel=3D"stylesheet" href=3D"http://sinatrarb.com/sinatra.github.com/cs=
+s/application.css" type=3D"text/css" media=3D"screen, projection">
+<link rel=3D"stylesheet" href=3D"http://sinatrarb.com/sinatra.github.com/cs=
+s/print.css" type=3D"text/css" media=3D"print">
+<link rel=3D"alternate" href=3D"http://sinatrarb.com/sinatra.github.com/fee=
+d.xml" type=3D"application/atom+xml" title=3D"Sinatra Blog">
+<link rel=3D"shortcut icon" href=3D"http://sinatrarb.com/sinatra.github.com=
+/images/favicon.ico">
+<link rel=3D"stylesheet" href=3D"https://code.cdn.mozilla.net/fonts/fira.cs=
+s">
+
+
+
+
+
+  <link rel=3D"stylesheet" href=3D"http://dotepub.com/s/dotEPUB-favlet.css"=
+ type=3D"text/css" media=3D"screen"></head>
+  <body id=3D"">
+    <div id=3D"wrap">
+      <div id=3D"head">
+
+ =20
+
+  <div id=3D"hidden-navbar-wrapper" style=3D"">
+    <ul class=3D"hide" id=3D"hidden-navbar">
+      <li class=3D"hidden-nav-list-item"><a href=3D"http://sinatrarb.com/si=
+natra.github.com/">HOME</a></li>
+      <li class=3D"hidden-nav-list-item"><a href=3D"http://github.com/sinat=
+ra/sinatra">CODE</a></li>
+      <li class=3D"hidden-nav-list-item"><a href=3D"http://sinatrarb.com/si=
+natra.github.com/documentation.html">DOCS</a></li>
+      <li class=3D"hidden-nav-list-item"><a href=3D"http://sinatrarb.com/si=
+natra.github.com/intro.html">README</a></li>
+      <li class=3D"hidden-nav-list-item"><a href=3D"http://sinatrarb.com/si=
+natra.github.com/blog.html">BLOG</a></li>
+      <li class=3D"hidden-nav-list-item"><a href=3D"http://github.com/sinat=
+ra/sinatra/contributors">CREW</a></li>
+      <li class=3D"hidden-nav-list-item"><a href=3D"http://sinatrarb.com/si=
+natra.github.com/about.html">ABOUT</a></li>
+      <li class=3D"hidden-nav-list-item"><a href=3D"http://sinatrarb.com/si=
+natra.github.com/contributing.html">CONTRIBUTE</a></li>
+      <li class=3D"hidden-nav-list-item"><a href=3D"http://sinatra-slack.he=
+rokuapp.com/">SLACK</a></li>
+    </ul>
+  </div>
+
+</div>
+
+
+      <div id=3D"grid-wrapper">
+        <div id=3D"content">
+         =20
+
+<h1>Getting Started</h1>
+
+
+
+
+
+
+<p>Sinatra is a <a href=3D"https://en.wikipedia.org/wiki/Domain-specific_la=
+nguage">DSL</a> for
+quickly creating web applications in Ruby with minimal effort:</p>
+
+<pre><code class=3D"language-ruby"># myapp.rb
+require 'sinatra'
+
+get '/' do
+  'Hello world!'
+end
+</code></pre>
+
+<p>Install the gem:</p>
+
+<pre><code class=3D"language-shell">gem install sinatra
+</code></pre>
+
+<p>And run with:</p>
+
+<pre><code class=3D"language-shell">ruby myapp.rb
+</code></pre>
+
+<p>View at: <a href=3D"http://localhost:4567/">http://localhost:4567</a></p=
+>
+
+<p>It is recommended to also run <code>gem install thin</code>, which Sinat=
+ra will
+pick up if available.</p>
+
+
+
+
+
+<h2>Routes</h2>
+
+<p>In Sinatra, a route is an HTTP method paired with a URL-matching pattern=
+.
+Each route is associated with a block:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  .. show something ..
+end
+
+post '/' do
+  .. create something ..
+end
+
+put '/' do
+  .. replace something ..
+end
+
+patch '/' do
+  .. modify something ..
+end
+
+delete '/' do
+  .. annihilate something ..
+end
+
+options '/' do
+  .. appease something ..
+end
+
+link '/' do
+  .. affiliate something ..
+end
+
+unlink '/' do
+  .. separate something ..
+end
+</code></pre>
+
+<p>Routes are matched in the order they are defined. The first route that
+matches the request is invoked.</p>
+
+<p>Routes with trailing slashes are different from the ones without:</p>
+
+<pre><code class=3D"language-ruby">get '/foo' do
+  # Does not match "GET /foo/"
+end
+</code></pre>
+
+<p>Route patterns may include named parameters, accessible via the
+<code>params</code> hash:</p>
+
+<pre><code class=3D"language-ruby">get '/hello/:name' do
+  # matches "GET /hello/foo" and "GET /hello/bar"
+  # params['name'] is 'foo' or 'bar'
+  "Hello #{params['name']}!"
+end
+</code></pre>
+
+<p>You can also access named parameters via block parameters:</p>
+
+<pre><code class=3D"language-ruby">get '/hello/:name' do |n|
+  # matches "GET /hello/foo" and "GET /hello/bar"
+  # params['name'] is 'foo' or 'bar'
+  # n stores params['name']
+  "Hello #{n}!"
+end
+</code></pre>
+
+<p>Route patterns may also include splat (or wildcard) parameters, accessib=
+le
+via the <code>params['splat']</code> array:</p>
+
+<pre><code class=3D"language-ruby">get '/say/*/to/*' do
+  # matches /say/hello/to/world
+  params['splat'] # =3D&gt; ["hello", "world"]
+end
+
+get '/download/*.*' do
+  # matches /download/path/to/file.xml
+  params['splat'] # =3D&gt; ["path/to/file", "xml"]
+end
+</code></pre>
+
+<p>Or with block parameters:</p>
+
+<pre><code class=3D"language-ruby">get '/download/*.*' do |path, ext|
+  [path, ext] # =3D&gt; ["path/to/file", "xml"]
+end
+</code></pre>
+
+<p>Route matching with Regular Expressions:</p>
+
+<pre><code class=3D"language-ruby">get /\/hello\/([\w]+)/ do
+  "Hello, #{params['captures'].first}!"
+end
+</code></pre>
+
+<p>Or with a block parameter:</p>
+
+<pre><code class=3D"language-ruby">get %r{/hello/([\w]+)} do |c|
+  # Matches "GET /meta/hello/world", "GET /hello/world/1234" etc.
+  "Hello, #{c}!"
+end
+</code></pre>
+
+<p>Route patterns may have optional parameters:</p>
+
+<pre><code class=3D"language-ruby">get '/posts/:format?' do
+  # matches "GET /posts/" and any extension "GET /posts/json", "GET /posts/=
+xml" etc
+end
+</code></pre>
+
+<p>Routes may also utilize query parameters:</p>
+
+<pre><code class=3D"language-ruby">get '/posts' do
+  # matches "GET /posts?title=3Dfoo&amp;author=3Dbar"
+  title =3D params['title']
+  author =3D params['author']
+  # uses title and author variables; query is optional to the /posts route
+end
+</code></pre>
+
+<p>By the way, unless you disable the path traversal attack protection (see
+below), the request path might be modified before matching against your
+routes.</p>
+
+<p>You may customize the Mustermann options used for a given route by passi=
+ng in a
+<code>:mustermann_opts</code> hash:</p>
+
+<pre><code class=3D"language-ruby">get '\A/posts\z', :mustermann_opts =3D&g=
+t; { :type =3D&gt; :regexp, :check_anchors =3D&gt; false } do
+  # matches /posts exactly, with explicit anchoring
+  "If you match an anchored pattern clap your hands!"
+end
+</code></pre>
+
+<p>It looks like a <a href=3D"http://sinatrarb.com/intro.html#conditions">c=
+ondition</a>, but it isn=E2=80=99t one! These options will
+be merged into the global <code>:mustermann_opts</code> hash described
+<a href=3D"http://sinatrarb.com/intro.html#available-settings">below</a>.</=
+p>
+
+<h2>Conditions</h2>
+
+<p>Routes may include a variety of matching conditions, such as the user ag=
+ent:</p>
+
+<pre><code class=3D"language-ruby">get '/foo', :agent =3D&gt; /Songbird (\d=
+\.\d)[\d\/]*?/ do
+  "You're using Songbird version #{params['agent'][0]}"
+end
+
+get '/foo' do
+  # Matches non-songbird browsers
+end
+</code></pre>
+
+<p>Other available conditions are <code>host_name</code> and <code>provides=
+</code>:</p>
+
+<pre><code class=3D"language-ruby">get '/', :host_name =3D&gt; /^admin\./ d=
+o
+  "Admin Area, Access denied!"
+end
+
+get '/', :provides =3D&gt; 'html' do
+  haml :index
+end
+
+get '/', :provides =3D&gt; ['rss', 'atom', 'xml'] do
+  builder :feed
+end
+</code></pre>
+<p><code>provides</code> searches the request=E2=80=99s Accept header.</p>
+
+<p>You can easily define your own conditions:</p>
+
+<pre><code class=3D"language-ruby">set(:probability) { |value| condition { =
+rand &lt;=3D value } }
+
+get '/win_a_car', :probability =3D&gt; 0.1 do
+  "You won!"
+end
+
+get '/win_a_car' do
+  "Sorry, you lost."
+end
+</code></pre>
+
+<p>For a condition that takes multiple values use a splat:</p>
+
+<pre><code class=3D"language-ruby">set(:auth) do |*roles|   # &lt;- notice =
+the splat here
+  condition do
+    unless logged_in? &amp;&amp; roles.any? {|role| current_user.in_role? r=
+ole }
+      redirect "/login/", 303
+    end
+  end
+end
+
+get "/my/account/", :auth =3D&gt; [:user, :admin] do
+  "Your Account Details"
+end
+
+get "/only/admin/", :auth =3D&gt; :admin do
+  "Only admins are allowed here!"
+end
+</code></pre>
+
+<h2>Return Values</h2>
+
+<p>The return value of a route block determines at least the response body
+passed on to the HTTP client, or at least the next middleware in the
+Rack stack. Most commonly, this is a string, as in the above examples.
+But other values are also accepted.</p>
+
+<p>You can return any object that would either be a valid Rack response, Ra=
+ck
+body object or HTTP status code:</p>
+
+<ul>
+  <li>An Array with three elements: <code>[status (Fixnum), headers (Hash),=
+ response
+body (responds to #each)]</code>
+</li>
+  <li>An Array with two elements: <code>[status (Fixnum), response body (re=
+sponds to
+#each)]</code>
+</li>
+  <li>An object that responds to <code>#each</code> and passes nothing but =
+strings to
+the given block</li>
+  <li>A Fixnum representing the status code</li>
+</ul>
+
+<p>That way we can, for instance, easily implement a streaming example:</p>
+
+<pre><code class=3D"language-ruby">class Stream
+  def each
+    100.times { |i| yield "#{i}\n" }
+  end
+end
+
+get('/') { Stream.new }
+</code></pre>
+
+<p>You can also use the <code>stream</code> helper method (described below)=
+ to reduce
+boiler plate and embed the streaming logic in the route.</p>
+
+<h2>Custom Route Matchers</h2>
+
+<p>As shown above, Sinatra ships with built-in support for using String
+patterns and regular expressions as route matches. However, it does not
+stop there. You can easily define your own matchers:</p>
+
+<pre><code class=3D"language-ruby">class AllButPattern
+  Match =3D Struct.new(:captures)
+
+  def initialize(except)
+    @except   =3D except
+    @captures =3D Match.new([])
+  end
+
+  def match(str)
+    @captures unless @except =3D=3D=3D str
+  end
+end
+
+def all_but(pattern)
+  AllButPattern.new(pattern)
+end
+
+get all_but("/index") do
+  # ...
+end
+</code></pre>
+
+<p>Note that the above example might be over-engineered, as it can also be
+expressed as:</p>
+
+<pre><code class=3D"language-ruby">get // do
+  pass if request.path_info =3D=3D "/index"
+  # ...
+end
+</code></pre>
+
+<p>Or, using negative look ahead:</p>
+
+<pre><code class=3D"language-ruby">get %r{(?!/index)} do
+  # ...
+end
+</code></pre>
+
+<h2>Static Files</h2>
+
+<p>Static files are served from the <code>./public</code> directory. You ca=
+n specify
+a different location by setting the <code>:public_folder</code> option:</p>
+
+<pre><code class=3D"language-ruby">set :public_folder, File.dirname(__FILE_=
+_) + '/static'
+</code></pre>
+
+<p>Note that the public directory name is not included in the URL. A file
+<code>./public/css/style.css</code> is made available as
+<code>http://example.com/css/style.css</code>.</p>
+
+<p>Use the <code>:static_cache_control</code> setting (see below) to add
+<code>Cache-Control</code> header info.</p>
+
+<h2>Views / Templates</h2>
+
+<p>Each template language is exposed via its own rendering method. These
+methods simply return a string:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  erb :index
+end
+</code></pre>
+
+<p>This renders <code>views/index.erb</code>.</p>
+
+<p>Instead of a template name, you can also just pass in the template conte=
+nt
+directly:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  code =3D "&lt;%=3D Time.now %&gt;"
+  erb code
+end
+</code></pre>
+
+<p>Templates take a second argument, the options hash:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  erb :index, :layout =3D&gt; :post
+end
+</code></pre>
+
+<p>This will render <code>views/index.erb</code> embedded in the
+<code>views/post.erb</code> (default is <code>views/layout.erb</code>, if i=
+t exists).</p>
+
+<p>Any options not understood by Sinatra will be passed on to the template
+engine:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  haml :index, :format =3D&gt; :html5
+end
+</code></pre>
+
+<p>You can also set options per template language in general:</p>
+
+<pre><code class=3D"language-ruby">set :haml, :format =3D&gt; :html5
+
+get '/' do
+  haml :index
+end
+</code></pre>
+
+<p>Options passed to the render method override options set via <code>set</=
+code>.</p>
+
+<p>Available Options:</p>
+
+<dl>
+  <dt>locals</dt>
+  <dd>
+    List of locals passed to the document. Handy with partials.
+    Example: <tt>erb "&lt;%=3D foo %&gt;", :locals =3D&gt; {:foo =3D&gt; "b=
+ar"}</tt>
+  </dd>
+
+  <dt>default_encoding</dt>
+  <dd>
+    String encoding to use if uncertain. Defaults to
+    <tt>settings.default_encoding</tt>.
+  </dd>
+
+  <dt>views</dt>
+  <dd>
+    Views folder to load templates from. Defaults to <tt>settings.views</tt=
+>.
+  </dd>
+
+  <dt>layout</dt>
+  <dd>
+    Whether to use a layout (<tt>true</tt> or <tt>false</tt>). If it's a
+    Symbol, specifies what template to use. Example:
+    <tt>erb :index, :layout =3D&gt; !request.xhr?</tt>
+  </dd>
+
+  <dt>content_type</dt>
+  <dd>
+    Content-Type the template produces. Default depends on template languag=
+e.
+  </dd>
+
+  <dt>scope</dt>
+  <dd>
+    Scope to render template under. Defaults to the application
+    instance. If you change this, instance variables and helper methods
+    will not be available.
+  </dd>
+
+  <dt>layout_engine</dt>
+  <dd>
+    Template engine to use for rendering the layout. Useful for
+    languages that do not support layouts otherwise. Defaults to the
+    engine used for the template. Example: <tt>set :rdoc, :layout_engine
+    =3D&gt; :erb</tt>
+  </dd>
+
+  <dt>layout_options</dt>
+  <dd>
+    Special options only used for rendering the layout. Example:
+    <tt>set :rdoc, :layout_options =3D&gt; { :views =3D&gt; 'views/layouts'=
+ }</tt>
+  </dd>
+</dl>
+
+<p>Templates are assumed to be located directly under the <code>./views</co=
+de>
+directory. To use a different views directory:</p>
+
+<pre><code class=3D"language-ruby">set :views, settings.root + '/templates'
+</code></pre>
+
+<p>One important thing to remember is that you always have to reference
+templates with symbols, even if they=E2=80=99re in a subdirectory (in this =
+case,
+use: <code>:'subdir/template'</code> or <code>'subdir/template'.to_sym</cod=
+e>). You must use a
+symbol because otherwise rendering methods will render any strings
+passed to them directly.</p>
+
+<h3>Literal Templates</h3>
+
+<pre><code class=3D"language-ruby">get '/' do
+  haml '%div.title Hello World'
+end
+</code></pre>
+
+<p>Renders the template string. You can optionally specify <code>:path</cod=
+e> and
+<code>:line</code> for a clearer backtrace if there is a filesystem path or=
+ line
+associated with that string:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  haml '%div.title Hello World', :path =3D&gt; 'examples/file.haml', :line =
+=3D&gt; 3
+end
+</code></pre>
+
+<h3>Available Template Languages</h3>
+
+<p>Some languages have multiple implementations. To specify what implementa=
+tion
+to use (and to be thread-safe), you should simply require it first:</p>
+
+<pre><code class=3D"language-ruby">require 'rdiscount' # or require 'bluecl=
+oth'
+get('/') { markdown :index }
+</code></pre>
+
+<h4>Haml Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"http://haml.info/" title=3D"haml">haml</a></td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.haml</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>haml :index, :format =3D&gt; :html5</tt></td>
+  </tr>
+</tbody></table>
+
+<h4>Erb Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td>
+      <a href=3D"http://www.kuwata-lab.com/erubis/" title=3D"erubis">erubis=
+</a>
+      or erb (included in Ruby)
+    </td>
+  </tr>
+  <tr>
+    <td>File Extensions</td>
+    <td>
+<tt>.erb</tt>, <tt>.rhtml</tt> or <tt>.erubis</tt> (Erubis only)</td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>erb :index</tt></td>
+  </tr>
+</tbody></table>
+
+<h4>Builder Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td>
+      <a href=3D"https://github.com/jimweirich/builder" title=3D"builder">b=
+uilder</a>
+    </td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.builder</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>builder { |xml| xml.em "hi" }</tt></td>
+  </tr>
+</tbody></table>
+
+<p>It also takes a block for inline templates (see example).</p>
+
+<h4>Nokogiri Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"http://www.nokogiri.org/" title=3D"nokogiri">nokogiri</a=
+></td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.nokogiri</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>nokogiri { |xml| xml.em "hi" }</tt></td>
+  </tr>
+</tbody></table>
+
+<p>It also takes a block for inline templates (see example).</p>
+
+<h4>Sass Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"http://sass-lang.com/" title=3D"sass">sass</a></td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.sass</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>sass :stylesheet, :style =3D&gt; :expanded</tt></td>
+  </tr>
+</tbody></table>
+
+<h4>SCSS Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"http://sass-lang.com/" title=3D"sass">sass</a></td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.scss</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>scss :stylesheet, :style =3D&gt; :expanded</tt></td>
+  </tr>
+</tbody></table>
+
+<h4>Less Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"http://lesscss.org/" title=3D"less">less</a></td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.less</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>less :stylesheet</tt></td>
+  </tr>
+</tbody></table>
+
+<h4>Liquid Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"http://liquidmarkup.org/" title=3D"liquid">liquid</a></t=
+d>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.liquid</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>liquid :index, :locals =3D&gt; { :key =3D&gt; 'value' }</tt></t=
+d>
+  </tr>
+</tbody></table>
+
+<p>Since you cannot call Ruby methods (except for <code>yield</code>) from =
+a Liquid
+template, you almost always want to pass locals to it.</p>
+
+<h4>Markdown Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td>
+      Anyone of:
+        <a href=3D"https://github.com/davidfstr/rdiscount" title=3D"RDiscou=
+nt">RDiscount</a>,
+        <a href=3D"https://github.com/vmg/redcarpet" title=3D"RedCarpet">Re=
+dCarpet</a>,
+        <a href=3D"http://deveiate.org/projects/BlueCloth" title=3D"BlueClo=
+th">BlueCloth</a>,
+        <a href=3D"http://kramdown.gettalong.org/" title=3D"kramdown">kramd=
+own</a>,
+        <a href=3D"https://github.com/bhollis/maruku" title=3D"maruku">maru=
+ku</a>
+    </td>
+  </tr>
+  <tr>
+    <td>File Extensions</td>
+    <td>
+<tt>.markdown</tt>, <tt>.mkd</tt> and <tt>.md</tt>
+</td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>markdown :index, :layout_engine =3D&gt; :erb</tt></td>
+  </tr>
+</tbody></table>
+
+<p>It is not possible to call methods from Markdown, nor to pass locals to =
+it.
+You therefore will usually use it in combination with another rendering
+engine:</p>
+
+<pre><code class=3D"language-ruby">erb :overview, :locals =3D&gt; { :text =
+=3D&gt; markdown(:introduction) }
+</code></pre>
+
+<p>Note that you may also call the <code>markdown</code> method from within=
+ other
+templates:</p>
+
+<pre><code class=3D"language-ruby">%h1 Hello From Haml!
+%p=3D markdown(:greetings)
+</code></pre>
+
+<p>Since you cannot call Ruby from Markdown, you cannot use layouts written=
+ in
+Markdown. However, it is possible to use another rendering engine for the
+template than for the layout by passing the <code>:layout_engine</code> opt=
+ion.</p>
+
+<h4>Textile Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"http://redcloth.org/" title=3D"RedCloth">RedCloth</a></t=
+d>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.textile</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>textile :index, :layout_engine =3D&gt; :erb</tt></td>
+  </tr>
+</tbody></table>
+
+<p>It is not possible to call methods from Textile, nor to pass locals to
+it. You therefore will usually use it in combination with another
+rendering engine:</p>
+
+<pre><code class=3D"language-ruby">erb :overview, :locals =3D&gt; { :text =
+=3D&gt; textile(:introduction) }
+</code></pre>
+
+<p>Note that you may also call the <code>textile</code> method from within =
+other templates:</p>
+
+<pre><code class=3D"language-ruby">%h1 Hello From Haml!
+%p=3D textile(:greetings)
+</code></pre>
+
+<p>Since you cannot call Ruby from Textile, you cannot use layouts written =
+in
+Textile. However, it is possible to use another rendering engine for the
+template than for the layout by passing the <code>:layout_engine</code> opt=
+ion.</p>
+
+<h4>RDoc Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"http://rdoc.sourceforge.net/" title=3D"RDoc">RDoc</a></t=
+d>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.rdoc</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>rdoc :README, :layout_engine =3D&gt; :erb</tt></td>
+  </tr>
+</tbody></table>
+
+<p>It is not possible to call methods from RDoc, nor to pass locals to it. =
+You
+therefore will usually use it in combination with another rendering engine:=
+</p>
+
+<pre><code class=3D"language-ruby">erb :overview, :locals =3D&gt; { :text =
+=3D&gt; rdoc(:introduction) }
+</code></pre>
+
+<p>Note that you may also call the <code>rdoc</code> method from within oth=
+er templates:</p>
+
+<pre><code class=3D"language-ruby">%h1 Hello From Haml!
+%p=3D rdoc(:greetings)
+</code></pre>
+
+<p>Since you cannot call Ruby from RDoc, you cannot use layouts written in
+RDoc. However, it is possible to use another rendering engine for the
+template than for the layout by passing the <code>:layout_engine</code> opt=
+ion.</p>
+
+<h4>AsciiDoc Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"http://asciidoctor.org/" title=3D"Asciidoctor">Asciidoct=
+or</a></td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td>
+<tt>.asciidoc</tt>, <tt>.adoc</tt> and <tt>.ad</tt>
+</td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>asciidoc :README, :layout_engine =3D&gt; :erb</tt></td>
+  </tr>
+</tbody></table>
+
+<p>Since you cannot call Ruby methods directly from an AsciiDoc template, y=
+ou
+almost always want to pass locals to it.</p>
+
+<h4>Radius Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"https://github.com/jlong/radius" title=3D"Radius">Radius=
+</a></td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.radius</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>radius :index, :locals =3D&gt; { :key =3D&gt; 'value' }</tt></t=
+d>
+  </tr>
+</tbody></table>
+
+<p>Since you cannot call Ruby methods directly from a Radius template, you
+almost always want to pass locals to it.</p>
+
+<h4>Markaby Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"http://markaby.github.io/" title=3D"Markaby">Markaby</a>=
+</td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.mab</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>markaby { h1 "Welcome!" }</tt></td>
+  </tr>
+</tbody></table>
+
+<p>It also takes a block for inline templates (see example).</p>
+
+<h4>RABL Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"https://github.com/nesquena/rabl" title=3D"Rabl">Rabl</a=
+></td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.rabl</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>rabl :index</tt></td>
+  </tr>
+</tbody></table>
+
+<h4>Slim Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"http://slim-lang.com/" title=3D"Slim Lang">Slim Lang</a>=
+</td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.slim</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>slim :index</tt></td>
+  </tr>
+</tbody></table>
+
+<h4>Creole Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"https://github.com/minad/creole" title=3D"Creole">Creole=
+</a></td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.creole</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>creole :wiki, :layout_engine =3D&gt; :erb</tt></td>
+  </tr>
+</tbody></table>
+
+<p>It is not possible to call methods from Creole, nor to pass locals to it=
+. You
+therefore will usually use it in combination with another rendering engine:=
+</p>
+
+<pre><code class=3D"language-ruby">erb :overview, :locals =3D&gt; { :text =
+=3D&gt; creole(:introduction) }
+</code></pre>
+
+<p>Note that you may also call the <code>creole</code> method from within o=
+ther templates:</p>
+
+<pre><code class=3D"language-ruby">%h1 Hello From Haml!
+%p=3D creole(:greetings)
+</code></pre>
+
+<p>Since you cannot call Ruby from Creole, you cannot use layouts written i=
+n
+Creole. However, it is possible to use another rendering engine for the
+template than for the layout by passing the <code>:layout_engine</code> opt=
+ion.</p>
+
+<h4>MediaWiki Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"https://github.com/nricciar/wikicloth" title=3D"WikiClot=
+h">WikiCloth</a></td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td>
+<tt>.mediawiki</tt> and <tt>.mw</tt>
+</td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>mediawiki :wiki, :layout_engine =3D&gt; :erb</tt></td>
+  </tr>
+</tbody></table>
+
+<p>It is not possible to call methods from MediaWiki markup, nor to pass
+locals to it. You therefore will usually use it in combination with
+another rendering engine:</p>
+
+<pre><code class=3D"language-ruby">erb :overview, :locals =3D&gt; { :text =
+=3D&gt; mediawiki(:introduction) }
+</code></pre>
+
+<p>Note that you may also call the <code>mediawiki</code> method from withi=
+n other
+templates:</p>
+
+<pre><code class=3D"language-ruby">%h1 Hello From Haml!
+%p=3D mediawiki(:greetings)
+</code></pre>
+
+<p>Since you cannot call Ruby from MediaWiki, you cannot use layouts writte=
+n in
+MediaWiki. However, it is possible to use another rendering engine for the
+template than for the layout by passing the <code>:layout_engine</code> opt=
+ion.</p>
+
+<h4>CoffeeScript Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td>
+      <a href=3D"https://github.com/josh/ruby-coffee-script" title=3D"Ruby =
+CoffeeScript">
+        CoffeeScript
+      </a> and a
+      <a href=3D"https://github.com/sstephenson/execjs/blob/master/README.m=
+d#readme" title=3D"ExecJS">
+        way to execute javascript
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.coffee</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>coffee :index</tt></td>
+  </tr>
+</tbody></table>
+
+<h4>Stylus Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td>
+      <a href=3D"https://github.com/forgecrafted/ruby-stylus" title=3D"Ruby=
+ Stylus">
+        Stylus
+      </a> and a
+      <a href=3D"https://github.com/sstephenson/execjs/blob/master/README.m=
+d#readme" title=3D"ExecJS">
+        way to execute javascript
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.styl</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>stylus :index</tt></td>
+  </tr>
+</tbody></table>
+
+<p>Before being able to use Stylus templates, you need to load <code>stylus=
+</code> and
+<code>stylus/tilt</code> first:</p>
+
+<pre><code class=3D"language-ruby">require 'sinatra'
+require 'stylus'
+require 'stylus/tilt'
+
+get '/' do
+  stylus :example
+end
+</code></pre>
+
+<h4>Yajl Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"https://github.com/brianmario/yajl-ruby" title=3D"yajl-r=
+uby">yajl-ruby</a></td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.yajl</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td>
+      <tt>
+        yajl :index,
+             :locals =3D&gt; { :key =3D&gt; 'qux' },
+             :callback =3D&gt; 'present',
+             :variable =3D&gt; 'resource'
+      </tt>
+    </td>
+  </tr>
+</tbody></table>
+
+<p>The template source is evaluated as a Ruby string, and the
+resulting json variable is converted using <code>#to_json</code>:</p>
+
+<pre><code class=3D"language-ruby">json =3D { :foo =3D&gt; 'bar' }
+json[:baz] =3D key
+</code></pre>
+
+<p>The <code>:callback</code> and <code>:variable</code> options can be use=
+d to decorate the rendered
+object:</p>
+
+<pre><code class=3D"language-javascript">var resource =3D {"foo":"bar","baz=
+":"qux"};
+present(resource);
+</code></pre>
+
+<h4>WLang Templates</h4>
+
+<table>
+  <tbody><tr>
+    <td>Dependency</td>
+    <td><a href=3D"https://github.com/blambeau/wlang/" title=3D"WLang">WLan=
+g</a></td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td><tt>.wlang</tt></td>
+  </tr>
+  <tr>
+    <td>Example</td>
+    <td><tt>wlang :index, :locals =3D&gt; { :key =3D&gt; 'value' }</tt></td=
+>
+  </tr>
+</tbody></table>
+
+<p>Since calling ruby methods is not idiomatic in WLang, you almost always
+want to pass locals to it. Layouts written in WLang and <code>yield</code> =
+are
+supported, though.</p>
+
+<h3>Accessing Variables in Templates</h3>
+
+<p>Templates are evaluated within the same context as route handlers. Insta=
+nce
+variables set in route handlers are directly accessible by templates:</p>
+
+<pre><code class=3D"language-ruby">get '/:id' do
+  @foo =3D Foo.find(params['id'])
+  haml '%h1=3D @foo.name'
+end
+</code></pre>
+
+<p>Or, specify an explicit Hash of local variables:</p>
+
+<pre><code class=3D"language-ruby">get '/:id' do
+  foo =3D Foo.find(params['id'])
+  haml '%h1=3D bar.name', :locals =3D&gt; { :bar =3D&gt; foo }
+end
+</code></pre>
+
+<p>This is typically used when rendering templates as partials from within
+other templates.</p>
+
+<h3>Templates with <code>yield</code> and nested layouts</h3>
+
+<p>A layout is usually just a template that calls <code>yield</code>.
+Such a template can be used either through the <code>:template</code> optio=
+n as
+described above, or it can be rendered with a block as follows:</p>
+
+<pre><code class=3D"language-ruby">erb :post, :layout =3D&gt; false do
+  erb :index
+end
+</code></pre>
+
+<p>This code is mostly equivalent to <code>erb :index, :layout =3D&gt; :pos=
+t</code>.</p>
+
+<p>Passing blocks to rendering methods is most useful for creating nested
+layouts:</p>
+
+<pre><code class=3D"language-ruby">erb :main_layout, :layout =3D&gt; false =
+do
+  erb :admin_layout do
+    erb :user
+  end
+end
+</code></pre>
+
+<p>This can also be done in fewer lines of code with:</p>
+
+<pre><code class=3D"language-ruby">erb :admin_layout, :layout =3D&gt; :main=
+_layout do
+  erb :user
+end
+</code></pre>
+
+<p>Currently, the following rendering methods accept a block: <code>erb</co=
+de>, <code>haml</code>,
+<code>liquid</code>, <code>slim </code>, <code>wlang</code>. Also the gener=
+al <code>render</code> method accepts a block.</p>
+
+<h3>Inline Templates</h3>
+
+<p>Templates may be defined at the end of the source file:</p>
+
+<pre><code class=3D"language-ruby">require 'sinatra'
+
+get '/' do
+  haml :index
+end
+
+__END__
+
+@@ layout
+%html
+  =3D yield
+
+@@ index
+%div.title Hello world.
+</code></pre>
+
+<p>NOTE: Inline templates defined in the source file that requires sinatra =
+are
+automatically loaded. Call <code>enable :inline_templates</code> explicitly=
+ if you
+have inline templates in other source files.</p>
+
+<h3>Named Templates</h3>
+
+<p>Templates may also be defined using the top-level <code>template</code> =
+method:</p>
+
+<pre><code class=3D"language-ruby">template :layout do
+  "%html\n  =3Dyield\n"
+end
+
+template :index do
+  '%div.title Hello World!'
+end
+
+get '/' do
+  haml :index
+end
+</code></pre>
+
+<p>If a template named =E2=80=9Clayout=E2=80=9D exists, it will be used eac=
+h time a template
+is rendered. You can individually disable layouts by passing
+<code>:layout =3D&gt; false</code> or disable them by default via
+<code>set :haml, :layout =3D&gt; false</code>:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  haml :index, :layout =3D&gt; !request.xhr?
+end
+</code></pre>
+
+<h3>Associating File Extensions</h3>
+
+<p>To associate a file extension with a template engine, use
+<code>Tilt.register</code>. For instance, if you like to use the file exten=
+sion
+<code>tt</code> for Textile templates, you can do the following:</p>
+
+<pre><code class=3D"language-ruby">Tilt.register :tt, Tilt[:textile]
+</code></pre>
+
+<h3>Adding Your Own Template Engine</h3>
+
+<p>First, register your engine with Tilt, then create a rendering method:</=
+p>
+
+<pre><code class=3D"language-ruby">Tilt.register :myat, MyAwesomeTemplateEn=
+gine
+
+helpers do
+  def myat(*args) render(:myat, *args) end
+end
+
+get '/' do
+  myat :index
+end
+</code></pre>
+
+<p>Renders <code>./views/index.myat</code>. See https://github.com/rtomayko=
+/tilt to
+learn more about Tilt.</p>
+
+<h3>Using Custom Logic for Template Lookup</h3>
+
+<p>To implement your own template lookup mechanism you can write your
+own <code>#find_template</code> method:</p>
+
+<pre><code class=3D"language-ruby">configure do
+  set :views [ './views/a', './views/b' ]
+end
+
+def find_template(views, name, engine, &amp;block)
+  Array(views).each do |v|
+    super(v, name, engine, &amp;block)
+  end
+end
+</code></pre>
+
+<h2>Filters</h2>
+
+<p>Before filters are evaluated before each request within the same context
+as the routes will be and can modify the request and response. Instance
+variables set in filters are accessible by routes and templates:</p>
+
+<pre><code class=3D"language-ruby">before do
+  @note =3D 'Hi!'
+  request.path_info =3D '/foo/bar/baz'
+end
+
+get '/foo/*' do
+  @note #=3D&gt; 'Hi!'
+  params['splat'] #=3D&gt; 'bar/baz'
+end
+</code></pre>
+
+<p>After filters are evaluated after each request within the same context
+as the routes will be and can also modify the request and response.
+Instance variables set in before filters and routes are accessible by
+after filters:</p>
+
+<pre><code class=3D"language-ruby">after do
+  puts response.status
+end
+</code></pre>
+
+<p>Note: Unless you use the <code>body</code> method rather than just retur=
+ning a
+String from the routes, the body will not yet be available in the after
+filter, since it is generated later on.</p>
+
+<p>Filters optionally take a pattern, causing them to be evaluated only if =
+the
+request path matches that pattern:</p>
+
+<pre><code class=3D"language-ruby">before '/protected/*' do
+  authenticate!
+end
+
+after '/create/:slug' do |slug|
+  session[:last_slug] =3D slug
+end
+</code></pre>
+
+<p>Like routes, filters also take conditions:</p>
+
+<pre><code class=3D"language-ruby">before :agent =3D&gt; /Songbird/ do
+  # ...
+end
+
+after '/blog/*', :host_name =3D&gt; 'example.com' do
+  # ...
+end
+</code></pre>
+
+<h2>Helpers</h2>
+
+<p>Use the top-level <code>helpers</code> method to define helper methods f=
+or use in
+route handlers and templates:</p>
+
+<pre><code class=3D"language-ruby">helpers do
+  def bar(name)
+    "#{name}bar"
+  end
+end
+
+get '/:name' do
+  bar(params['name'])
+end
+</code></pre>
+
+<p>Alternatively, helper methods can be separately defined in a module:</p>
+
+<pre><code class=3D"language-ruby">module FooUtils
+  def foo(name) "#{name}foo" end
+end
+
+module BarUtils
+  def bar(name) "#{name}bar" end
+end
+
+helpers FooUtils, BarUtils
+</code></pre>
+
+<p>The effect is the same as including the modules in the application class=
+.</p>
+
+<h3>Using Sessions</h3>
+
+<p>A session is used to keep state during requests. If activated, you have =
+one
+session hash per user session:</p>
+
+<pre><code class=3D"language-ruby">enable :sessions
+
+get '/' do
+  "value =3D " &lt;&lt; session[:value].inspect
+end
+
+get '/:value' do
+  session['value'] =3D params['value']
+end
+</code></pre>
+
+<h4>Session Secret Security</h4>
+
+<p>To improve security, the session data in the cookie is signed with a ses=
+sion
+secret using <code>HMAC-SHA1</code>. This session secret should optimally b=
+e a
+cryptographically secure random value of an appropriate length which for
+<code>HMAC-SHA1</code> is greater than or equal to 64 bytes (512 bits, 128 =
+hex
+characters). You would be advised not to use a secret that is less than 32
+bytes of randomness (256 bits, 64 hex characters). It is therefore <strong>=
+very
+important</strong> that you don=E2=80=99t just make the secret up, but inst=
+ead use a secure
+random number generator to create it. Humans are extremely bad at generatin=
+g
+random values.</p>
+
+<p>By default, a 32 byte secure random session secret is generated for you =
+by
+Sinatra, but it will change with every restart of your application. If you
+have multiple instances of your application, and you let Sinatra generate t=
+he
+key, each instance would then have a different session key which is probabl=
+y
+not what you want.</p>
+
+<p>For better security and usability it=E2=80=99s
+<a href=3D"https://12factor.net/config">recommended</a> that you generate a=
+ secure random
+secret and store it in an environment variable on each host running your
+application so that all of your application instances will share the same
+secret. You should periodically rotate this session secret to a new value.
+Here are some examples of how you might create a 64 byte secret and set it:=
+</p>
+
+<p><strong>Session Secret Generation</strong></p>
+
+<pre><code class=3D"language-text">$ ruby -e "require 'securerandom'; puts =
+SecureRandom.hex(64)"
+99ae8af...snip...ec0f262ac
+</code></pre>
+
+<p><strong>Session Secret Generation (Bonus Points)</strong></p>
+
+<p>Use the <a href=3D"https://github.com/cryptosphere/sysrandom">sysrandom =
+gem</a> to prefer
+use of system RNG facilities to generate random values instead of
+userspace <code>OpenSSL</code> which MRI Ruby currently defaults to:</p>
+
+<pre><code class=3D"language-text">$ gem install sysrandom
+Building native extensions.  This could take a while...
+Successfully installed sysrandom-1.x
+1 gem installed
+
+$ ruby -e "require 'sysrandom/securerandom'; puts SecureRandom.hex(64)"
+99ae8af...snip...ec0f262ac
+</code></pre>
+
+<p><strong>Session Secret Environment Variable</strong></p>
+
+<p>Set a <code>SESSION_SECRET</code> environment variable for Sinatra to th=
+e value you
+generated. Make this value persistent across reboots of your host. Since th=
+e
+method for doing this will vary across systems this is for illustrative
+purposes only:</p>
+
+<pre><code class=3D"language-bash"># echo "export SESSION_SECRET=3D99ae8af.=
+..snip...ec0f262ac" &gt;&gt; ~/.bashrc
+</code></pre>
+
+<p><strong>Session Secret App Config</strong></p>
+
+<p>Setup your app config to fail-safe to a secure random secret
+if the <code>SESSION_SECRET</code> environment variable is not available.</=
+p>
+
+<p>For bonus points use the <a href=3D"https://github.com/cryptosphere/sysr=
+andom">sysrandom
+gem</a> here as well:</p>
+
+<pre><code class=3D"language-ruby">require 'securerandom'
+# -or- require 'sysrandom/securerandom'
+set :session_secret, ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
+</code></pre>
+
+<h4>Session Config</h4>
+
+<p>If you want to configure it further, you may also store a hash with opti=
+ons
+in the <code>sessions</code> setting:</p>
+
+<pre><code class=3D"language-ruby">set :sessions, :domain =3D&gt; 'foo.com'
+</code></pre>
+
+<p>To share your session across other apps on subdomains of foo.com, prefix=
+ the
+domain with a <em>.</em> like this instead:</p>
+
+<pre><code class=3D"language-ruby">set :sessions, :domain =3D&gt; '.foo.com=
+'
+</code></pre>
+
+<h4>Choosing Your Own Session Middleware</h4>
+
+<p>Note that <code>enable :sessions</code> actually stores all data in a co=
+okie. This
+might not always be what you want (storing lots of data will increase your
+traffic, for instance). You can use any Rack session middleware in order to
+do so, one of the following methods can be used:</p>
+
+<pre><code class=3D"language-ruby">enable :sessions
+set :session_store, Rack::Session::Pool
+</code></pre>
+
+<p>Or to set up sessions with a hash of options:</p>
+
+<pre><code class=3D"language-ruby">set :sessions, :expire_after =3D&gt; 259=
+2000
+set :session_store, Rack::Session::Pool
+</code></pre>
+
+<p>Another option is to <strong>not</strong> call <code>enable :sessions</c=
+ode>, but instead pull in
+your middleware of choice as you would any other middleware.</p>
+
+<p>It is important to note that when using this method, session based
+protection <strong>will not be enabled by default</strong>.</p>
+
+<p>The Rack middleware to do that will also need to be added:</p>
+
+<pre><code class=3D"language-ruby">use Rack::Session::Pool, :expire_after =
+=3D&gt; 2592000
+use Rack::Protection::RemoteToken
+use Rack::Protection::SessionHijacking
+</code></pre>
+
+<p>See =E2=80=98Configuring attack protection=E2=80=99 for more information=
+.</p>
+
+<h3>Halting</h3>
+
+<p>To immediately stop a request within a filter or route use:</p>
+
+<pre><code class=3D"language-ruby">halt
+</code></pre>
+
+<p>You can also specify the status when halting:</p>
+
+<pre><code class=3D"language-ruby">halt 410
+</code></pre>
+
+<p>Or the body:</p>
+
+<pre><code class=3D"language-ruby">halt 'this will be the body'
+</code></pre>
+
+<p>Or both:</p>
+
+<pre><code class=3D"language-ruby">halt 401, 'go away!'
+</code></pre>
+
+<p>With headers:</p>
+
+<pre><code class=3D"language-ruby">halt 402, {'Content-Type' =3D&gt; 'text/=
+plain'}, 'revenge'
+</code></pre>
+
+<p>It is of course possible to combine a template with <code>halt</code>:</=
+p>
+
+<pre><code class=3D"language-ruby">halt erb(:error)
+</code></pre>
+
+<h3>Passing</h3>
+
+<p>A route can punt processing to the next matching route using <code>pass<=
+/code>:</p>
+
+<pre><code class=3D"language-ruby">get '/guess/:who' do
+  pass unless params['who'] =3D=3D 'Frank'
+  'You got me!'
+end
+
+get '/guess/*' do
+  'You missed!'
+end
+</code></pre>
+
+<p>The route block is immediately exited and control continues with the nex=
+t
+matching route. If no matching route is found, a 404 is returned.</p>
+
+<h3>Triggering Another Route</h3>
+
+<p>Sometimes <code>pass</code> is not what you want, instead you would like=
+ to get the
+result of calling another route. Simply use <code>call</code> to achieve th=
+is:</p>
+
+<pre><code class=3D"language-ruby">get '/foo' do
+  status, headers, body =3D call env.merge("PATH_INFO" =3D&gt; '/bar')
+  [status, headers, body.map(&amp;:upcase)]
+end
+
+get '/bar' do
+  "bar"
+end
+</code></pre>
+
+<p>Note that in the example above, you would ease testing and increase
+performance by simply moving <code>"bar"</code> into a helper used by both =
+<code>/foo</code> and
+<code>/bar</code>.</p>
+
+<p>If you want the request to be sent to the same application instance rath=
+er
+than a duplicate, use <code>call!</code> instead of <code>call</code>.</p>
+
+<p>Check out the Rack specification if you want to learn more about <code>c=
+all</code>.</p>
+
+<h3>Setting Body, Status Code and Headers</h3>
+
+<p>It is possible and recommended to set the status code and response body =
+with
+the return value of the route block. However, in some scenarios you might
+want to set the body at an arbitrary point in the execution flow. You can d=
+o
+so with the <code>body</code> helper method. If you do so, you can use that=
+ method from
+there on to access the body:</p>
+
+<pre><code class=3D"language-ruby">get '/foo' do
+  body "bar"
+end
+
+after do
+  puts body
+end
+</code></pre>
+
+<p>It is also possible to pass a block to <code>body</code>, which will be =
+executed by the
+Rack handler (this can be used to implement streaming, see =E2=80=9CReturn =
+Values=E2=80=9D).</p>
+
+<p>Similar to the body, you can also set the status code and headers:</p>
+
+<pre><code class=3D"language-ruby">get '/foo' do
+  status 418
+  headers \
+    "Allow"   =3D&gt; "BREW, POST, GET, PROPFIND, WHEN",
+    "Refresh" =3D&gt; "Refresh: 20; http://www.ietf.org/rfc/rfc2324.txt"
+  body "I'm a tea pot!"
+end
+</code></pre>
+
+<p>Like <code>body</code>, <code>headers</code> and <code>status</code> wit=
+h no arguments can be used to access
+their current values.</p>
+
+<h3>Streaming Responses</h3>
+
+<p>Sometimes you want to start sending out data while still generating part=
+s of
+the response body. In extreme examples, you want to keep sending data until
+the client closes the connection. You can use the <code>stream</code> helpe=
+r to avoid
+creating your own wrapper:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  stream do |out|
+    out &lt;&lt; "It's gonna be legen -\n"
+    sleep 0.5
+    out &lt;&lt; " (wait for it) \n"
+    sleep 1
+    out &lt;&lt; "- dary!\n"
+  end
+end
+</code></pre>
+
+<p>This allows you to implement streaming APIs,
+<a href=3D"https://w3c.github.io/eventsource/">Server Sent Events</a>, and =
+can be used as
+the basis for <a href=3D"https://en.wikipedia.org/wiki/WebSocket">WebSocket=
+s</a>. It can
+also be used to increase throughput if some but not all content depends on =
+a
+slow resource.</p>
+
+<p>Note that the streaming behavior, especially the number of concurrent
+requests, highly depends on the web server used to serve the application.
+Some servers might not even support streaming at all. If the server does no=
+t
+support streaming, the body will be sent all at once after the block passed
+to <code>stream</code> finishes executing. Streaming does not work at all w=
+ith Shotgun.</p>
+
+<p>If the optional parameter is set to <code>keep_open</code>, it will not =
+call <code>close</code> on
+the stream object, allowing you to close it at any later point in the
+execution flow. This only works on evented servers, like Thin and Rainbows.
+Other servers will still close the stream:</p>
+
+<pre><code class=3D"language-ruby"># long polling
+
+set :server, :thin
+connections =3D []
+
+get '/subscribe' do
+  # register a client's interest in server events
+  stream(:keep_open) do |out|
+    connections &lt;&lt; out
+    # purge dead connections
+    connections.reject!(&amp;:closed?)
+  end
+end
+
+post '/:message' do
+  connections.each do |out|
+    # notify client that a new message has arrived
+    out &lt;&lt; params['message'] &lt;&lt; "\n"
+
+    #&nbsp;indicate client to connect again
+    out.close
+  end
+
+  # acknowledge
+  "message received"
+end
+</code></pre>
+
+<p>It=E2=80=99s also possible for the client to close the connection when t=
+rying to
+write to the socket. Because of this, it=E2=80=99s recommended to check
+<code>out.closed?</code> before trying to write.</p>
+
+<h3>Logging</h3>
+
+<p>In the request scope, the <code>logger</code> helper exposes a <code>Log=
+ger</code> instance:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  logger.info "loading data"
+  # ...
+end
+</code></pre>
+
+<p>This logger will automatically take your Rack handler=E2=80=99s logging =
+settings into
+account. If logging is disabled, this method will return a dummy object, so
+you do not have to worry about it in your routes and filters.</p>
+
+<p>Note that logging is only enabled for <code>Sinatra::Application</code> =
+by default, so
+if you inherit from <code>Sinatra::Base</code>, you probably want to enable=
+ it yourself:</p>
+
+<pre><code class=3D"language-ruby">class MyApp &lt; Sinatra::Base
+  configure :production, :development do
+    enable :logging
+  end
+end
+</code></pre>
+
+<p>To avoid any logging middleware to be set up, set the <code>logging</cod=
+e> setting to
+<code>nil</code>. However, keep in mind that <code>logger</code> will in th=
+at case return <code>nil</code>. A
+common use case is when you want to set your own logger. Sinatra will use
+whatever it will find in <code>env['rack.logger']</code>.</p>
+
+<h3>Mime Types</h3>
+
+<p>When using <code>send_file</code> or static files you may have mime type=
+s Sinatra
+doesn=E2=80=99t understand. Use <code>mime_type</code> to register them by =
+file extension:</p>
+
+<pre><code class=3D"language-ruby">configure do
+  mime_type :foo, 'text/foo'
+end
+</code></pre>
+
+<p>You can also use it with the <code>content_type</code> helper:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  content_type :foo
+  "foo foo foo"
+end
+</code></pre>
+
+<h3>Generating URLs</h3>
+
+<p>For generating URLs you should use the <code>url</code> helper method, f=
+or instance, in
+Haml:</p>
+
+<pre><code class=3D"language-ruby">%a{:href =3D&gt; url('/foo')} foo
+</code></pre>
+
+<p>It takes reverse proxies and Rack routers into account, if present.</p>
+
+<p>This method is also aliased to <code>to</code> (see below for an example=
+).</p>
+
+<h3>Browser Redirect</h3>
+
+<p>You can trigger a browser redirect with the <code>redirect</code> helper=
+ method:</p>
+
+<pre><code class=3D"language-ruby">get '/foo' do
+  redirect to('/bar')
+end
+</code></pre>
+
+<p>Any additional parameters are handled like arguments passed to <code>hal=
+t</code>:</p>
+
+<pre><code class=3D"language-ruby">redirect to('/bar'), 303
+redirect 'http://www.google.com/', 'wrong place, buddy'
+</code></pre>
+
+<p>You can also easily redirect back to the page the user came from with
+<code>redirect back</code>:</p>
+
+<pre><code class=3D"language-ruby">get '/foo' do
+  "&lt;a href=3D'/bar'&gt;do something&lt;/a&gt;"
+end
+
+get '/bar' do
+  do_something
+  redirect back
+end
+</code></pre>
+
+<p>To pass arguments with a redirect, either add them to the query:</p>
+
+<pre><code class=3D"language-ruby">redirect to('/bar?sum=3D42')
+</code></pre>
+
+<p>Or use a session:</p>
+
+<pre><code class=3D"language-ruby">enable :sessions
+
+get '/foo' do
+  session[:secret] =3D 'foo'
+  redirect to('/bar')
+end
+
+get '/bar' do
+  session[:secret]
+end
+</code></pre>
+
+<h3>Cache Control</h3>
+
+<p>Setting your headers correctly is the foundation for proper HTTP caching=
+.</p>
+
+<p>You can easily set the Cache-Control header like this:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  cache_control :public
+  "cache it!"
+end
+</code></pre>
+
+<p>Pro tip: Set up caching in a before filter:</p>
+
+<pre><code class=3D"language-ruby">before do
+  cache_control :public, :must_revalidate, :max_age =3D&gt; 60
+end
+</code></pre>
+
+<p>If you are using the <code>expires</code> helper to set the correspondin=
+g header,
+<code>Cache-Control</code> will be set automatically for you:</p>
+
+<pre><code class=3D"language-ruby">before do
+  expires 500, :public, :must_revalidate
+end
+</code></pre>
+
+<p>To properly use caches, you should consider using <code>etag</code> or <=
+code>last_modified</code>.
+It is recommended to call those helpers <em>before</em> doing any heavy lif=
+ting, as
+they will immediately flush a response if the client already has the curren=
+t
+version in its cache:</p>
+
+<pre><code class=3D"language-ruby">get "/article/:id" do
+  @article =3D Article.find params['id']
+  last_modified @article.updated_at
+  etag @article.sha1
+  erb :article
+end
+</code></pre>
+
+<p>It is also possible to use a
+<a href=3D"https://en.wikipedia.org/wiki/HTTP_ETag#Strong_and_weak_validati=
+on">weak ETag</a>:</p>
+
+<pre><code class=3D"language-ruby">etag @article.sha1, :weak
+</code></pre>
+
+<p>These helpers will not do any caching for you, but rather feed the neces=
+sary
+information to your cache. If you are looking for a quick
+reverse-proxy caching solution, try
+<a href=3D"https://github.com/rtomayko/rack-cache">rack-cache</a>:</p>
+
+<pre><code class=3D"language-ruby">require "rack/cache"
+require "sinatra"
+
+use Rack::Cache
+
+get '/' do
+  cache_control :public, :max_age =3D&gt; 36000
+  sleep 5
+  "hello"
+end
+</code></pre>
+
+<p>Use the <code>:static_cache_control</code> setting (see below) to add
+<code>Cache-Control</code> header info to static files.</p>
+
+<p>According to RFC 2616, your application should behave differently if the
+If-Match or If-None-Match header is set to <code>*</code>, depending on whe=
+ther the
+resource requested is already in existence. Sinatra assumes resources for
+safe (like get) and idempotent (like put) requests are already in existence=
+,
+whereas other resources (for instance post requests) are treated as new
+resources. You can change this behavior by passing in a <code>:new_resource=
+</code>
+option:</p>
+
+<pre><code class=3D"language-ruby">get '/create' do
+  etag '', :new_resource =3D&gt; true
+  Article.create
+  erb :new_article
+end
+</code></pre>
+
+<p>If you still want to use a weak ETag, pass in a <code>:kind</code> optio=
+n:</p>
+
+<pre><code class=3D"language-ruby">etag '', :new_resource =3D&gt; true, :ki=
+nd =3D&gt; :weak
+</code></pre>
+
+<h3>Sending Files</h3>
+
+<p>To return the contents of a file as the response, you can use the <code>=
+send_file</code>
+helper method:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  send_file 'foo.png'
+end
+</code></pre>
+
+<p>It also takes options:</p>
+
+<pre><code class=3D"language-ruby">send_file 'foo.png', :type =3D&gt; :jpg
+</code></pre>
+
+<p>The options are:</p>
+
+<dl>
+  <dt>filename</dt>
+    <dd>File name to be used in the response,
+    defaults to the real file name.</dd>
+  <dt>last_modified</dt>
+    <dd>Value for Last-Modified header, defaults to the file's mtime.</dd>
+
+  <dt>type</dt>
+    <dd>Value for Content-Type header, guessed from the file extension if
+    missing.</dd>
+
+  <dt>disposition</dt>
+    <dd>
+      Value for Content-Disposition header, possible values: <tt>nil</tt>
+      (default), <tt>:attachment</tt> and <tt>:inline</tt>
+    </dd>
+
+  <dt>length</dt>
+    <dd>Value for Content-Length header, defaults to file size.</dd>
+
+  <dt>status</dt>
+    <dd>
+      Status code to be sent. Useful when sending a static file as an error
+      page. If supported by the Rack handler, other means than streaming
+      from the Ruby process will be used. If you use this helper method,
+      Sinatra will automatically handle range requests.
+    </dd>
+</dl>
+
+<h3>Accessing the Request Object</h3>
+
+<p>The incoming request object can be accessed from request level (filter,
+routes, error handlers) through the <code>request</code> method:</p>
+
+<pre><code class=3D"language-ruby"># app running on http://example.com/exam=
+ple
+get '/foo' do
+  t =3D %w[text/css text/html application/javascript]
+  request.accept              # ['text/html', '*/*']
+  request.accept? 'text/xml'  # true
+  request.preferred_type(t)   # 'text/html'
+  request.body                # request body sent by the client (see below)
+  request.scheme              # "http"
+  request.script_name         # "/example"
+  request.path_info           # "/foo"
+  request.port                # 80
+  request.request_method      # "GET"
+  request.query_string        # ""
+  request.content_length      # length of request.body
+  request.media_type          # media type of request.body
+  request.host                # "example.com"
+  request.get?                # true (similar methods for other verbs)
+  request.form_data?          # false
+  request["some_param"]       # value of some_param parameter. [] is a shor=
+tcut to the params hash.
+  request.referrer            # the referrer of the client or '/'
+  request.user_agent          # user agent (used by :agent condition)
+  request.cookies             # hash of browser cookies
+  request.xhr?                # is this an ajax request?
+  request.url                 # "http://example.com/example/foo"
+  request.path                # "/example/foo"
+  request.ip                  # client IP address
+  request.secure?             # false (would be true over ssl)
+  request.forwarded?          # true (if running behind a reverse proxy)
+  request.env                 # raw env hash handed in by Rack
+end
+</code></pre>
+
+<p>Some options, like <code>script_name</code> or <code>path_info</code>, c=
+an also be written:</p>
+
+<pre><code class=3D"language-ruby">before { request.path_info =3D "/" }
+
+get "/" do
+  "all requests end up here"
+end
+</code></pre>
+
+<p>The <code>request.body</code> is an IO or StringIO object:</p>
+
+<pre><code class=3D"language-ruby">post "/api" do
+  request.body.rewind  # in case someone already read it
+  data =3D JSON.parse request.body.read
+  "Hello #{data['name']}!"
+end
+</code></pre>
+
+<h3>Attachments</h3>
+
+<p>You can use the <code>attachment</code> helper to tell the browser the r=
+esponse should
+be stored on disk rather than displayed in the browser:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  attachment
+  "store it!"
+end
+</code></pre>
+
+<p>You can also pass it a file name:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  attachment "info.txt"
+  "store it!"
+end
+</code></pre>
+
+<h3>Dealing with Date and Time</h3>
+
+<p>Sinatra offers a <code>time_for</code> helper method that generates a Ti=
+me object from
+the given value. It is also able to convert <code>DateTime</code>, <code>Da=
+te</code> and similar
+classes:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  pass if Time.now &gt; time_for('Dec 23, 2016')
+  "still time"
+end
+</code></pre>
+
+<p>This method is used internally by <code>expires</code>, <code>last_modif=
+ied</code> and akin. You
+can therefore easily extend the behavior of those methods by overriding
+<code>time_for</code> in your application:</p>
+
+<pre><code class=3D"language-ruby">helpers do
+  def time_for(value)
+    case value
+    when :yesterday then Time.now - 24*60*60
+    when :tomorrow  then Time.now + 24*60*60
+    else super
+    end
+  end
+end
+
+get '/' do
+  last_modified :yesterday
+  expires :tomorrow
+  "hello"
+end
+</code></pre>
+
+<h3>Looking Up Template Files</h3>
+
+<p>The <code>find_template</code> helper is used to find template files for=
+ rendering:</p>
+
+<pre><code class=3D"language-ruby">find_template settings.views, 'foo', Til=
+t[:haml] do |file|
+  puts "could be #{file}"
+end
+</code></pre>
+
+<p>This is not really useful. But it is useful that you can actually overri=
+de
+this method to hook in your own lookup mechanism. For instance, if you want
+to be able to use more than one view directory:</p>
+
+<pre><code class=3D"language-ruby">set :views, ['views', 'templates']
+
+helpers do
+  def find_template(views, name, engine, &amp;block)
+    Array(views).each { |v| super(v, name, engine, &amp;block) }
+  end
+end
+</code></pre>
+
+<p>Another example would be using different directories for different engin=
+es:</p>
+
+<pre><code class=3D"language-ruby">set :views, :sass =3D&gt; 'views/sass', =
+:haml =3D&gt; 'templates', :default =3D&gt; 'views'
+
+helpers do
+  def find_template(views, name, engine, &amp;block)
+    _, folder =3D views.detect { |k,v| engine =3D=3D Tilt[k] }
+    folder ||=3D views[:default]
+    super(folder, name, engine, &amp;block)
+  end
+end
+</code></pre>
+
+<p>You can also easily wrap this up in an extension and share with others!<=
+/p>
+
+<p>Note that <code>find_template</code> does not check if the file really e=
+xists but
+rather calls the given block for all possible paths. This is not a
+performance issue, since <code>render</code> will use <code>break</code> as=
+ soon as a file is
+found. Also, template locations (and content) will be cached if you are not
+running in development mode. You should keep that in mind if you write a
+really crazy method.</p>
+
+<h2>Configuration</h2>
+
+<p>Run once, at startup, in any environment:</p>
+
+<pre><code class=3D"language-ruby">configure do
+  # setting one option
+  set :option, 'value'
+
+  # setting multiple options
+  set :a =3D&gt; 1, :b =3D&gt; 2
+
+  # same as `set :option, true`
+  enable :option
+
+  # same as `set :option, false`
+  disable :option
+
+  # you can also have dynamic settings with blocks
+  set(:css_dir) { File.join(views, 'css') }
+end
+</code></pre>
+
+<p>Run only when the environment (<code>APP_ENV</code> environment variable=
+) is set to
+<code>:production</code>:</p>
+
+<pre><code class=3D"language-ruby">configure :production do
+  ...
+end
+</code></pre>
+
+<p>Run when the environment is set to either <code>:production</code> or <c=
+ode>:test</code>:</p>
+
+<pre><code class=3D"language-ruby">configure :production, :test do
+  ...
+end
+</code></pre>
+
+<p>You can access those options via <code>settings</code>:</p>
+
+<pre><code class=3D"language-ruby">configure do
+  set :foo, 'bar'
+end
+
+get '/' do
+  settings.foo? # =3D&gt; true
+  settings.foo  # =3D&gt; 'bar'
+  ...
+end
+</code></pre>
+
+<h3>Configuring attack protection</h3>
+
+<p>Sinatra is using
+<a href=3D"https://github.com/sinatra/rack-protection#readme">Rack::Protect=
+ion</a> to
+defend your application against common, opportunistic attacks. You can
+easily disable this behavior (which will open up your application to tons
+of common vulnerabilities):</p>
+
+<pre><code class=3D"language-ruby">disable :protection
+</code></pre>
+
+<p>To skip a single defense layer, set <code>protection</code> to an option=
+s hash:</p>
+
+<pre><code class=3D"language-ruby">set :protection, :except =3D&gt; :path_t=
+raversal
+</code></pre>
+<p>You can also hand in an array in order to disable a list of protections:=
+</p>
+
+<pre><code class=3D"language-ruby">set :protection, :except =3D&gt; [:path_=
+traversal, :session_hijacking]
+</code></pre>
+
+<p>By default, Sinatra will only set up session based protection if <code>:=
+sessions</code>
+have been enabled. See =E2=80=98Using Sessions=E2=80=99. Sometimes you may =
+want to set up
+sessions =E2=80=9Coutside=E2=80=9D of the Sinatra app, such as in the confi=
+g.ru or with a
+separate <code>Rack::Builder</code> instance. In that case you can still se=
+t up session
+based protection by passing the <code>:session</code> option:</p>
+
+<pre><code class=3D"language-ruby">set :protection, :session =3D&gt; true
+</code></pre>
+
+<h3>Available Settings</h3>
+
+<dl>
+  <dt>absolute_redirects</dt>
+    <dd>
+      If disabled, Sinatra will allow relative redirects, however, Sinatra
+      will no longer conform with RFC 2616 (HTTP 1.1), which only allows
+      absolute redirects.
+    </dd>
+    <dd>
+      Enable if your app is running behind a reverse proxy that has not bee=
+n
+      set up properly. Note that the <tt>url</tt> helper will still produce
+      absolute URLs, unless you pass in <tt>false</tt> as the second
+      parameter.
+    </dd>
+    <dd>Disabled by default.</dd>
+
+  <dt>add_charset</dt>
+    <dd>
+      Mime types the <tt>content_type</tt> helper will automatically add th=
+e
+      charset info to. You should add to it rather than overriding this
+      option: <tt>settings.add_charset &lt;&lt; "application/foobar"</tt>
+    </dd>
+
+  <dt>app_file</dt>
+    <dd>
+      Path to the main application file, used to detect project root, views
+      and public folder and inline templates.
+    </dd>
+
+  <dt>bind</dt>
+    <dd>
+      IP address to bind to (default: <tt>0.0.0.0</tt> <em>or</em>
+      <tt>localhost</tt> if your `environment` is set to development). Only
+      used for built-in server.
+    </dd>
+
+  <dt>default_encoding</dt>
+    <dd>Encoding to assume if unknown (defaults to <tt>"utf-8"</tt>).</dd>
+
+  <dt>dump_errors</dt>
+    <dd>Display errors in the log.</dd>
+
+  <dt>environment</dt>
+    <dd>
+      Current environment. Defaults to <tt>ENV['APP_ENV']</tt>, or
+      <tt>"development"</tt> if not available.
+    </dd>
+
+  <dt>logging</dt>
+    <dd>Use the logger.</dd>
+
+  <dt>lock</dt>
+    <dd>
+      Places a lock around every request, only running processing on reques=
+t
+      per Ruby process concurrently.
+    </dd>
+    <dd>Enabled if your app is not thread-safe. Disabled by default.</dd>
+
+  <dt>method_override</dt>
+    <dd>
+      Use <tt>_method</tt> magic to allow put/delete forms in browsers that
+      don't support it.
+    </dd>
+
+  <dt>mustermann_opts</dt>
+  <dd>
+    A default hash of options to pass to Mustermann.new when compiling rout=
+ing
+    paths.
+  </dd>
+
+  <dt>port</dt>
+    <dd>Port to listen on. Only used for built-in server.</dd>
+
+  <dt>prefixed_redirects</dt>
+    <dd>
+      Whether or not to insert <tt>request.script_name</tt> into redirects
+      if no absolute path is given. That way <tt>redirect '/foo'</tt> would
+        behave like <tt>redirect to('/foo')</tt>. Disabled by default.
+    </dd>
+
+  <dt>protection</dt>
+    <dd>
+      Whether or not to enable web attack protections. See protection secti=
+on
+      above.
+    </dd>
+
+  <dt>public_dir</dt>
+    <dd>Alias for <tt>public_folder</tt>. See below.</dd>
+
+  <dt>public_folder</dt>
+    <dd>
+      Path to the folder public files are served from. Only used if static
+      file serving is enabled (see <tt>static</tt> setting below). Inferred
+      from <tt>app_file</tt> setting if not set.
+    </dd>
+
+  <dt>quiet</dt>
+    <dd>
+      Disables logs generated by Sinatra's start and stop commands.
+      <tt>false</tt> by default.
+    </dd>
+
+  <dt>reload_templates</dt>
+    <dd>
+      Whether or not to reload templates between requests. Enabled in
+      development mode.
+    </dd>
+
+  <dt>root</dt>
+    <dd>
+      Path to project root folder. Inferred from <tt>app_file</tt> setting
+      if not set.
+    </dd>
+
+  <dt>raise_errors</dt>
+    <dd>
+      Raise exceptions (will stop application). Enabled by default when
+      <tt>environment</tt> is set to <tt>"test"</tt>, disabled otherwise.
+    </dd>
+
+  <dt>run</dt>
+    <dd>
+      If enabled, Sinatra will handle starting the web server. Do not
+      enable if using rackup or other means.
+    </dd>
+
+  <dt>running</dt>
+    <dd>Is the built-in server running now? Do not change this setting!</dd=
+>
+
+  <dt>server</dt>
+    <dd>
+      Server or list of servers to use for built-in server. Order indicates
+      priority, default depends on Ruby implementation.
+    </dd>
+
+  <dt>sessions</dt>
+    <dd>
+      Enable cookie-based sessions support using
+      <tt>Rack::Session::Cookie</tt>. See 'Using Sessions' section for more
+      information.
+    </dd>
+
+  <dt>session_store</dt>
+    <dd>
+      The Rack session middleware used. Defaults to
+      <tt>Rack::Session::Cookie</tt>. See 'Using Sessions' section for more
+      information.
+    </dd>
+
+  <dt>show_exceptions</dt>
+    <dd>
+      Show a stack trace in the browser when an exception happens. Enabled =
+by
+      default when <tt>environment</tt> is set to <tt>"development"</tt>,
+      disabled otherwise.
+    </dd>
+    <dd>
+      Can also be set to <tt>:after_handler</tt> to trigger app-specified
+      error handling before showing a stack trace in the browser.
+    </dd>
+
+  <dt>static</dt>
+    <dd>Whether Sinatra should handle serving static files.</dd>
+    <dd>Disable when using a server able to do this on its own.</dd>
+    <dd>Disabling will boost performance.</dd>
+    <dd>
+      Enabled by default in classic style, disabled for modular apps.
+    </dd>
+
+  <dt>static_cache_control</dt>
+    <dd>
+      When Sinatra is serving static files, set this to add
+      <tt>Cache-Control</tt> headers to the responses. Uses the
+      <tt>cache_control</tt> helper. Disabled by default.
+    </dd>
+    <dd>
+      Use an explicit array when setting multiple values:
+      <tt>set :static_cache_control, [:public, :max_age =3D&gt; 300]</tt>
+    </dd>
+
+  <dt>threaded</dt>
+    <dd>
+      If set to <tt>true</tt>, will tell Thin to use
+      <tt>EventMachine.defer</tt> for processing the request.
+    </dd>
+
+  <dt>traps</dt>
+    <dd>Whether Sinatra should handle system signals.</dd>
+
+  <dt>views</dt>
+    <dd>
+      Path to the views folder. Inferred from <tt>app_file</tt> setting if
+      not set.
+    </dd>
+
+  <dt>x_cascade</dt>
+    <dd>
+      Whether or not to set the X-Cascade header if no route matches.
+      Defaults to <tt>true</tt>.
+    </dd>
+</dl>
+
+<h2>Environments</h2>
+
+<p>There are three predefined <code>environments</code>: <code>"development=
+"</code>,
+<code>"production"</code> and <code>"test"</code>. Environments can be set =
+through the
+<code>APP_ENV</code> environment variable. The default value is <code>"deve=
+lopment"</code>.
+In the <code>"development"</code> environment all templates are reloaded be=
+tween
+requests, and special <code>not_found</code> and <code>error</code> handler=
+s display stack
+traces in your browser. In the <code>"production"</code> and <code>"test"</=
+code> environments,
+templates are cached by default.</p>
+
+<p>To run different environments, set the <code>APP_ENV</code> environment =
+variable:</p>
+
+<pre><code class=3D"language-shell">APP_ENV=3Dproduction ruby my_app.rb
+</code></pre>
+
+<p>You can use predefined methods: <code>development?</code>, <code>test?</=
+code> and <code>production?</code> to
+check the current environment setting:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  if settings.development?
+    "development!"
+  else
+    "not development!"
+  end
+end
+</code></pre>
+
+<h2>Error Handling</h2>
+
+<p>Error handlers run within the same context as routes and before filters,
+which means you get all the goodies it has to offer, like <code>haml</code>=
+, <code>erb</code>,
+<code>halt</code>, etc.</p>
+
+<h3>Not Found</h3>
+
+<p>When a <code>Sinatra::NotFound</code> exception is raised, or the respon=
+se=E2=80=99s status
+code is 404, the <code>not_found</code> handler is invoked:</p>
+
+<pre><code class=3D"language-ruby">not_found do
+  'This is nowhere to be found.'
+end
+</code></pre>
+
+<h3>Error</h3>
+
+<p>The <code>error</code> handler is invoked any time an exception is raise=
+d from a route
+block or a filter. But note in development it will only run if you set the
+show exceptions option to <code>:after_handler</code>:</p>
+
+<pre><code class=3D"language-ruby">set :show_exceptions, :after_handler
+</code></pre>
+
+<p>The exception object can be obtained from the <code>sinatra.error</code>=
+ Rack variable:</p>
+
+<pre><code class=3D"language-ruby">error do
+  'Sorry there was a nasty error - ' + env['sinatra.error'].message
+end
+</code></pre>
+
+<p>Custom errors:</p>
+
+<pre><code class=3D"language-ruby">error MyCustomError do
+  'So what happened was...' + env['sinatra.error'].message
+end
+</code></pre>
+
+<p>Then, if this happens:</p>
+
+<pre><code class=3D"language-ruby">get '/' do
+  raise MyCustomError, 'something bad'
+end
+</code></pre>
+
+<p>You get this:</p>
+
+<pre><code>So what happened was... something bad
+</code></pre>
+
+<p>Alternatively, you can install an error handler for a status code:</p>
+
+<pre><code class=3D"language-ruby">error 403 do
+  'Access forbidden'
+end
+
+get '/secret' do
+  403
+end
+</code></pre>
+
+<p>Or a range:</p>
+
+<pre><code class=3D"language-ruby">error 400..510 do
+  'Boom'
+end
+</code></pre>
+
+<p>Sinatra installs special <code>not_found</code> and <code>error</code> h=
+andlers when
+running under the development environment to display nice stack traces
+and additional debugging information in your browser.</p>
+
+<h2>Rack Middleware</h2>
+
+<p>Sinatra rides on <a href=3D"http://rack.github.io/">Rack</a>, a minimal =
+standard
+interface for Ruby web frameworks. One of Rack=E2=80=99s most interesting
+capabilities for application developers is support for =E2=80=9Cmiddleware=
+=E2=80=9D =E2=80=93
+components that sit between the server and your application monitoring
+and/or manipulating the HTTP request/response to provide various types
+of common functionality.</p>
+
+<p>Sinatra makes building Rack middleware pipelines a cinch via a top-level
+<code>use</code> method:</p>
+
+<pre><code class=3D"language-ruby">require 'sinatra'
+require 'my_custom_middleware'
+
+use Rack::Lint
+use MyCustomMiddleware
+
+get '/hello' do
+  'Hello World'
+end
+</code></pre>
+
+<p>The semantics of <code>use</code> are identical to those defined for the
+<a href=3D"http://www.rubydoc.info/github/rack/rack/master/Rack/Builder">Ra=
+ck::Builder</a> DSL
+(most frequently used from rackup files). For example, the <code>use</code>=
+ method
+accepts multiple/variable args as well as blocks:</p>
+
+<pre><code class=3D"language-ruby">use Rack::Auth::Basic do |username, pass=
+word|
+  username =3D=3D 'admin' &amp;&amp; password =3D=3D 'secret'
+end
+</code></pre>
+
+<p>Rack is distributed with a variety of standard middleware for logging,
+debugging, URL routing, authentication, and session handling. Sinatra uses
+many of these components automatically based on configuration so you
+typically don=E2=80=99t have to <code>use</code> them explicitly.</p>
+
+<p>You can find useful middleware in
+<a href=3D"https://github.com/rack/rack/tree/master/lib/rack">rack</a>,
+<a href=3D"https://github.com/rack/rack-contrib#readm">rack-contrib</a>,
+or in the <a href=3D"https://github.com/rack/rack/wiki/List-of-Middleware">=
+Rack wiki</a>.</p>
+
+<h2>Testing</h2>
+
+<p>Sinatra tests can be written using any Rack-based testing library or
+framework.
+<a href=3D"http://www.rubydoc.info/github/brynary/rack-test/master/frames">=
+Rack::Test</a>
+is recommended:</p>
+
+<pre><code class=3D"language-ruby">require 'my_sinatra_app'
+require 'minitest/autorun'
+require 'rack/test'
+
+class MyAppTest &lt; Minitest::Test
+  include Rack::Test::Methods
+
+  def app
+    Sinatra::Application
+  end
+
+  def test_my_default
+    get '/'
+    assert_equal 'Hello World!', last_response.body
+  end
+
+  def test_with_params
+    get '/meet', :name =3D&gt; 'Frank'
+    assert_equal 'Hello Frank!', last_response.body
+  end
+
+  def test_with_user_agent
+    get '/', {}, 'HTTP_USER_AGENT' =3D&gt; 'Songbird'
+    assert_equal "You're using Songbird!", last_response.body
+  end
+end
+</code></pre>
+
+<p>Note: If you are using Sinatra in the modular style, replace
+<code>Sinatra::Application</code> above with the class name of your app.</p=
+>
+
+<h2>Sinatra::Base - Middleware, Libraries, and Modular Apps</h2>
+
+<p>Defining your app at the top-level works well for micro-apps but has
+considerable drawbacks when building reusable components such as Rack
+middleware, Rails metal, simple libraries with a server component, or even
+Sinatra extensions. The top-level assumes a micro-app style configuration
+(e.g., a single application file, <code>./public</code> and <code>./views</=
+code>
+directories, logging, exception detail page, etc.). That=E2=80=99s where
+<code>Sinatra::Base</code> comes into play:</p>
+
+<pre><code class=3D"language-ruby">require 'sinatra/base'
+
+class MyApp &lt; Sinatra::Base
+  set :sessions, true
+  set :foo, 'bar'
+
+  get '/' do
+    'Hello world!'
+  end
+end
+</code></pre>
+
+<p>The methods available to <code>Sinatra::Base</code> subclasses are exact=
+ly the same
+as those available via the top-level DSL. Most top-level apps can be
+converted to <code>Sinatra::Base</code> components with two modifications:<=
+/p>
+
+<ul>
+  <li>Your file should require <code>sinatra/base</code> instead of <code>s=
+inatra</code>;
+otherwise, all of Sinatra=E2=80=99s DSL methods are imported into the main
+namespace.</li>
+  <li>Put your app=E2=80=99s routes, error handlers, filters, and options i=
+n a subclass
+of <code>Sinatra::Base</code>.</li>
+</ul>
+
+<p><code>Sinatra::Base</code> is a blank slate. Most options are disabled b=
+y default,
+including the built-in server. See <a href=3D"http://www.sinatrarb.com/conf=
+iguration.html">Configuring
+Settings</a> for details on
+available options and their behavior. If you want behavior more similar
+to when you define your app at the top level (also known as Classic
+style), you can subclass <code>Sinatra::Application</code>:</p>
+
+<pre><code class=3D"language-ruby">require 'sinatra/base'
+
+class MyApp &lt; Sinatra::Application
+  get '/' do
+    'Hello world!'
+  end
+end
+</code></pre>
+
+<h3>Modular vs. Classic Style</h3>
+
+<p>Contrary to common belief, there is nothing wrong with the classic
+style. If it suits your application, you do not have to switch to a
+modular application.</p>
+
+<p>The main disadvantage of using the classic style rather than the modular
+style is that you will only have one Sinatra application per Ruby
+process. If you plan to use more than one, switch to the modular style.
+There is no reason you cannot mix the modular and the classic styles.</p>
+
+<p>If switching from one style to the other, you should be aware of
+slightly different default settings:</p>
+
+<table>
+  <tbody><tr>
+    <th>Setting</th>
+    <th>Classic</th>
+    <th>Modular</th>
+    <th>Modular</th>
+  </tr>
+
+  <tr>
+    <td>app_file</td>
+    <td>file loading sinatra</td>
+    <td>file subclassing Sinatra::Base</td>
+    <td>file subclassing Sinatra::Application</td>
+  </tr>
+
+  <tr>
+    <td>run</td>
+    <td>$0 =3D=3D app_file</td>
+    <td>false</td>
+    <td>false</td>
+  </tr>
+
+  <tr>
+    <td>logging</td>
+    <td>true</td>
+    <td>false</td>
+    <td>true</td>
+  </tr>
+
+  <tr>
+    <td>method_override</td>
+    <td>true</td>
+    <td>false</td>
+    <td>true</td>
+  </tr>
+
+  <tr>
+    <td>inline_templates</td>
+    <td>true</td>
+    <td>false</td>
+    <td>true</td>
+  </tr>
+
+  <tr>
+    <td>static</td>
+    <td>true</td>
+    <td>File.exist?(public_folder)</td>
+    <td>true</td>
+  </tr>
+</tbody></table>
+
+<h3>Serving a Modular Application</h3>
+
+<p>There are two common options for starting a modular app, actively
+starting with <code>run!</code>:</p>
+
+<pre><code class=3D"language-ruby"># my_app.rb
+require 'sinatra/base'
+
+class MyApp &lt; Sinatra::Base
+  # ... app code here ...
+
+  # start the server if ruby file executed directly
+  run! if app_file =3D=3D $0
+end
+</code></pre>
+
+<p>Start with:</p>
+
+<pre><code class=3D"language-shell">ruby my_app.rb
+</code></pre>
+
+<p>Or with a <code>config.ru</code> file, which allows using any Rack handl=
+er:</p>
+
+<pre><code class=3D"language-ruby"># config.ru (run with rackup)
+require './my_app'
+run MyApp
+</code></pre>
+
+<p>Run:</p>
+
+<pre><code class=3D"language-shell">rackup -p 4567
+</code></pre>
+
+<h3>Using a Classic Style Application with a config.ru</h3>
+
+<p>Write your app file:</p>
+
+<pre><code class=3D"language-ruby"># app.rb
+require 'sinatra'
+
+get '/' do
+  'Hello world!'
+end
+</code></pre>
+
+<p>And a corresponding <code>config.ru</code>:</p>
+
+<pre><code class=3D"language-ruby">require './app'
+run Sinatra::Application
+</code></pre>
+
+<h3>When to use a config.ru?</h3>
+
+<p>A <code>config.ru</code> file is recommended if:</p>
+
+<ul>
+  <li>You want to deploy with a different Rack handler (Passenger, Unicorn,
+Heroku, =E2=80=A6).</li>
+  <li>You want to use more than one subclass of <code>Sinatra::Base</code>.=
+</li>
+  <li>You want to use Sinatra only for middleware, and not as an endpoint.<=
+/li>
+</ul>
+
+<p><strong>There is no need to switch to a <code>config.ru</code> simply be=
+cause you
+switched to the modular style, and you don=E2=80=99t have to use the modula=
+r
+style for running with a <code>config.ru</code>.</strong></p>
+
+<h3>Using Sinatra as Middleware</h3>
+
+<p>Not only is Sinatra able to use other Rack middleware, any Sinatra
+application can in turn be added in front of any Rack endpoint as
+middleware itself. This endpoint could be another Sinatra application,
+or any other Rack-based application (Rails/Hanami/Roda/=E2=80=A6):</p>
+
+<pre><code class=3D"language-ruby">require 'sinatra/base'
+
+class LoginScreen &lt; Sinatra::Base
+  enable :sessions
+
+  get('/login') { haml :login }
+
+  post('/login') do
+    if params['name'] =3D=3D 'admin' &amp;&amp; params['password'] =3D=3D '=
+admin'
+      session['user_name'] =3D params['name']
+    else
+      redirect '/login'
+    end
+  end
+end
+
+class MyApp &lt; Sinatra::Base
+  # middleware will run before filters
+  use LoginScreen
+
+  before do
+    unless session['user_name']
+      halt "Access denied, please &lt;a href=3D'/login'&gt;login&lt;/a&gt;.=
+"
+    end
+  end
+
+  get('/') { "Hello #{session['user_name']}." }
+end
+</code></pre>
+
+<h3>Dynamic Application Creation</h3>
+
+<p>Sometimes you want to create new applications at runtime without having =
+to
+assign them to a constant. You can do this with <code>Sinatra.new</code>:</=
+p>
+
+<pre><code class=3D"language-ruby">require 'sinatra/base'
+my_app =3D Sinatra.new { get('/') { "hi" } }
+my_app.run!
+</code></pre>
+
+<p>It takes the application to inherit from as an optional argument:</p>
+
+<pre><code class=3D"language-ruby"># config.ru (run with rackup)
+require 'sinatra/base'
+
+controller =3D Sinatra.new do
+  enable :logging
+  helpers MyHelpers
+end
+
+map('/a') do
+  run Sinatra.new(controller) { get('/') { 'a' } }
+end
+
+map('/b') do
+  run Sinatra.new(controller) { get('/') { 'b' } }
+end
+</code></pre>
+
+<p>This is especially useful for testing Sinatra extensions or using Sinatr=
+a in
+your own library.</p>
+
+<p>This also makes using Sinatra as middleware extremely easy:</p>
+
+<pre><code class=3D"language-ruby">require 'sinatra/base'
+
+use Sinatra do
+  get('/') { ... }
+end
+
+run RailsProject::Application
+</code></pre>
+
+<h2>Scopes and Binding</h2>
+
+<p>The scope you are currently in determines what methods and variables are
+available.</p>
+
+<h3>Application/Class Scope</h3>
+
+<p>Every Sinatra application corresponds to a subclass of <code>Sinatra::Ba=
+se</code>.
+If you are using the top-level DSL (<code>require 'sinatra'</code>), then t=
+his
+class is <code>Sinatra::Application</code>, otherwise it is the subclass yo=
+u
+created explicitly. At class level you have methods like <code>get</code> o=
+r
+<code>before</code>, but you cannot access the <code>request</code> or <cod=
+e>session</code> objects, as
+there is only a single application class for all requests.</p>
+
+<p>Options created via <code>set</code> are methods at class level:</p>
+
+<pre><code class=3D"language-ruby">class MyApp &lt; Sinatra::Base
+  # Hey, I'm in the application scope!
+  set :foo, 42
+  foo # =3D&gt; 42
+
+  get '/foo' do
+    # Hey, I'm no longer in the application scope!
+  end
+end
+</code></pre>
+
+<p>You have the application scope binding inside:</p>
+
+<ul>
+  <li>Your application class body</li>
+  <li>Methods defined by extensions</li>
+  <li>The block passed to <code>helpers</code>
+</li>
+  <li>Procs/blocks used as value for <code>set</code>
+</li>
+  <li>The block passed to <code>Sinatra.new</code>
+</li>
+</ul>
+
+<p>You can reach the scope object (the class) like this:</p>
+
+<ul>
+  <li>Via the object passed to configure blocks (<code>configure { |c| ... =
+}</code>)</li>
+  <li>
+<code>settings</code> from within the request scope</li>
+</ul>
+
+<h3>Request/Instance Scope</h3>
+
+<p>For every incoming request, a new instance of your application class is
+created, and all handler blocks run in that scope. From within this scope y=
+ou
+can access the <code>request</code> and <code>session</code> objects or cal=
+l rendering methods like
+<code>erb</code> or <code>haml</code>. You can access the application scope=
+ from within the request
+scope via the <code>settings</code> helper:</p>
+
+<pre><code class=3D"language-ruby">class MyApp &lt; Sinatra::Base
+  # Hey, I'm in the application scope!
+  get '/define_route/:name' do
+    # Request scope for '/define_route/:name'
+    @value =3D 42
+
+    settings.get("/#{params['name']}") do
+      # Request scope for "/#{params['name']}"
+      @value # =3D&gt; nil (not the same request)
+    end
+
+    "Route defined!"
+  end
+end
+</code></pre>
+
+<p>You have the request scope binding inside:</p>
+
+<ul>
+  <li>get, head, post, put, delete, options, patch, link and unlink blocks<=
+/li>
+  <li>before and after filters</li>
+  <li>helper methods</li>
+  <li>templates/views</li>
+</ul>
+
+<h3>Delegation Scope</h3>
+
+<p>The delegation scope just forwards methods to the class scope. However, =
+it
+does not behave exactly like the class scope, as you do not have the class
+binding. Only methods explicitly marked for delegation are available, and y=
+ou
+do not share variables/state with the class scope (read: you have a differe=
+nt
+<code>self</code>). You can explicitly add method delegations by calling
+<code>Sinatra::Delegator.delegate :method_name</code>.</p>
+
+<p>You have the delegate scope binding inside:</p>
+
+<ul>
+  <li>The top level binding, if you did <code>require "sinatra"</code>
+</li>
+  <li>An object extended with the <code>Sinatra::Delegator</code> mixin</li=
+>
+</ul>
+
+<p>Have a look at the code for yourself: here=E2=80=99s the
+<a href=3D"https://github.com/sinatra/sinatra/blob/ca06364/lib/sinatra/base=
+.rb#L1609-1633">Sinatra::Delegator mixin</a>
+being <a href=3D"https://github.com/sinatra/sinatra/blob/ca06364/lib/sinatr=
+a/main.rb#L28-30">extending the main object</a>.</p>
+
+<h2>Command Line</h2>
+
+<p>Sinatra applications can be run directly:</p>
+
+<pre><code class=3D"language-shell">ruby myapp.rb [-h] [-x] [-q] [-e ENVIRO=
+NMENT] [-p PORT] [-o HOST] [-s HANDLER]
+</code></pre>
+
+<p>Options are:</p>
+
+<pre><code>-h # help
+-p # set the port (default is 4567)
+-o # set the host (default is 0.0.0.0)
+-e # set the environment (default is development)
+-s # specify rack server/handler (default is thin)
+-q # turn on quiet mode for server (default is off)
+-x # turn on the mutex lock (default is off)
+</code></pre>
+
+<h3>Multi-threading</h3>
+
+<p><em>Paraphrasing from <a href=3D"http://stackoverflow.com/questions/6278=
+817/is-sinatra-multi-threaded/6282999#6282999)">this StackOverflow answer</=
+a> by Konstantin</em></p>
+
+<p>Sinatra doesn=E2=80=99t impose any concurrency model, but leaves that to=
+ the
+underlying Rack handler (server) like Thin, Puma or WEBrick. Sinatra
+itself is thread-safe, so there won=E2=80=99t be any problem if the Rack ha=
+ndler
+uses a threaded model of concurrency. This would mean that when starting
+the server, you=E2=80=99d have to specify the correct invocation method for=
+ the
+specific Rack handler. The following example is a demonstration of how
+to start a multi-threaded Thin server:</p>
+
+<pre><code class=3D"language-ruby"># app.rb
+
+require 'sinatra/base'
+
+class App &lt; Sinatra::Base
+  get '/' do
+    "Hello, World"
+  end
+end
+
+App.run!
+
+</code></pre>
+
+<p>To start the server, the command would be:</p>
+
+<pre><code class=3D"language-shell">thin --threaded start
+</code></pre>
+
+<h2>Requirement</h2>
+
+<p>The following Ruby versions are officially supported:</p>
+<dl>
+  <dt>Ruby 2.2</dt>
+  <dd>
+    2.2 is fully supported and recommended. There are currently no plans to
+    drop official support for it.
+  </dd>
+
+  <dt>Rubinius</dt>
+  <dd>
+    Rubinius is officially supported (Rubinius &gt;=3D 2.x). It is recommen=
+ded to
+    <tt>gem install puma</tt>.
+  </dd>
+
+  <dt>JRuby</dt>
+  <dd>
+    The latest stable release of JRuby is officially supported. It is not
+    recommended to use C extensions with JRuby. It is recommended to
+    <tt>gem install trinidad</tt>.
+  </dd>
+</dl>
+
+<p>Versions of Ruby prior to 2.2.2 are no longer supported as of Sinatra 2.=
+0.</p>
+
+<p>We also keep an eye on upcoming Ruby versions.</p>
+
+<p>The following Ruby implementations are not officially supported but stil=
+l are
+known to run Sinatra:</p>
+
+<ul>
+  <li>Older versions of JRuby and Rubinius</li>
+  <li>Ruby Enterprise Edition</li>
+  <li>MacRuby, Maglev, IronRuby</li>
+  <li>Ruby 1.9.0 and 1.9.1 (but we do recommend against using those)</li>
+</ul>
+
+<p>Not being officially supported means if things only break there and not =
+on a
+supported platform, we assume it=E2=80=99s not our issue but theirs.</p>
+
+<p>We also run our CI against ruby-head (future releases of MRI), but we
+can=E2=80=99t guarantee anything, since it is constantly moving. Expect upc=
+oming
+2.x releases to be fully supported.</p>
+
+<p>Sinatra should work on any operating system supported by the chosen Ruby
+implementation.</p>
+
+<p>If you run MacRuby, you should <code>gem install control_tower</code>.</=
+p>
+
+<p>Sinatra currently doesn=E2=80=99t run on Cardinal, SmallRuby, BlueRuby o=
+r any
+Ruby version prior to 2.2.</p>
+
+<h2>The Bleeding Edge</h2>
+
+<p>If you would like to use Sinatra=E2=80=99s latest bleeding-edge code, fe=
+el free
+to run your application against the master branch, it should be rather
+stable.</p>
+
+<p>We also push out prerelease gems from time to time, so you can do a</p>
+
+<pre><code class=3D"language-shell">gem install sinatra --pre
+</code></pre>
+
+<p>to get some of the latest features.</p>
+
+<h3>With Bundler</h3>
+
+<p>If you want to run your application with the latest Sinatra, using
+<a href=3D"http://bundler.io/">Bundler</a> is the recommended way.</p>
+
+<p>First, install bundler, if you haven=E2=80=99t:</p>
+
+<pre><code class=3D"language-shell">gem install bundler
+</code></pre>
+
+<p>Then, in your project directory, create a <code>Gemfile</code>:</p>
+
+<pre><code class=3D"language-ruby">source 'https://rubygems.org'
+gem 'sinatra', :github =3D&gt; 'sinatra/sinatra'
+
+# other dependencies
+gem 'haml'                    # for instance, if you use haml
+</code></pre>
+
+<p>Note that you will have to list all your application=E2=80=99s dependenc=
+ies in
+the <code>Gemfile</code>. Sinatra=E2=80=99s direct dependencies (Rack and T=
+ilt) will,
+however, be automatically fetched and added by Bundler.</p>
+
+<p>Now you can run your app like this:</p>
+
+<pre><code class=3D"language-shell">bundle exec ruby myapp.rb
+</code></pre>
+
+<h2>Versioning</h2>
+
+<p>Sinatra follows <a href=3D"http://semver.org/">Semantic Versioning</a>, =
+both SemVer and
+SemVerTag.</p>
+
+
+
+<ul>
+ =20
+ =20
+ =20
+ =20
+ =20
+ =20
+ =20
+ =20
+ =20
+ =20
+ =20
+</ul>
+
+
+
+        </div>
+        <div id=3D"foot">
+        </div>
+      </div>
+    </div>
+ =20
+
+<iframe frameborder=3D"0" id=3D"dotepub_iframe" style=3D"position: absolute=
+; top: 0px; right: 0px; width: 0pt; height: 0pt;"></iframe></body></html>
+------MultipartBoundary--qja3FVW1R5LkrjMVyPIg8wrlOfLf9Ne7JR2VJQPT58----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://sinatrarb.com/sinatra.github.com/css/application.css
+
+@charset "utf-8";
+
+#content, h1 code, h2 code, h3 code, h4 code, pre { color: rgb(17, 17, 17);=
+ }
+
+body, code, pre code, tt { color: rgb(34, 34, 34); }
+
+#sinatra-joke span, h1, h2, h3 { letter-spacing: -1px; }
+
+#head ul, #index-header { text-align: center; letter-spacing: 2px; }
+
+#hidden-navbar a, .toc a, a, a:hover, div.post h1 a { text-decoration: none=
+; }
+
+#head ul, h1 { text-transform: uppercase; }
+
+#about li, #head ul li, .toc .level-2 { list-style-type: none; }
+
+.highlight .c, .highlight .c1, .highlight .cs, .highlight .ge { font-style:=
+ italic; }
+
+body { font-family: "Lucida Grande", "Lucida Sans", Tahoma, "Ubuntu sans-se=
+rif"; font-size: 100%; line-height: 1.25; background-color: rgb(250, 250, 2=
+50); margin: 0px; padding: 0px; }
+
+#head ul, code, pre, tt { font-family: "lucida console", monaco, "andale mo=
+no", "bitstream vera sans mono", consolas, monospace; }
+
+#head ul, h3 code { font-size: 1.1em; }
+
+.toc, pre { line-height: 1.15; }
+
+#head img { vertical-align: middle; border: 0px; box-sizing: border-box; }
+
+#head ul { font-weight: 400; margin: 0px; padding: 8px 40px 0.25em; }
+
+#content { min-width: 27em; margin: 7px auto; padding-top: 10px; }
+
+h1, h1 a, h2, h2 a, h3, h3 a, h4, h5, h6 { color: rgb(0, 0, 0); }
+
+h1 { margin-bottom: 0px; }
+
+h2 { margin: 1.25em 0px -0.32em; }
+
+h3 { margin: 1.8em 0px -0.25em; }
+
+code, pre, tt { font-size: 0.85em; }
+
+a img { border: none; }
+
+a.out { background: url("/images/link-out.gif") right center no-repeat; pad=
+ding-right: 12px; }
+
+pre { background: rgb(244, 245, 245); padding: 0.5em; border: 1px solid rgb=
+(213, 208, 210); overflow: hidden; }
+
+.toc, pre code { font-size: 1em; }
+
+.toc { background: rgb(244, 245, 245); border: 1px solid rgb(213, 208, 210)=
+; color: rgb(17, 17, 17); top: -3.5em; }
+
+#sinatra-bg pre, .CodeRay span, .highlight code, .highlight span, .toc li, =
+ul li { line-height: 1.5em; }
+
+.toc .level-1 { padding-left: 2em; font-size: 0.8em; position: relative; to=
+p: -0.1em; }
+
+.toc .level-2 { font-weight: 400; padding-left: 1em; }
+
+.highlight .cs, .highlight .k, .highlight .kp, .highlight .nc, .highlight .=
+o, .toc .level-1 > li a, body#about #content a, body#about #content strong =
+{ font-weight: 700; }
+
+.toc .level-1 > li { margin: 0.05em; }
+
+.toc .level-1 > li a { font-size: 1.25em; position: relative; top: 0.1em; }
+
+.toc h2 { padding-top: 0px; margin-top: 0px; }
+
+div.post { margin: 4em 0px; }
+
+div.post:first-child { margin: 2em 0px; }
+
+div.post:last-child { margin: 2em 0px 4.5em; }
+
+#book .maruku_toc { margin: 1em 0px; }
+
+#book .maruku_toc ul:first-child { padding-left: 0px; }
+
+#book pre { overflow: auto; }
+
+h2 code.highlighter-rouge, h3 code.highlighter-rouge, p code.highlighter-ro=
+uge { background-color: rgb(233, 246, 255); border: 1px solid rgb(222, 242,=
+ 254); text-shadow: rgb(255, 255, 255) 0px 1px 0px; }
+
+h2 code.highlighter-rouge, h3 code.highlighter-rouge { padding: 4px; color:=
+ rgb(86, 83, 79); }
+
+p code.highlighter-rouge { padding: 3px; color: rgb(74, 72, 68); }
+
+html { box-sizing: border-box; }
+
+*, ::after, ::before { box-sizing: inherit; }
+
+@font-face { font-family: anonymous_probold; src: url("fonts/anonymous-pro/=
+anonymous_pro_b.woff2") format("woff2"), url("fonts/anonymous-pro/anonymous=
+_pro_b.woff") format("woff"); font-weight: 400; font-style: normal; }
+
+@font-face { font-family: anonymous_probold_italic; src: url("fonts/anonymo=
+us-pro/anonymous_pro_bi.woff2") format("woff2"), url("fonts/anonymous-pro/a=
+nonymous_pro_bi.woff") format("woff"); font-weight: 400; font-style: normal=
+; }
+
+@font-face { font-family: anonymous_proitalic; src: url("fonts/anonymous-pr=
+o/anonymous_pro_i.woff2") format("woff2"), url("fonts/anonymous-pro/anonymo=
+us_pro_i.woff") format("woff"); font-weight: 400; font-style: normal; }
+
+@font-face { font-family: anonymous_proregular; src: url("fonts/anonymous-p=
+ro/anonymous_pro.woff2") format("woff2"), url("fonts/anonymous-pro/anonymou=
+s_pro.woff") format("woff"); font-weight: 400; font-style: normal; }
+
+#content, #grid-wrapper { max-width: 1200px; margin-left: auto; margin-righ=
+t: auto; }
+
+#content::after, #grid-wrapper::after { clear: both; content: ""; display: =
+table; }
+
+@media screen and (min-width: 1000px) {
+  #content { margin-left: 20.2583%; float: left; display: block; margin-rig=
+ht: 2.35765%; width: 59.4834%; }
+  #content:last-child { margin-right: 0px; }
+}
+
+@media screen and (max-width: 600px) {
+  #content { margin-left: 2.55894%; float: left; display: block; margin-rig=
+ht: 7.42297%; width: 94.6288%; }
+  #content:last-child { margin-right: 0px; }
+}
+
+@media screen and (max-width: 999px) and (min-width: 600px) {
+  #content { margin-left: 8.05672%; float: left; display: block; margin-rig=
+ht: 4.82916%; width: 83.0526%; }
+  #content:last-child { margin-right: 0px; }
+}
+
+#navbar, .index-navbar #navbar { display: flex; -webkit-box-pack: center; j=
+ustify-content: center; }
+
+.index-navbar .nav-list-item, .nav-list-item { -webkit-box-flex: 1; flex-gr=
+ow: 1; margin-top: 15px; }
+
+.index-navbar li#nav-logo, li#nav-logo { -webkit-box-flex: 6; flex-grow: 6;=
+ }
+
+#hidden-navbar a, #navbar a, .index-navbar #navbar a { font-size: 1.1em; co=
+lor: rgb(86, 83, 79); }
+
+#hidden-navbar a:hover, #navbar a:hover, .index-navbar #navbar a:hover { co=
+lor: rgb(58, 153, 216); }
+
+#navbar, .index-navbar #navbar { background: rgb(255, 255, 255); flex-shrin=
+k: 0; }
+
+@media screen and (max-width: 1180px) {
+  .index-navbar .nav-list-item, .nav-list-item { margin-top: 50px; }
+  #navbar, .index-navbar #navbar { background-color: rgba(255, 255, 255, 0)=
+; }
+}
+
+#navbar img, .index-navbar #navbar img { margin-top: -15px; }
+
+#navbar img:hover, .index-navbar #navbar img:hover { opacity: 0.7; }
+
+#navbar a, .index-navbar #navbar a { font-family: anonymous_probold, "Helve=
+tica Neue", Helvetica, Roboto, Arial, sans-serif; text-decoration: none; }
+
+.nav-list-item { visibility: visible; }
+
+#hidden-navbar { display: flex; -webkit-box-orient: vertical; -webkit-box-d=
+irection: normal; flex-direction: column; -webkit-box-pack: end; justify-co=
+ntent: flex-end; background-color: rgb(237, 237, 237); }
+
+#hidden-navbar li { -webkit-box-flex: 2; flex-grow: 2; align-self: flex-end=
+; margin-right: 12px; padding-bottom: 15px; }
+
+#hidden-navbar a { font-family: "Helvetica Neue", Helvetica, Roboto, Arial,=
+ sans-serif; }
+
+#index-header, #sinatra-description, #sinatra-syntax { font-family: anonymo=
+us_proregular, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; }
+
+.index-navbar #hidden-navbar, .index-navbar .hidden-nav-list-item { display=
+: none; }
+
+@media screen and (max-width: 1180px) {
+  .index-navbar #navbar { -webkit-box-pack: justify; justify-content: space=
+-between; -webkit-box-orient: vertical; -webkit-box-direction: normal; flex=
+-direction: column; }
+  .index-navbar #navbar a { font-size: 5em; }
+}
+
+@media screen and (max-width: 777px) {
+  .index-navbar #navbar a { font-size: 3em; }
+}
+
+@media screen and (max-width: 500px) {
+  .index-navbar #navbar a { font-size: 2.3em; }
+}
+
+@media screen and (max-width: 1000px) {
+  .nav-list-item { visibility: hidden; }
+  #navbar { -webkit-box-pack: end; justify-content: flex-end; }
+  .index-navbar #navbar li { visibility: visible; }
+  .index-navbar #nav-logo { display: inline; }
+  #nav-logo { display: none; }
+}
+
+#hidden-navbar-wrapper, .index-navbar #toggle-nav-logo, li#toggle-nav-logo =
+{ display: none; }
+
+@media screen and (max-width: 1000px) {
+  li#toggle-nav-logo { display: inline; visibility: visible; }
+}
+
+@media screen and (min-width: 1001px) {
+  #hidden-navbar-wrapper { display: none; }
+}
+
+#sinatra-bg { background-image: url("/sinatra.github.com/images/sinatra-pre=
+-svg.gif"); background-repeat: no-repeat; }
+
+@media screen and (max-width: 920px) {
+  #sinatra-bg { background-size: 150%; }
+}
+
+#sinatra-bg pre { border: none; font-size: 1.6em; height: 100%; }
+
+@media screen and (max-width: 1180px) {
+  .index-navbar #nav-logo { order: -9; }
+  #sinatra-bg pre { height: 120%; }
+  #sinatra-joke { display: none; }
+}
+
+@media screen and (max-width: 777px) {
+  #sinatra-bg pre { height: 100%; }
+}
+
+#sinatra-description { text-align: center; }
+
+#sinatra-joke { background-color: rgba(251, 251, 251, 0); margin-top: 0px; =
+margin-bottom: 0px; }
+
+#sinatra-syntax { display: inline-block; text-align: left; }
+
+#syntax-wrapper { text-align: center; }
+
+#require { color: rgb(232, 102, 82); }
+
+#code-method-name { color: rgb(152, 149, 153); }
+
+.code-quotes { color: rgb(226, 78, 61); }
+
+.code-text { color: rgb(95, 196, 194); }
+
+.code-block { color: rgb(150, 167, 0); }
+
+#index-header { margin-top: 0.9em; font-size: 7.2em; color: rgb(88, 85, 81)=
+; }
+
+@media screen and (max-width: 1180px) {
+  #index-header, #sinatra-syntax { display: none; }
+}
+
+span#s { letter-spacing: -0.07em; }
+
+span#i { letter-spacing: -0.05em; }
+
+span#n { letter-spacing: 0.03em; }
+
+span#a { letter-spacing: -0.03em; }
+
+span#r { letter-spacing: 0.05em; }
+
+a, h1 a, h3 a { color: rgb(58, 153, 216); }
+
+a:hover, h1 a:hover, h3 a:hover { color: rgb(47, 129, 183); }
+
+a:hover { border-bottom: 1px solid rgb(47, 129, 183); }
+
+#hidden-navbar a, #hidden-navbar a:hover, #navbar a, #navbar a:hover, .toc =
+a, .toc a:hover, h1 a, h1 a:hover, h3 a, h3 a:hover { border-bottom: none; =
+}
+
+h1, h2, h3, h4, h5 { color: rgb(86, 83, 79); font-family: anonymous_probold=
+, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; }
+
+h1 { font-size: 2.5em; line-height: 1em; }
+
+h2 { font-size: 1.8em; }
+
+h3 { font-size: 1.4em; }
+
+h4 { font-size: 1.2em; }
+
+h3 a { padding-bottom: 2px; }
+
+#blog h1 { text-transform: none; margin-bottom: 0.4em; }
+
+#sinatra-syntax h1 { line-height: 0; }
+
+p, p.meta { font-family: fira, "Helvetica Neue", Helvetica, Roboto, Arial, =
+sans-serif; font-size: 1em; color: rgb(86, 83, 79); line-height: 1.5em; }
+
+#about #content li { margin-bottom: 0.6em; }
+
+#about #content li::before { content: "<3 "; color: rgb(255, 20, 147); }
+
+.highlight { background: rgb(255, 255, 255); }
+
+.highlight .c { color: rgb(153, 153, 136); }
+
+.highlight .err { color: rgb(166, 23, 23); background-color: rgb(227, 210, =
+210); }
+
+.highlight .c1 { color: rgb(153, 153, 136); }
+
+.highlight .cs { color: rgb(153, 153, 153); }
+
+.highlight .gr { color: rgb(170, 0, 0); }
+
+.highlight .go { color: rgb(136, 136, 136); }
+
+.highlight .gt { color: rgb(170, 0, 0); }
+
+.highlight .m { color: rgb(0, 153, 153); }
+
+.highlight .s { color: rgb(68, 68, 68); }
+
+.highlight .na { color: teal; }
+
+.highlight .nb { color: rgb(0, 134, 179); }
+
+.highlight .nc { color: rgb(68, 85, 136); }
+
+.highlight .no { color: teal; }
+
+.highlight .ni { color: purple; }
+
+.highlight .ne, .highlight .nf { color: rgb(153, 0, 0); font-weight: 700; }
+
+.highlight .nn { color: rgb(85, 85, 85); }
+
+.highlight .nt { color: navy; }
+
+.highlight .w { color: rgb(187, 187, 187); }
+
+.highlight .mi, .highlight .mo { color: rgb(0, 153, 153); }
+
+.highlight .s2, .highlight .sd, .highlight .se, .highlight .si { color: rgb=
+(68, 68, 68); }
+
+.highlight .sr { color: rgb(0, 153, 38); }
+
+.highlight .s1 { color: rgb(68, 68, 68); }
+
+.highlight .ss { color: rgb(153, 0, 115); }
+
+.highlight .il { color: rgb(0, 153, 153); }
+------MultipartBoundary--qja3FVW1R5LkrjMVyPIg8wrlOfLf9Ne7JR2VJQPT58----
+Content-Type: font/woff2
+Content-Transfer-Encoding: base64
+Content-Location: http://sinatrarb.com/css/fonts/anonymous-pro/anonymous_pro_b.woff2
+
+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
+
+------MultipartBoundary--qja3FVW1R5LkrjMVyPIg8wrlOfLf9Ne7JR2VJQPT58----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://sinatrarb.com/sinatra.github.com/css/print.css
+
+@charset "utf-8";
+
+a, body { color: rgb(0, 0, 0); }
+
+#head, #head ul { text-align: center; }
+
+#head h1, #head ul { font-weight: 400; margin: 0px; }
+
+h2, h3 { letter-spacing: -0.05em; }
+
+#head ul a:hover, a, h3 a { text-decoration: underline; }
+
+body { background: rgb(255, 255, 255); font-size: 85%; font-family: Helveti=
+ca, sans-serif; line-height: 130%; margin: 0.5cm; }
+
+a img { border: none; }
+
+#head img { vertical-align: middle; margin: -10px 0px 0px -82px; padding: 0=
+px 15px 0px 0px; border: 0px; }
+
+#head h1 { color: rgb(23, 37, 51); font-family: Georgia, "Times New Roman",=
+ "bitstream vera serif", serif; font-size: 500%; letter-spacing: -0.1em; li=
+ne-height: 1; padding: 20px 0px 16px; }
+
+#head h1 a, #head h1 a:hover, #head h1 a:link, #head h1 a:visited { color: =
+rgb(23, 37, 51); text-decoration: none; }
+
+#head ul { font-size: 1.1em; font-family: "Lucida Grande", "lucida sans uni=
+cade", Verdana, sans-serif; text-transform: uppercase; padding: 0px 40px 10=
+px; }
+
+#head ul li { display: inline; list-style-type: none; padding: 0px 1.5em 0p=
+x 0px; }
+
+#head ul a, #head ul a:link, #head ul a:visited { color: rgb(29, 46, 64); t=
+ext-decoration: none; }
+
+#head ul a:hover { color: rgb(14, 28, 41); }
+
+h2 { font-size: 1.5em; padding: 1.15em 0px 0px; margin: 1.25em 0px 0.25em; =
+border-top: 1mm solid rgb(153, 153, 153); }
+
+h3 { font-size: 1.1em; font-weight: 700; margin: 1.8em 0px 0.25em; }
+
+pre { border: 1pt solid rgb(204, 204, 204); padding: 0.5em; white-space: pr=
+e-wrap; }
+------MultipartBoundary--qja3FVW1R5LkrjMVyPIg8wrlOfLf9Ne7JR2VJQPT58----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://code.cdn.mozilla.net/fonts/fira.css
+
+@charset "utf-8";
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Hair"), url("e=
+ot/FiraSans-Hair.eot") format("embedded-opentype"), url("woff/FiraSans-Hair=
+.woff") format("woff"), url("ttf/FiraSans-Hair.ttf") format("truetype"); fo=
+nt-weight: 100; font-style: normal; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Hair Italic"),=
+ url("eot/FiraSans-HairItalic.eot") format("embedded-opentype"), url("woff/=
+FiraSans-HairItalic.woff") format("woff"), url("ttf/FiraSans-HairItalic.ttf=
+") format("truetype"); font-weight: 100; font-style: italic; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans UltraLight"), =
+url("eot/FiraSans-UltraLight.eot") format("embedded-opentype"), url("woff/F=
+iraSans-UltraLight.woff") format("woff"), url("ttf/FiraSans-UltraLight.ttf"=
+) format("truetype"); font-weight: 200; font-style: normal; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans UltraLight Ita=
+lic"), url("eot/FiraSans-UltraLightItalic.eot") format("embedded-opentype")=
+, url("woff/FiraSans-UltraLightItalic.woff") format("woff"), url("ttf/FiraS=
+ans-UltraLightItalic.ttf") format("truetype"); font-weight: 200; font-style=
+: italic; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Light"), url("=
+eot/FiraSans-Light.eot") format("embedded-opentype"), url("woff/FiraSans-Li=
+ght.woff") format("woff"), url("ttf/FiraSans-Light.ttf") format("truetype")=
+; font-weight: 300; font-style: normal; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Light Italic")=
+, url("eot/FiraSans-LightItalic.eot") format("embedded-opentype"), url("wof=
+f/FiraSans-LightItalic.woff") format("woff"), url("ttf/FiraSans-LightItalic=
+.ttf") format("truetype"); font-weight: 300; font-style: italic; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Regular"), url=
+("eot/FiraSans-Regular.eot") format("embedded-opentype"), url("woff/FiraSan=
+s-Regular.woff") format("woff"), url("ttf/FiraSans-Regular.ttf") format("tr=
+uetype"); font-weight: 400; font-style: normal; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Regular Italic=
+"), url("eot/FiraSans-Italic.eot") format("embedded-opentype"), url("woff/F=
+iraSans-Italic.woff") format("woff"), url("ttf/FiraSans-Italic.ttf") format=
+("truetype"); font-weight: 400; font-style: italic; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Medium"), url(=
+"eot/FiraSans-Medium.eot") format("embedded-opentype"), url("woff/FiraSans-=
+Medium.woff") format("woff"), url("ttf/FiraSans-Medium.ttf") format("truety=
+pe"); font-weight: 500; font-style: normal; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Medium Italic"=
+), url("eot/FiraSans-MediumItalic.eot") format("embedded-opentype"), url("w=
+off/FiraSans-MediumItalic.woff") format("woff"), url("ttf/FiraSans-MediumIt=
+alic.ttf") format("truetype"); font-weight: 500; font-style: italic; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans SemiBold"), ur=
+l("eot/FiraSans-SemiBold.eot") format("embedded-opentype"), url("woff/FiraS=
+ans-SemiBold.woff") format("woff"), url("ttf/FiraSans-SemiBold.ttf") format=
+("truetype"); font-weight: 600; font-style: normal; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans SemiBold Itali=
+c"), url("eot/FiraSans-SemiBoldItalic.eot") format("embedded-opentype"), ur=
+l("woff/FiraSans-SemiBoldItalic.woff") format("woff"), url("ttf/FiraSans-Se=
+miBoldItalic.ttf") format("truetype"); font-weight: 600; font-style: italic=
+; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Bold"), url("e=
+ot/FiraSans-Bold.eot") format("embedded-opentype"), url("woff/FiraSans-Bold=
+.woff") format("woff"), url("ttf/FiraSans-Bold.ttf") format("truetype"); fo=
+nt-weight: 700; font-style: normal; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Bold Italic"),=
+ url("eot/FiraSans-BoldItalic.eot") format("embedded-opentype"), url("woff/=
+FiraSans-BoldItalic.woff") format("woff"), url("ttf/FiraSans-BoldItalic.ttf=
+") format("truetype"); font-weight: 700; font-style: italic; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans ExtraBold"), u=
+rl("eot/FiraSans-ExtraBold.eot") format("embedded-opentype"), url("woff/Fir=
+aSans-ExtraBold.woff") format("woff"), url("ttf/FiraSans-ExtraBold.ttf") fo=
+rmat("truetype"); font-weight: 800; font-style: normal; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans ExtraBold Ital=
+ic"), url("eot/FiraSans-ExtraBoldItalic.eot") format("embedded-opentype"), =
+url("woff/FiraSans-ExtraBoldItalic.woff") format("woff"), url("ttf/FiraSans=
+-ExtraBoldItalic.ttf") format("truetype"); font-weight: 800; font-style: it=
+alic; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Heavy"), url("=
+eot/FiraSans-Heavy.eot") format("embedded-opentype"), url("woff/FiraSans-He=
+avy.woff") format("woff"), url("ttf/FiraSans-Heavy.ttf") format("truetype")=
+; font-weight: 900; font-style: normal; }
+
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Heavy Italic")=
+, url("eot/FiraSans-HeavyItalic.eot") format("embedded-opentype"), url("wof=
+f/FiraSans-HeavyItalic.woff") format("woff"), url("ttf/FiraSans-HeavyItalic=
+.ttf") format("truetype"); font-weight: 900; font-style: italic; }
+
+@font-face { font-family: "Fira Mono"; src: local("Fira Mono"), url("eot/Fi=
+raMono-Regular.eot") format("embedded-opentype"), url("woff/FiraMono-Regula=
+r.woff") format("woff"), url("ttf/FiraMono-Regular.ttf") format("truetype")=
+; font-weight: 400; font-style: normal; }
+
+@font-face { font-family: "Fira Mono"; src: local("Fira Mono Bold"), url("e=
+ot/FiraMono-Bold.eot") format("embedded-opentype"), url("woff/FiraMono-Bold=
+.woff") format("woff"), url("ttf/FiraMono-Bold.ttf") format("truetype"); fo=
+nt-weight: 600; font-style: normal; }
+------MultipartBoundary--qja3FVW1R5LkrjMVyPIg8wrlOfLf9Ne7JR2VJQPT58----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://dotepub.com/s/dotEPUB-favlet.css
+
+@charset "utf-8";
+
+#dotepub { display: block !important; left: 0px !important; top: 0px !impor=
+tant; z-index: 2147483647 !important; width: 100% !important; text-align: c=
+enter !important; position: fixed !important; box-shadow: rgba(0, 0, 0, 0.4=
+) 0px 0px 20px !important; }
+
+#dotepub #status { display: block !important; background: url("//dotepub.co=
+m/i/dotepub.png") left top no-repeat rgb(213, 238, 171) !important; height:=
+ 32px !important; border-bottom: 1px solid rgb(133, 186, 37) !important; }
+
+#dotepub #status p { display: block !important; text-align: center !importa=
+nt; margin: 0px !important; padding: 5px 0px !important; font-family: Georg=
+ia, serif !important; font-size: 14px !important; font-weight: bold !import=
+ant; color: rgb(0, 0, 0) !important; }
+
+#dotepub #status div { display: block !important; text-align: right !import=
+ant; margin-top: -18px !important; margin-right: 5px !important; font-famil=
+y: Verdana, sans-serif !important; font-size: 11px !important; color: rgb(0=
+, 0, 0) !important; }
+
+#dotepub #status p input { margin: 3px 3px 0px 5px !important; vertical-ali=
+gn: baseline !important; }
+
+#dotepub #status p input[type=3D"radio"] { -webkit-appearance: radio !impor=
+tant; }
+
+#dotEPUBparamepub, #dotEPUBparammobi { -webkit-appearance: radio !important=
+; font-size: 14px !important; }
+
+#dotepub #status p label { display: inline !important; font-weight: normal =
+!important; color: rgb(0, 0, 0) !important; font-size: 14px !important; }
+
+#dotepub #status p label:hover { text-decoration: underline !important; cur=
+sor: pointer !important; }
+
+#dotepub #status p a { display: inline !important; color: rgb(0, 0, 0) !imp=
+ortant; padding-left: 30px !important; text-decoration: underline !importan=
+t; cursor: pointer !important; font-weight: normal !important; font-style: =
+italic !important; font-size: 14px !important; }
+
+#dotEPUB_info { display: block !important; text-align: right !important; ma=
+rgin-top: -22px !important; margin-right: 5px !important; font-family: Verd=
+ana, sans-serif !important; font-size: 11px !important; }
+------MultipartBoundary--qja3FVW1R5LkrjMVyPIg8wrlOfLf9Ne7JR2VJQPT58----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://dotepub.com/i/dotepub.png
+
+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
+
+------MultipartBoundary--qja3FVW1R5LkrjMVyPIg8wrlOfLf9Ne7JR2VJQPT58----
+Content-Type: text/html
+Content-ID: <frame-453341AC8251F04EEE286853B5191966@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://sinatrarb.com/intro.html
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=3DUTF-8"></head><body></body></html>
+------MultipartBoundary--qja3FVW1R5LkrjMVyPIg8wrlOfLf9Ne7JR2VJQPT58------
