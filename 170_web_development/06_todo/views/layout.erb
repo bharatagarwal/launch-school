@@ -11,6 +11,17 @@
     <header>
       <h1>Todo Tracker</h1>
     </header>
+
+    <% if session[:error] %>
+      <div class="flash error">
+        <p><%= session.delete(:error) %></p>
+      </div>
+    <% elsif session[:success] %>
+      <div class="flash success">
+        <p><%= session.delete(:success) %></p>
+      </div>
+    <% end %>
+
     <main>
       <%= yield %>
     </main>
