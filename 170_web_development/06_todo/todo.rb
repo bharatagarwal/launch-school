@@ -29,14 +29,18 @@ end
 # Create a new list
 post "/lists" do
   list_name = params[:list_name].strip
-  if (1..100).cover?(list_name.size)
+
+  if !(1..100).cover?(list_name.size)
+    # when there is an error we re-render the page so that we have access
+    # to the params set in current route so we can fix them.
+    session[:error] = "The list name must be between 1 and 100 characters."
+    erb :new_list, layout: :layout
+  elsif session[:lists].any? { |list| list[:name] == list_name }
+    session[:error] = "List name must be unique."
+    erb :new_list, layout: :layout
+  else
     session[:lists] << { name: params[:list_name], todos: [] }
     session[:success] = "The list has been created."
     redirect '/lists'
-  else
-    session[:error] = "The list name must be between 1 and 100 characters."
-    # when there is an error we re-render the page so that we have access
-    # to the params set in current route so we can fix them.
-    erb :new_list, layout: :layout
   end
 end
