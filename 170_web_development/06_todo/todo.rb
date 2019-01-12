@@ -29,27 +29,23 @@ helpers do
     list[:todos].count { |todo| todo[:completed] == false }
   end
 
+  # algorith with partition
   def sort_lists(lists)
-    incomplete_lists = {}
-    complete_lists = {}
-    
-    lists.each_with_index do |list, index|
-      if list_complete?(list)
-        complete_lists[index] = list
-      else
-        incomplete_lists[index] = list
-      end
+    complete_lists, incomplete_lists = 
+      lists.partition { |list| list_complete?(list) }
+
+    incomplete_lists.each do |list|
+      yield(list, lists.index(list))
     end
 
-    incomplete_lists.each do |index, list|
-      yield(list, index)
-    end
-
-    complete_lists.each do |index, list|
-      yield(list, index)
+    complete_lists.each do |list|
+      yield(list, lists.index(list))
     end
   end  
 
+# algorithm with iteration; left here in this way for demonstration.
+# better practice might be to make it more consistent.
+# this is more of an academic choice.
   def sort_todos(todos)
     incomplete_todos = {}
     complete_todos = {}
