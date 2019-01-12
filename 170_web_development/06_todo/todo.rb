@@ -28,6 +28,48 @@ helpers do
   def todos_remaining_count(list)
     list[:todos].count { |todo| todo[:completed] == false }
   end
+
+  def sort_lists(lists)
+    incomplete_lists = {}
+    complete_lists = {}
+    
+    lists.each_with_index do |list, index|
+      if list_complete?(list)
+        complete_lists[index] = list
+      else
+        incomplete_lists[index] = list
+      end
+    end
+
+    incomplete_lists.each do |index, list|
+      yield(list, index)
+    end
+
+    complete_lists.each do |index, list|
+      yield(list, index)
+    end
+  end  
+
+  def sort_todos(todos)
+    incomplete_todos = {}
+    complete_todos = {}
+
+    todos.each_with_index do |todo, index|
+      if todo[:completed]
+        complete_todos[index] = todo
+      else
+        incomplete_todos[index] = todo
+      end
+    end
+
+    incomplete_todos.each do |index, todo|
+      yield(todo, index)
+    end
+  
+    complete_todos.each do |index, todo|
+      yield(todo, index)
+    end
+  end
 end
 
 get '/' do
