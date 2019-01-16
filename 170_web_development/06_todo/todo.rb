@@ -87,7 +87,7 @@ def error_for_todo(name)
 end
 
 def next_element_id(elements)
-  max = elements.man{ |element| element[:id] }.max || 0
+  max = elements.map{ |element| element[:id] }.max || 0
   max + 1
 end
 
