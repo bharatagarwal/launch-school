@@ -126,7 +126,6 @@ end
 
 get '/lists/:id' do
   @list_id = params[:id].to_i
-  p session[:lists].class
   @list = load_list(@list_id)
   erb :list, layout: :layout
 end
@@ -202,7 +201,6 @@ post "/lists/:list_id/todos/:id/destroy" do
   todo_id = params[:id].to_i
   @list[:todos].reject! { |todo| todo[:id] == todo_id }
 
-  p env.class
   if env["HTTP_X_REQUESTED_WITH"] = "XMLHttpRequest"
     # ajax
     status 204
