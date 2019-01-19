@@ -4,6 +4,10 @@ require 'tilt/erubis'
 
 root = __FILE__.delete_suffix(File.basename(__FILE__))
 
+get '/test' do
+  Math.sqrt(55).to_s
+end
+
 get '/' do
   @files = Dir.glob("#{root}/data/*")
               .map { |path| File.basename(path) }
