@@ -14,6 +14,9 @@ class CMSTest < MiniTest::Test
 
   def test_index
     get '/'
+    # assert_includes leads to two assertions:
+    # one to check whether collection responds to #include?
+    # other to check whether collection has given value
     assert_equal 200, last_response.status
     assert_equal "text/html;charset=utf-8", last_response["Content-Type"]
     assert_includes last_response.body, "about.txt"
