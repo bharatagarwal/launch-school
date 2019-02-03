@@ -1,4 +1,5 @@
-require 'pry'
+# 'a'.ord # => 97
+# 'z'.ord # => 122
 
 class Cipher
   attr_reader :key
@@ -17,7 +18,11 @@ class Cipher
   def encode(string)
     string.chars.map.with_index do |char, index|
       delta = @key[index].ord - 97
-      (97 + (char.ord - 97 + delta) % 26).chr
+      if char.ord + delta < 123
+        (char.ord + delta).chr
+      else
+        (char.ord + delta - 26).chr
+      end
     end.join
   end
 
