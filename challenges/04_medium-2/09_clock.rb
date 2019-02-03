@@ -17,12 +17,8 @@ class Clock
     @total_minutes = @hour * 60 + @minute
   end
 
-  def format(integer_unit)
-    if integer_unit < 10
-      "0#{integer_unit}"
-    else
-      integer_unit.to_s
-    end
+  def self.at(hour, minute=0)
+    new(hour, minute)
   end
 
   def +(minutes)
@@ -51,9 +47,11 @@ class Clock
     "#{format(@hour)}:#{format(@minute)}"
   end
 
-  def self.at(hour, minute=0)
-    new(hour, minute)
+  def format(integer_unit)
+    if integer_unit < 10
+      "0#{integer_unit}"
+    else
+      integer_unit.to_s
+    end
   end
 end
-
-(Clock.at(10, 9) + 3).to_s # => "10:12"
