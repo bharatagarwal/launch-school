@@ -1,20 +1,34 @@
+require 'pry'
+
 class Cipher
-  def initialize
+  attr_reader :key
+  def initialize(key=nil)
+    raise ArgumentError if key && key.match(/[A-Z0-9]/)
+    raise ArgumentError if key == ''
+
+    if key
+      @key = key
+    else
+      @key = ''
+      100.times { @key << (97..122).to_a.sample.chr }
+    end
   end
   
   def encode(string)
-    string.chars.map do |char|
-      (96 + (char.ord - 96 + 3) % 26).chr
+    string.chars.map.with_index do |char, index|
+      delta = @key[index].ord - 97
+      (97 + (char.ord - 97 + delta) % 26).chr
     end.join
   end
 
   def decode(string)
-    string.chars.map do |char|
-      (96 + (char.ord - 96 - 3) % 26).chr
+    string.chars.map.with_index do |char, index|
+      delta = @key[index].ord - 97
+      if char.ord - delta > 96 
+        (char.ord - delta).chr
+      else
+        (char.ord + 26 - delta).chr
+      end
     end.join
   end
 end
-
-@cipher = Cipher.new
-p @cipher.encode("iamapandabear")  # => "ldpds"
-p @cipher.decode("ldpdsdqgdehdu")  # => "iamapandabear"
