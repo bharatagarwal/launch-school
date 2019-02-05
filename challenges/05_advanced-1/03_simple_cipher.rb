@@ -11,7 +11,8 @@ class Cipher
       @key = key
     else
       @key = ''
-      100.times { @key << (97..122).to_a.sample.chr }
+      alphabets = ('a'..'z').to_a
+      100.times { @key << alphabets.sample }
     end
   end
   
