@@ -1,6 +1,3 @@
-# 'a'.ord # => 97
-# 'z'.ord # => 122
-
 class Cipher
   attr_reader :key
   def initialize(key=nil)

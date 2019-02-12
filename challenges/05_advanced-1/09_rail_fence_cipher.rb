@@ -12,30 +12,55 @@ require 'pry'
 # input string
 
 class RailFenceCipher
+  attr_reader :rail_indices
   def initialize(string, number)
     @string = string
     @number = number
-    initialize_dots
+
   end
 
   def initialize_dots
-    single_dot_array = Array.new(@string.size, '.')
-    @arrays = Array.new(@number, single_dot_array)
+    @arrays = []
+    @number.times do
+      @arrays << ['.'] * @string.size
+    end
   end
 
-  def encode
-    @string.chars.each_with_index do |char, index|
-      @arrays[index % 3][index] = char
-      binding.pry
+  def create_rail_indices
+    @rail_indices = []
+
+    loop do
+      @rail_indices += (0..@number - 1).to_a
+      break if @rail_indices.size > @string.size  
+      @rail_indices += (1..@number - 2).to_a.reverse
+      break if @rail_indices.size > @string.size
     end
 
-    @arrays
+  end
+  
+  def encode
+    initialize_dots
+    create_rail_indices
 
-    #@arrays.map do |array|
-    #  array.delete('.')
-    #  array
-    #end.join('')
+    @string.chars.each_with_index do |char, index|
+      @arrays[@rail_indices[index]][index] = char
+    end
+
+    @arrays.each do |array|
+      p array
+    end
+    
+    strip_dots!(@arrays).join('')
+  end
+
+  def strip_dots!(array)
+    array.map do |arr|
+      arr.delete('.')
+      arr
+    end
+  end
+
+  def self.encode(string, number)
+    new(string, number).encode
   end
 end
-
-p RailFenceCipher.new("WEAREDISCOVEREDFLEEATONCE", 3).encode
