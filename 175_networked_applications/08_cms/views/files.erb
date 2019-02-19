@@ -1,5 +1,7 @@
 <ul>
-  <% @filepaths.each do |path| %>
-  <li><%= File.basename(path) %></li>
+  <% @filenames.each do |name| %>
+  <li>
+  <a href="<%= "/" + name %>"><%= name %></a>
+  </li>
   <% end %>
 </ul>

@@ -4,9 +4,13 @@ require 'pry'
 
 get '/' do
   # binding.pry
-  filenames = Dir.children('data')
-  @filepaths = filenames.map { |f| File.absolute_path("data/#{f}")}
-  @filepaths.to_s
+  @filenames = Dir.children('data')
 
   erb :files
+end
+
+get '/:filename' do
+  [200, 
+  {"Content-Type" => "text/plain"}, 
+  File.readlines("./data/#{params[:filename]}")]
 end
