@@ -21,7 +21,7 @@ end
 
 get '/:filename' do
   if !@filenames.include?(params[:filename])
-    session[:error] = "#{params[:filename]} does not exist."
+    session[:message] = "#{params[:filename]} does not exist."
     redirect '/'
   end
 
@@ -35,4 +35,19 @@ get '/:filename' do
     headers["Content-Type"] = "text/plain" 
     File.read("./data/#{params[:filename]}")
   end
+end
+
+get "/:filename/edit" do
+  @filename = params[:filename]
+  file_path = File.absolute_path("./data/#{@filename}")
+  
+  @content = File.read(file_path)
+  erb :edit
+end
+
+post '/:filename' do
+  file_path = File.absolute_path("./data/#{params[:filename]}")
+  File.write(file_path, params[:content])
+  session[:message] = "#{params[:filename]} has been updated."
+  redirect '/'
 end
