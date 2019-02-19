@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'sinatra/reloader'
-require 'pry'
+require 'redcarpet'
 
 configure do
   enable :sessions
