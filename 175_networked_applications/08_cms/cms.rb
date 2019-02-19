@@ -10,7 +10,7 @@ get '/' do
 end
 
 get '/:filename' do
-  [200, 
-  {"Content-Type" => "text/plain"}, 
-  File.readlines("./data/#{params[:filename]}")]
+  headers["Content-Type"] = "text/plain"
+   
+  File.read("./data/#{params[:filename]}")
 end
