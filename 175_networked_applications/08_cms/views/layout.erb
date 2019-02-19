@@ -1,6 +1,11 @@
 <html>
   <link rel=stylesheet href='/cms.css'
   <body>
+
+    <% if session[:message] %>
+      <%= "<p class=message>#{session.delete(:message)}</p>" %>
+    <% end %>
+  
     <%= yield %>
   </body>
 </html>

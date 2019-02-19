@@ -27,6 +27,10 @@ get '/' do
   erb :files
 end
 
+get '/new' do
+  erb :new
+end
+
 get '/:filename' do
   if !@filenames.include?(params[:filename])
     session[:message] = "#{params[:filename]} does not exist."
@@ -51,6 +55,24 @@ get "/:filename/edit" do
   
   @content = File.read(file_path)
   erb :edit
+end
+
+post '/create' do
+  filename = params[:filename]
+  if filename.empty?
+    session[:message] = "A name is required."
+    status 422
+    erb :new
+  elsif filename.split('.').size == 1
+    session[:message] = "Please provide an extension to the filename"
+    status 422
+    erb :new
+  else    
+    file_path = File.absolute_path("#{data_path}/#{filename}")
+    File.write(file_path, params[:content])
+    session[:message] = "#{filename} has been created."
+    redirect '/'
+  end
 end
 
 post '/:filename' do

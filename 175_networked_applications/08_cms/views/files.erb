@@ -1,7 +1,3 @@
-<% if session[:message] %>
-  <%= "<p class=message>#{session.delete(:message)}</p>" %>
-<% end %>
-
 <ul>
   <% @filenames.each do |name| %>
   <li>
@@ -10,3 +6,5 @@
   </li>
   <% end %>
 </ul>
+
+<ul style="list-style:none"><li><a href=/new>new document</a></li></ul>
