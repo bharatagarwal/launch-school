@@ -62,6 +62,7 @@ post '/create' do
   if filename.empty?
     session[:message] = "A name is required."
     status 422
+    # 422 - unprocessable entity
     erb :new
   elsif filename.split('.').size == 1
     session[:message] = "Please provide an extension to the filename"
@@ -80,4 +81,12 @@ post '/:filename' do
   File.write(file_path, params[:content])
   session[:message] = "#{params[:filename]} has been updated."
   redirect '/'
+end
+
+post '/:filename/delete' do
+  file_path = File.absolute_path("#{data_path}/#{params[:filename]}")
+  File.delete(file_path)
+
+  session[:message] = "#{params[:filename]} has been deleted."
+  redirect "/"    
 end
