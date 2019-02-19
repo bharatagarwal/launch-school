@@ -38,7 +38,7 @@ get '/:filename' do
   extension = params[:filename].split('.')[1]
 
   if extension == 'md'
-    return render_markdown(file_contents)
+    erb render_markdown(file_contents)
   else
     headers["Content-Type"] = "text/plain" 
     File.read("#{data_path}/#{params[:filename]}")
