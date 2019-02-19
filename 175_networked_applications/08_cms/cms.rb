@@ -6,13 +6,21 @@ configure do
   enable :sessions
 end
 
-before do
-  @filenames = Dir.children('data')
+def data_path
+  if ENV["RACK_ENV"] == 'test'
+    File.absolute_path("./test/data")
+  else
+    File.absolute_path("./data")
+  end
 end
 
 def render_markdown(text)
   markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
   markdown.render(text)
+end
+
+before do
+  @filenames = Dir.children(data_path)
 end
 
 get '/' do
@@ -25,7 +33,7 @@ get '/:filename' do
     redirect '/'
   end
 
-  file_contents = File.read("./data/#{params[:filename]}")
+  file_contents = File.read("#{data_path}/#{params[:filename]}")
 
   extension = params[:filename].split('.')[1]
 
@@ -33,20 +41,20 @@ get '/:filename' do
     return render_markdown(file_contents)
   else
     headers["Content-Type"] = "text/plain" 
-    File.read("./data/#{params[:filename]}")
+    File.read("#{data_path}/#{params[:filename]}")
   end
 end
 
 get "/:filename/edit" do
   @filename = params[:filename]
-  file_path = File.absolute_path("./data/#{@filename}")
+  file_path = File.absolute_path("#{data_path}/#{@filename}")
   
   @content = File.read(file_path)
   erb :edit
 end
 
 post '/:filename' do
-  file_path = File.absolute_path("./data/#{params[:filename]}")
+  file_path = File.absolute_path("#{data_path}/#{params[:filename]}")
   File.write(file_path, params[:content])
   session[:message] = "#{params[:filename]} has been updated."
   redirect '/'
