@@ -1,5 +1,8 @@
+require 'pry'
+
 ENV["RACK_ENV"] = "test"
 
+# require 'pry'
 require 'minitest/autorun'
 require 'rack/test'
 require_relative '../cms'
@@ -8,18 +11,26 @@ require 'fileutils'
 class CMSTest < Minitest::Test
   include Rack::Test::Methods
 
+  def app
+    Sinatra::Application
+  end
+  
   def setup
     FileUtils.mkdir_p(data_path)
   end
 
+  def teardown
+    FileUtils.rm_rf(data_path)
+  end
+    
   def create_document(name, content='')
     File.open(File.join(data_path, name), 'w') do |file|
       file.write(content)
     end
   end
 
-  def app
-    Sinatra::Application
+  def session
+    last_request.env["rack.session"]
   end
 
   def test_index
@@ -46,7 +57,10 @@ class CMSTest < Minitest::Test
 
   def test_document_not_found
     get '/notafile.ext'
+    binding.pry
     assert_equal 302, last_response.status
+
+    p binding.pry
 
     get last_response["Location"]
     assert_equal 200, last_response.status
@@ -57,7 +71,7 @@ class CMSTest < Minitest::Test
   end
 
   def test_viewing_markdown_document
-    create_document 'about.md', '## The drunks were ricocheting'
+    create_document 'about.md', '## "A red flair silhouetted the jagged edge of a wing."'
     get '/about.md'
     
     assert_equal 200, last_response.status
@@ -162,8 +176,4 @@ class CMSTest < Minitest::Test
     assert_includes last_response.body, "You have been signed out"
     assert_includes last_response.body, "Sign In"
   end  
-
-  def teardown
-    FileUtils.rm_rf(data_path)
-  end
 end
