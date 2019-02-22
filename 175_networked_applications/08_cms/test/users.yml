@@ -1,2 +1,3 @@
 ---
-admin: secret
+# admin: secret
+admin: $2a$10$K2C10WxUscQ.EU3RYAu4ueXqAntNrb2.K9jnaOlXq2vBXrhTyMXvy

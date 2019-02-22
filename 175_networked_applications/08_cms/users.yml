@@ -1,4 +1,7 @@
 ---
-admin: secret
-pumpkin_space: latte
-jean_luc: godard
+# admin: secret
+admin: $2a$10$K2C10WxUscQ.EU3RYAu4ueXqAntNrb2.K9jnaOlXq2vBXrhTyMXvy
+# pumpkin_spice: latte
+pumpkin_spice: $2a$10$gia9EHa8fpsAIFWt.oYmVu/3cQJFhUg7vk1VVo695VFYX2tNYNF3e
+# jean_luc: godard
+jean_luc: $2a$10$WLjPVWGSYFUuJGpLt4ENQ.MyLK4nQYL4bFEr0Q/oW8dDwpZXEBhoi

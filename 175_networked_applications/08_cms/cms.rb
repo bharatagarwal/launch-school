@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'redcarpet'
 require 'yaml'
+require 'bcrypt'
 require 'pry'
 
 configure do
@@ -17,6 +18,17 @@ def load_user_credentials
     end
 
   YAML.load_file(user_credentials)
+end
+
+def valid_credentials?(username, password)
+  credentials = load_user_credentials
+
+  if credentials.key?(username)
+    bcrypt_password = BCrypt::Password.new(credentials[username])
+    bcrypt_password == password
+  else
+    false
+  end
 end
 
 def data_path
@@ -135,10 +147,8 @@ post '/users/signin' do
   credentials = load_user_credentials
   username = params[:username]
   
-  if credentials.has_key?(username) && 
-    credentials[username] == params[:password]
-
-    session[:username] = params[:username]
+  if valid_credentials?(username, params[:password]) 
+    session[:username] = username
     session[:message] = 'Welcome!'
     redirect '/'
   else
