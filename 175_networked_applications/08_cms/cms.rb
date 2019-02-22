@@ -1,9 +1,22 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'redcarpet'
+require 'yaml'
+require 'pry'
 
 configure do
   enable :sessions
+end
+
+def load_user_credentials
+  user_credentials = 
+    if ENV["RACK_ENV"] == "test"
+      File.absolute_path('./test/users.yml')
+    else 
+      File.absolute_path('./users.yml')
+    end
+
+  YAML.load_file(user_credentials)
 end
 
 def data_path
@@ -35,6 +48,7 @@ before do
 end
 
 get '/' do
+  # binding.pry
   erb :files
 end
 
@@ -118,14 +132,19 @@ post '/:filename/delete' do
 end
 
 post '/users/signin' do
-  if params[:username] != 'admin' || params[:password] != 'secret'
-    session[:message] = 'Invalid credentials'
-    status 422
-    erb :login
-  else
+  credentials = load_user_credentials
+  username = params[:username]
+  
+  if credentials.has_key?(username) && 
+    credentials[username] == params[:password]
+
     session[:username] = params[:username]
     session[:message] = 'Welcome!'
     redirect '/'
+  else
+    session[:message] = 'Invalid credentials'
+    status 422
+    erb :login
   end
 end
 
