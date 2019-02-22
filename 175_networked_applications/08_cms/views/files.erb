@@ -2,7 +2,7 @@
   <% @filenames.each do |name| %>
   <li>
     <a href="<%= "/" + name %>"><%= name %></a>&nbsp;
-    <a href="<%= '/' + name + '/edit' %>">edit</a>&nbsp;  
+    <a href="<%= "/" + name + "/edit" %>">edit</a>&nbsp;  
     <form class='inline' method=post action="/<%= name %>/delete">
       <button type=submit>delete</button>
     </form>
