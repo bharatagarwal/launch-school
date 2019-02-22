@@ -70,7 +70,7 @@ post '/create' do
     # 422 - unprocessable entity
     erb :new
   elsif filename.split('.').size == 1
-    session[:message] = "Please provide an extension to the filename"
+    session[:message] = "Please provide an extension to the filename."
     status 422
     erb :new
   else    
