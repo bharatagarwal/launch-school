@@ -19,6 +19,17 @@ def render_markdown(text)
   markdown.render(text)
 end
 
+def user_signed_in?
+  session.key?(:username)
+end
+
+def require_signed_in_user
+  unless  user_signed_in?
+    session[:message] = "You must be signed in to do that."
+    redirect '/'
+  end
+end
+
 before do
   @filenames = Dir.children(data_path)
 end
@@ -33,6 +44,8 @@ end
 
 
 get '/new' do
+  require_signed_in_user
+
   erb :new
 end
 
@@ -55,6 +68,8 @@ get '/:filename' do
 end
 
 get "/:filename/edit" do
+  require_signed_in_user
+
   @filename = params[:filename]
   file_path = File.absolute_path("#{data_path}/#{@filename}")
   
@@ -63,6 +78,8 @@ get "/:filename/edit" do
 end
 
 post '/create' do
+  require_signed_in_user
+
   filename = params[:filename]
   if filename.empty?
     session[:message] = "A name is required."
@@ -82,6 +99,8 @@ post '/create' do
 end
 
 post '/:filename' do
+  require_signed_in_user
+
   file_path = File.absolute_path("#{data_path}/#{params[:filename]}")
   File.write(file_path, params[:content])
   session[:message] = "#{params[:filename]} has been updated."
@@ -89,6 +108,8 @@ post '/:filename' do
 end
 
 post '/:filename/delete' do
+  require_signed_in_user
+
   file_path = File.absolute_path("#{data_path}/#{params[:filename]}")
   File.delete(file_path)
 
