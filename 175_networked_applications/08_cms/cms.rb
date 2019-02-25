@@ -60,6 +60,7 @@ before do
 end
 
 get '/' do
+  p @filenames
   # binding.pry
   erb :files
 end
@@ -82,22 +83,32 @@ get '/:filename' do
   end
 
   file_contents = File.read("#{data_path}/#{params[:filename]}")
+  # not necessary here as validation is happening beforehand.
 
   extension = params[:filename].split('.')[1]
 
-  if extension == 'md'
-    erb render_markdown(file_contents)
-  else
+  if extension == 'txt'
     headers["Content-Type"] = "text/plain" 
     File.read("#{data_path}/#{params[:filename]}")
+  elsif extension == 'md'
+    erb render_markdown(file_contents)
   end
 end
 
 get "/:filename/edit" do
   require_signed_in_user
 
+  # basename used to make sure files are not accidentally made to root directory.
+
+  # you don't want - reading a ../* file, which could happen via query params
+  #                - writing a ../* file, which could happen via form
+  #                - editing a ../* file, which could happen via url accessing using query params.
+  #                - deleting a ../*file, which could happen via url acces via query params.
+  # essentially all CRUD actions.
+  
+
   @filename = params[:filename]
-  file_path = File.absolute_path("#{data_path}/#{@filename}")
+  file_path = File.absolute_path("#{data_path}/#{File.basename(@filename)}")
   
   @content = File.read(file_path)
   erb :edit
@@ -117,7 +128,7 @@ post '/create' do
     status 422
     erb :new
   else    
-    file_path = File.absolute_path("#{data_path}/#{filename}")
+    file_path = File.absolute_path("#{data_path}/#{File.basename(filename)}")
     File.write(file_path, params[:content])
     session[:message] = "#{filename} has been created."
     redirect '/'
@@ -127,7 +138,7 @@ end
 post '/:filename' do
   require_signed_in_user
 
-  file_path = File.absolute_path("#{data_path}/#{params[:filename]}")
+  file_path = File.absolute_path("#{data_path}/#{File.basename(params[:filename])}")
   File.write(file_path, params[:content])
   session[:message] = "#{params[:filename]} has been updated."
   redirect '/'
@@ -136,7 +147,7 @@ end
 post '/:filename/delete' do
   require_signed_in_user
 
-  file_path = File.absolute_path("#{data_path}/#{params[:filename]}")
+  file_path = File.absolute_path("#{data_path}/#{File.basename(params[:filename])}")
   File.delete(file_path)
 
   session[:message] = "#{params[:filename]} has been deleted."

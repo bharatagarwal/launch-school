@@ -7,3 +7,7 @@
  - [x] why does last_request have access to session message?
  - [x] module instance methods and variables.
  
+ - [x] bcrypt articles
+ - [x] halt and nature of response.
+ - [x] ls authentication article
+ - [x] filename security article
