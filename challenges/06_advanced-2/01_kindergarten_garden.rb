@@ -17,34 +17,55 @@
 # aa|bb ... ll
 
 class Garden
+  STUDENTS_DEFAULT = ["alice",
+    "bob",
+    "charlie",
+    "david",
+    "eve",
+    "fred",
+    "ginny",
+    "harriet",
+    "ileana",
+    "joseph",
+    "kincaid",
+    "larry"
+  ]
+
   PLANT_KEY = {
     "G" => :grass,
     "C" => :clover,
-    "R" => :radish,
+    "R" => :radishes,
     "V" => :violets
   }
-
-FIRST_LETTER_ASCII = "a".ord # 97  
   
-  def initialize(string)
-    @rows = string.split("\n").map { |row| row.split('') }
+  def initialize(string, students = nil)
+    @rows = string.split("\n").map do|row| 
+      row.split('')
+    end
+    
+    @students = students ? 
+      students.sort.map(&:downcase) : STUDENTS_DEFAULT
+    
+    create_name_methods
   end
 
-  def m
-    self
+  def create_name_methods
+    @students.each do |student|
+      self.class.define_method(student.to_sym) do
+        plants_for(student)
+      end
+    end
   end
 
-  def name(name)
-    name_index = name[0].ord - FIRST_LETTER_ASCII
+  def plants_for(student_name)
+    index = @students.index(student_name.downcase)
+
     @rows.each_with_object([]) do |row, plants|
-      row[(2 * name_index)...( 2 * (name_index + 1) )].each do |plant|
-        p plant
+      plants_for_row = row[(2 * index)...( 2 * (index + 1) )]
+      
+      plants_for_row.each do |plant|
         plants << PLANT_KEY[plant]
       end
     end
   end
 end
-
-diagram = "VRCGVVRVCGGCCGVRGCVCGCGV\nVRCCCGCRRGVCGCRVVCVGCGCV"
-garden = Garden.new(diagram)
-garden.m # => #<Garden:0x00007fc44b933548 @rows=[["V", "R", "C", "G", "V", "V", "R", "V", "C", "G", "G", "C", "C", "G", "V", "R", "G", "C", "V", "C", "G", "C", "G", "V"], ["V", "R", "C", "C", "C", "G", "C", "R", "R", "G", "V", "C", "G", "C", "R", "V", "V", "C", "V", "G", "C", "G", "C", "V"]]>
