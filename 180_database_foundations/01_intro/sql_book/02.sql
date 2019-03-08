@@ -1,0 +1,8 @@
+-- createdb database_one
+-- psql -d database_one
+-- CREATE DATABASE database_two;
+-- \c database_two || \connect database_two
+-- \list || \l
+-- DROP DATABASE database_one;
+-- dropdb database_two
+-- dropdb ls_burger

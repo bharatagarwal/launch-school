@@ -1,0 +1,7 @@
+-- select customer_name from orders;
+-- 
+-- select * from orders where drink = 'Chocolate Shake';
+-- 
+-- select burger, side, drink from orders where id = 2;
+-- 
+-- select customer_name from orders where side = 'Onion Rings';
