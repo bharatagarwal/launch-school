@@ -18,9 +18,7 @@ add column last_name varchar(100) not null;
 
 alter table celebrities 
 alter column date_of_birth type date
-using date_of_birth::date;
-
-alter table celebrities 
+using cast (date_of_birth as date),
 alter column date_of_birth 
 set not null;
 

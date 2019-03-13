@@ -89,4 +89,3 @@ adding and removing columns
 `now();` is an sql function
 
 `ALTER TABLE table_name DROP COLUMN column_name`
-
