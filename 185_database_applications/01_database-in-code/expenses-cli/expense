@@ -33,10 +33,34 @@ def list_expenses(db)
   end
 end
 
+def valid_for_addition?(arguments)
+  arguments.size == 2 && 
+    arguments[0].to_f.round(2) == arguments[0].to_f.to_s.to_f.round(2)
+end
+
+def add_expense(db, arguments)
+  amount, memo = arguments[0], arguments[1]
+
+  db.exec <<~HEREDOC
+          insert into expenses
+          (amount, memo)
+          values
+          (#{amount}, \'#{memo}\');
+  HEREDOC
+end
 arguments = ARGV
+p arguments
 
 if arguments.first == 'list'
   list_expenses(db)
+elsif arguments.first == 'add'
+  addition_arguments = arguments[1..-1]
+  
+  if valid_for_addition?(addition_arguments)
+    add_expense(db, addition_arguments)
+  else
+    puts "You must provide an amount and memo."
+  end
 else
   display_help
 end

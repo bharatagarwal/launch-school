@@ -12,3 +12,6 @@ create table expenses (
 alter table expenses
 add constrain positive_amount
 check (amount > 0.00);
+
+alter table expenses 
+alter created_on set default now();
