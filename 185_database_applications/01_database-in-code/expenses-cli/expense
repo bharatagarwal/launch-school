@@ -1,5 +1,4 @@
 #! /usr/bin/env ruby
-
 require 'pg'
 require "io/console"
 require 'pry'
@@ -7,6 +6,7 @@ require 'pry'
 class ExpenseData
   def initialize
     @db = PG.connect(dbname: "expenses")
+    setup_schema
   end
 
   def list_expenses
@@ -93,7 +93,8 @@ class ExpenseData
   end
 
   def sum_of_expenses(expenses)
-    expenses.field_values('amount').map(&:to_f).sum.to_s
+    format("%.2f", 
+      expenses.field_values('amount').map(&:to_f).sum)
   end
 
   def display(expenses)
@@ -110,6 +111,30 @@ class ExpenseData
 
     puts "--------------------------------------------------"
     puts "Total"  + sum_of_expenses(expenses).rjust(26)
+  end
+
+  def create_table
+    statement = <<~HEREDOC
+      create table expenses (
+        id serial primary key,
+        amount numeric(6,2) not null check (amount >= 0.01),
+        memo text not null,
+        created_on date not null
+      );
+    HEREDOC
+
+    @db.exec(statement)
+  end
+
+  def setup_schema
+    statement = <<~HEREDOC
+            select count(*) from information_schema.tables
+            where table_schema = 'public' and table_name = 'expenses'
+    HEREDOC
+
+    result = @db.exec(statement)
+    # binding.pry
+    create_table if result.first['count'] == '0'
   end
 end
 
