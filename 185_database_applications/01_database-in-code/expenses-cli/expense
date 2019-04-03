@@ -2,6 +2,7 @@
 
 require 'pg'
 require "io/console"
+require 'pry'
 
 class ExpenseData
   def initialize
@@ -10,7 +11,8 @@ class ExpenseData
 
   def list_expenses
     result = @db.exec "select * from expenses order by id"
-    display(result)
+    show_count(result.ntuples)
+    display(result) if result.ntuples > 0
   end  
 
   def add_expense(amount, memo)
@@ -32,8 +34,10 @@ class ExpenseData
             where memo ilike $1
     HEREDOC
 
+
     result = @db.exec_params(statement, ['%' + term + '%'])
-    display(result)
+    show_count(result.ntuples)
+    display(result) if result.ntuples > 0
   end
 
   def id_exists?(id)
@@ -73,9 +77,23 @@ class ExpenseData
     @db.exec_params(statement, [id])
   end
 
+  def show_count(count)
+    if count > 1
+      puts "There are #{count} expenses."
+    elsif count == 1
+      puts "There is 1 expense."
+    else
+      puts "There are no expenses."
+    end
+  end
+
   def delete_all_expenses
     @db.exec('delete from expenses')
     puts 'All expenses have been deleted.'
+  end
+
+  def sum_of_expenses(expenses)
+    expenses.field_values('amount').map(&:to_f).sum.to_s
   end
 
   def display(expenses)
@@ -89,6 +107,9 @@ class ExpenseData
                       
       puts output_column.join(' | ')
     end
+
+    puts "--------------------------------------------------"
+    puts "Total"  + sum_of_expenses(expenses).rjust(26)
   end
 end
 
