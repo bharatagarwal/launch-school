@@ -1,4 +1,42 @@
 #! /usr/bin/env ruby
 
 require 'pg'
-puts "Hello World!"
+
+db = PG.connect(dbname: "expenses")
+
+def display_help
+puts <<~SQUIGGLY
+  An expense recording system
+    
+  Commands:
+  
+  add AMOUNT MEMO [DATE] - record a new expense
+  clear - delete all expenses
+  list - list all expenses
+  delete NUMBER - remove expense with id NUMBER
+  search QUERY - list expenses with a matching memo field
+  SQUIGGLY
+end
+
+def list_expenses(db)
+  result = db.exec "select * from expenses order by id"
+
+  result.each do |tuple|
+    output_column = [ 
+                      tuple["id"].rjust(3),
+                      tuple["created_on"].rjust(10),
+                      tuple["amount"].rjust(12),
+                      tuple["memo"]
+                    ]
+                    
+    puts output_column.join(' | ')
+  end
+end
+
+arguments = ARGV
+
+if arguments.first == 'list'
+  list_expenses(db)
+else
+  display_help
+end
