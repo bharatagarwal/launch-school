@@ -1,7 +1,6 @@
 #! /usr/bin/env ruby
 require 'pg'
-require "io/console"
-require 'pry'
+require 'io/console'
 
 class ExpenseData
   def initialize
@@ -133,7 +132,6 @@ class ExpenseData
     HEREDOC
 
     result = @db.exec(statement)
-    # binding.pry
     create_table if result.first['count'] == '0'
   end
 end
