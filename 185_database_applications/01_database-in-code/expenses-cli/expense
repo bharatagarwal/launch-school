@@ -2,6 +2,8 @@
 require 'pg'
 require 'io/console'
 
+time = Time.now
+
 class ExpenseData
   def initialize
     @db = PG.connect(dbname: "expenses")
@@ -186,3 +188,4 @@ class CLI
 end
 
 CLI.new.run(ARGV)
+puts Time.now - time
