@@ -3,6 +3,7 @@ require "sinatra/reloader"
 require "sinatra/content_for"
 require "tilt/erubis"
 require_relative 'database_persistence'
+require 'pry'
 
 configure do
   enable :sessions
@@ -24,6 +25,7 @@ helpers do
   end
 
   def todos_remaining_count(list)
+    # binding.pry
     list[:todos].count { |todo| !todo[:completed] }
   end
 

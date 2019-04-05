@@ -1,4 +1,5 @@
 require 'pg'
+require 'pry'
 
 class DatabasePersistence
   def initialize(logger)
@@ -11,16 +12,34 @@ class DatabasePersistence
     @db.exec_params(statement, params)
   end
 
+  def array_of_todos_for(todos, id)
+    # {"id"=>"1", "name"=>"Science", "completed"=>"f", "list_id"=>"1"}
+    todos.select do |todo|
+      todo['list_id'].to_i == id
+    end.map do |hash|
+      # binding.pry
+      { id: hash['id'], name: hash['name'], completed: hash['completed'] == 't'}
+    end
+  end
+
   def find_list(id)
     statement = <<~HEREDOC
       select * from lists
       where id = $1
     HEREDOC
 
+    todos_statement = <<~HEREDOC
+      select * from todos
+      where list_id = $1
+    HEREDOC
+
     result = query(statement, id)
+    todos = query(todos_statement, id)
+
+    # binding.pry
+
     tuple = result.first
-    { id: tuple['id'], name: tuple['name'], todos: [] }
-    # @session[:lists].find{ |list| list[:id] == id }
+    { id: tuple['id'], name: tuple['name'], todos: array_of_todos_for(todos, id) }
   end
 
   def all_lists
@@ -28,10 +47,15 @@ class DatabasePersistence
       select * from lists
     HEREDOC
 
+    todos_statement = <<~HEREDOC
+      select * from todos
+    HEREDOC
+
     result = query(statement)
+    todos = query(todos_statement)
 
     result.map do |tuple|
-      { id: tuple['id'], name: tuple['name'], todos: [] }
+      { id: tuple['id'], name: tuple['name'], todos: array_of_todos_for(todos, tuple['id'].to_i) }
     end
   end
 
