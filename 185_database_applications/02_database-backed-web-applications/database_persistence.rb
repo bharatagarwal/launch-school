@@ -1,5 +1,4 @@
 require 'pg'
-require 'pry'
 
 class DatabasePersistence
   def initialize(logger)
@@ -8,54 +7,30 @@ class DatabasePersistence
   end
 
   def query(statement, *params)
-    @logger.info "#{statement.chomp}: #{params}"
+    @logger.info "#{statement}: #{params}"
     @db.exec_params(statement, params)
   end
 
-  def array_of_todos_for(todos, id)
-    # {"id"=>"1", "name"=>"Science", "completed"=>"f", "list_id"=>"1"}
-    todos.select do |todo|
-      todo['list_id'].to_i == id
-    end.map do |hash|
-      # binding.pry
-      { id: hash['id'], name: hash['name'], completed: hash['completed'] == 't'}
-    end
-  end
-
   def find_list(id)
-    statement = <<~HEREDOC
-      select * from lists
-      where id = $1
-    HEREDOC
-
-    todos_statement = <<~HEREDOC
-      select * from todos
-      where list_id = $1
-    HEREDOC
-
-    result = query(statement, id)
-    todos = query(todos_statement, id)
-
-    # binding.pry
-
+    sql = "select * from lists where id = $1"
+    result = query(sql, id)
+    
     tuple = result.first
-    { id: tuple['id'], name: tuple['name'], todos: array_of_todos_for(todos, id) }
+    
+    list_id = tuple['id'].to_i
+    todos = find_todos_for_list(list_id)
+    { id: list_id, name: tuple['name'], todos: todos }
   end
 
   def all_lists
-    statement = <<~HEREDOC
-      select * from lists
-    HEREDOC
-
-    todos_statement = <<~HEREDOC
-      select * from todos
-    HEREDOC
-
-    result = query(statement)
-    todos = query(todos_statement)
+    sql = "select * from lists"
+    result = query(sql)
 
     result.map do |tuple|
-      { id: tuple['id'], name: tuple['name'], todos: array_of_todos_for(todos, tuple['id'].to_i) }
+      list_id = tuple['id'].to_i
+      todos = find_todos_for_list(list_id)
+
+      { id: list_id, name: tuple['name'], todos: todos }
     end
   end
 
@@ -94,5 +69,19 @@ class DatabasePersistence
     # list[:todos].each do |todo|
       # todo[:completed] = true
     # end
+  end
+
+  private
+
+  def find_todos_for_list(list_id)
+    todos_sql = "select * from todos where list_id = $1"
+    todos_result = query(todos_sql, list_id)
+
+    todos = todos_result.map do |todo_tuple|
+      { id: todo_tuple['id'].to_i,
+        name: todo_tuple['name'],
+        completed: todo_tuple['completed'] == 't'
+      }
+    end
   end
 end
