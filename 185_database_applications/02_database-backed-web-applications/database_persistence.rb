@@ -80,6 +80,13 @@ class DatabasePersistence
     query(sql, status, list_id)
   end
 
+  # for heroku hobby plans that can only
+  # take upto 20 open database connections.
+  
+  # def disconnect
+  #   @db.close
+  # end
+
   private
 
   def find_todos_for_list(list_id)

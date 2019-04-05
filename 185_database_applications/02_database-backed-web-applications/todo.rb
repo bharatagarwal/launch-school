@@ -14,6 +14,14 @@ configure(:development) do
   also_reload 'database_persistence.rb'
 end
 
+# after filters are evaluated after
+# each request
+# for heroku hobby plan 
+
+# after do
+#   @storage.disconnect
+# end
+
 helpers do
   def list_complete?(list)
     todos_count(list) > 0 && todos_remaining_count(list) == 0
