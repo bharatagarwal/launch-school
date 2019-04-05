@@ -1,9 +1,9 @@
-create table list (
+create table lists (
   id serial primary key,
   name text unique not null
 );
 
-create table todo (
+create table todos (
   id serial primary key,
   name text not null,
   completed boolean default false,

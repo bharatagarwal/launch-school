@@ -35,14 +35,20 @@ class DatabasePersistence
   end
 
   def create_new_list(list_name)
+    sql = "insert into lists (name) values ($1)"
+    query(sql, list_name)
     # @session[:lists] << { id: id, name: list_name, todos: []}
   end
 
   def delete_list(id)
+    sql = "delete from lists where id = $1"
+    query(sql, id)
     # @session[:lists].reject! { |list| list[:id] == id }
   end
 
   def update_list_name(id, new_name)
+    sql = "update lists set name = $1 where id = $2"
+    query(sql, new_name, id)
     # list = find_list(id)
     # list[:name] = new_name
   end
