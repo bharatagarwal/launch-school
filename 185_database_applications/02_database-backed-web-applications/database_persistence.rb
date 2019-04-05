@@ -1,11 +1,25 @@
 require 'pg'
 
 class DatabasePersistence
-  def initialize
+  def initialize(logger)
     @db = PG.connect(dbname: "todos")
+    @logger = logger
+  end
+
+  def query(statement, *params)
+    @logger.info "#{statement.chomp}: #{params}"
+    @db.exec_params(statement, params)
   end
 
   def find_list(id)
+    statement = <<~HEREDOC
+      select * from lists
+      where id = $1
+    HEREDOC
+
+    result = query(statement, id)
+    tuple = result.first
+    { id: tuple['id'], name: tuple['name'], todos: [] }
     # @session[:lists].find{ |list| list[:id] == id }
   end
 
@@ -14,12 +28,11 @@ class DatabasePersistence
       select * from lists
     HEREDOC
 
-    result = @db.exec(statement)
+    result = query(statement)
 
     result.map do |tuple|
       { id: tuple['id'], name: tuple['name'], todos: [] }
     end
-    # @session[:lists]
   end
 
   def create_new_list(list_name)
