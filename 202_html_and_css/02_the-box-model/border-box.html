@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <style>
+    .parent {
+      width: 50%;
+      border: 5px solid #E18728;
+      float: left;
+    }
+    
+    .child {
+      width: 90%;
+      padding: 20%;
+      border: 4px solid black;
+      margin: .5em auto;
+    }
+    
+    .twins {
+      width: 50%;
+      padding: 1em;
+      border: 4px solid black;
+      float: left;
+    }
+
+    * {
+      box-sizing: border-box;  
+    }
+
+    /* styling for Pen, not related to box-sizing or layout */
+    
+    body {
+      font-family: sans-serif;
+      font-size: 1.1em;
+    }
+    
+    .buttons {
+      margin-bottom: .5em;
+    }
+    
+    p:not(.intro) {
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="buttons">
+    <p class="intro">Click the <code>border-box</code> button to fix the layout with the power of Box Sizing!</p>
+  </div>
+  <div class="parent">
+    <p>Parent div with 50% width.</p>
+    <div class="child">
+      <p>Child div with 90% width, 4px black border, and 20% padding </p>
+    </div>
+    <div class="twins">
+      <p>Child div with 50% width, 4px black border, and 1em padding</p>
+    </div>
+    <div class="twins">
+      <p>Child div with 50% width, 4px black border, and 1em padding</p>
+    </div>
+  </div>
+</body>
+</html>
