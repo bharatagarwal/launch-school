@@ -1,0 +1,309 @@
+<style>
+  body {
+    width: 340px;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-family: sans-serif;
+    font-size: 20px;
+    font-weight: lighter;
+    padding: 8px;
+    border: 3px solid;
+  }
+
+  h1, p, hr, dl, ul, td {
+    margin: 0; 
+    padding: 0;
+  }
+
+  h1 {
+    box-sizing: border-box;
+    text-align: left;
+    font-size: 3rem;
+    line-height: 0.8;
+    margin-bottom: 5px;
+  }
+
+  table {
+    box-sizing: border-box;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    font-weight: lighter;
+    border-collapse: collapse;
+    width: 100%
+  }
+
+  .heading {
+    font-size: 1rem;
+  }
+
+  main td:nth-child(2) {
+    text-align: right;
+  }
+
+  main th:nth-child(2) {
+    text-align: right;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+
+  footer, footer table {
+    font-size: 0.9rem;
+  }
+
+  footer th {
+    font-weight: lighter;
+    text-align: left;
+  }
+
+  header {
+    margin-bottom: 5px;
+  }
+
+  hr.primary {
+    height: 15px;
+    background-color: black;
+    border: 0;
+  }
+
+  hr.secondary {
+    height: 7.5px;
+    background-color: black;
+    border: 0;
+  }
+
+  main table tr,
+  main table tr td,
+  main table tr td dl dt,
+  main table tr td dl dd:nth-child(2) {
+    box-sizing: content-box;
+    border-bottom: 1px solid;
+  }
+
+  main table li:nth-child(1),
+  main table li:nth-child(2) {
+    border-bottom: 1px solid;
+  }
+
+  main {
+    margin-bottom: 10px;
+  }
+
+
+  footer ul#disclaimer{
+    margin-left: 10px;
+    padding-left: 10px;
+    list-style-type: disc;
+  }
+
+  footer table th{
+    border-bottom: 1px solid black;
+  }
+
+  footer table dd {
+    margin-left: 12%;
+  }
+
+</style>
+
+<header>
+  <h1>Nutrition Facts</h1>
+
+  <p>
+    Serving Size 2/3 cup (55g) <br>
+    Servings Per Container About 8
+  </p>
+</header>
+
+<main>
+
+  <hr class="primary">
+
+  <table>
+      <tr>
+        <td colspan="2" class="heading"><b>Amount Per Serving</b></td>
+      </tr>
+
+      <tr>
+        <td><b>Calories</b> 230</td>
+        <td>Calories from Fat 40</td>
+      </tr>
+    </table>
+
+  <hr class="secondary">
+
+  <table>
+    <thead>
+      <th></th>
+      <th class="heading">% Daily Value</th>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <dl>
+            <dt><b>Total Fat</b> 8g</dt>
+            <dd>Saturated Fat 1g</dd>
+            <dd>Trans Fat 0 mg</dd>
+          </dl>
+        </td>
+
+        <td>
+          <ul>
+            <li><b>12</b>%</li>
+            <li><b>5</b>%</li>
+            <li>&nbsp;</li>
+          </ul>
+        </td>
+      </tr>
+
+      <tr>
+        <td><b>Cholestrol</b> 0mg</td>
+        <td><b>0%</b></td>
+      </tr>
+
+      <tr>
+        <td><b>Sodium</b> 160mg</td>
+        <td><b>7</b>%</td>
+      </tr>
+
+      <tr>
+        <td>
+          <dl>
+            <dt><b>Total Carbohydrate</b> 37g</dt>
+            <dd>Dietary Fiber 4g</dd>
+            <dd>Sugars 1g</dd>
+          </dl>
+        </td>
+
+        <td>
+          <ul>
+            <li><b>12</b>%</li>
+            <li><b>16</b>%</li>
+            <li>&nbsp;</li>
+          </ul>
+        </td>
+      </tr>
+
+      <tr>
+        <td><b>Protein</b> 3g</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+
+    <hr class="primary">
+  <table>
+    <tbody>
+      <tr>
+        <td>Vitamin A</td>
+        <td>10%</td>
+      </tr>
+      <tr>
+        <td>Vitamin C</td>
+        <td>8%</td>
+      </tr>
+      <tr>
+        <td>Calcium</td>
+        <td>20%</td>
+      </tr>
+      <tr>
+        <td>Iron</td>
+        <td>45%</td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+
+<footer>
+  <ul id="disclaimer">
+    <li>
+      Percent Daily Values are based on a 2,000 calorie diet. Your daily value may be higher or lower depending on your calorie needs.</li>
+    </ul>
+  </table>
+
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Calories:</th>
+        <th>2,000</th>
+        <th>2,500</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <dl>
+            <dt>Total Fat</dt>
+            <dd>Sat Fat</dd>
+          </dl>
+        </td>
+
+        <td>
+          <ul>
+            <li>Less than</li>
+            <li>Less than</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>65g</li>
+            <li>20g</li>
+          </ul>
+        </td>
+
+        <td>
+          <ul>
+            <li>80g</li>
+            <li>25g</li>
+          </ul>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Cholestrol</td>
+        <td>Less than</td>
+        <td>300mg</td>
+        <td>300mg</td>
+      </tr>
+
+
+      <tr>
+        <td>Sodium</td>
+        <td>Less than</td>
+        <td>2,400mg</td>
+        <td>2,400mg</td>
+      </tr>
+
+      <tr>
+        <td>
+          <dl>
+            <dt>Total Carbodhydrate</dt>
+            <dd>Dietary Fiber</dd>
+          </dl>
+        </td>
+
+        <td>
+        </td>
+        <td>
+          <ul>
+            <li>300g</li>
+            <li>25g</li>
+          </ul>
+        </td>
+
+        <td>
+          <ul>
+            <li>375g</li>
+            <li>30g</li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</footer>
