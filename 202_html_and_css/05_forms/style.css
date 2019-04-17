@@ -1,0 +1,85 @@
+body {
+  font: normal 16px sans-serif;
+}
+
+fieldset {
+  border: 0;
+  padding: 0;
+  width: 600px;
+  margin: 0 auto;
+}
+
+dt {
+  margin-bottom: 5px; 
+}
+
+dd {
+  margin: 0 0 25px 0;
+}
+
+input[type=text],
+input[type=email],
+input[type=number],
+textarea {
+  width: 100%;
+  height: 30px;
+  font-size: 14px;
+  padding: 3px 10px;
+  border: 1px solid #cecece;
+  box-sizing: border-box;
+}
+
+textarea {
+  height: auto;
+  resize: vertical;
+}
+
+ul {
+  padding-left: 0;
+  font-size: 14px;
+  list-style: none;
+}
+
+li input[type=radio],
+li input[type=checkbox] {
+  margin-right: 0.5rem;
+} 
+
+.partial {
+  box-sizing: border-box;
+  display: inline-block;
+} 
+
+.one-half {
+  width: 50%;
+}
+
+.left {
+  padding-right: 5px;
+}
+
+.right {
+  padding-left: 5px;
+}
+
+.smallest {
+  width: 10%
+}
+
+.smaller {
+  width: 40%
+}
+
+.center-element{
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+
+dl {
+  margin-bottom: 0;
+}
+
+dl + dl {
+  margin-top: 0;
+}

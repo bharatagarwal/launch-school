@@ -1,0 +1,47 @@
+<!-- 
+form that filters news articles by single category, and number of selected tag words.
+categories: radio
+tags: checkboxes
+Categories: Core, Plugins and Libraries, Conventions, Reviews, Opinion, People
+Tags: HTML, CSS, Javascript, Ruby, Rails, Python, Django
+
+-->
+
+<style type="text/css">
+  fieldset {
+    border: none;
+  }
+</style>
+
+<form method=get action=''>
+  <fieldset>Categories
+    <ul>
+      <li><label><input type=radio 
+        name=categories value=core>Core</li></label>
+      <li><label><input type=radio 
+        name=categories value=plugins_and_libraries>Plugins and Libraries</li></label>
+      <li><label><input type=radio 
+        name=categories value=conventions>Conventions</li></label>
+      <li><label><input type=radio 
+        name=categories value=reviews>Reviews</li></label>
+      <li><label><input type=radio 
+        name=categories value=opinion>Opinion</li></label>
+      <li><label><input type=radio 
+        name=categories value=people>People</li></label>
+    </ul>
+  </fieldset>
+
+  <fieldset>Tags
+    <ul>
+      <li><label><input type=checkbox name=tags value=html>HTML</li></label>
+      <li><label><input type=checkbox name=tags value=css>CSS</li></label>
+      <li><label><input type=checkbox name=tags value=javascript>JavaScript</li></label>
+      <li><label><input type=checkbox name=tags value=ruby>Ruby</li></label>
+      <li><label><input type=checkbox name=tags value=rails>Rails</li></label>
+      <li><label><input type=checkbox name=tags value=python>Python</li></label>
+      <li><label><input type=checkbox name=tags value=django>Django</li></label>
+    </ul>
+  </fieldset>
+
+  <input type=submit>
+</form>
