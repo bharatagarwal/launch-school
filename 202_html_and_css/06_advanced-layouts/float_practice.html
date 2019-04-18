@@ -11,9 +11,16 @@
     }
 
     section {
+      /*overflow: hidden;*/
       background-color: coral;
       width: 750px;
       margin: 0 auto;
+    }
+
+    section::after {
+      content: '';
+      clear: both;
+      display: block;
     }
 
     article, aside {
