@@ -1,0 +1,42 @@
+<section>
+  <aside class=normal>normal</aside>
+  <aside class='shifted pos'>bottom</aside>
+  <aside class='shifted neg'>-bottom</aside>
+  <aside class=normal>normal</aside>
+</section>
+
+<style>
+  section {
+    border: 1p solid gray;
+    padding: 70px 10px;
+  }
+
+  aside {
+    display: inline-block;
+    border: 1px solid black;
+    height: 100px;
+    width: 100px; 
+    line-height: 100px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .normal {
+    background-color: yellow;
+  }
+
+  .shifted {
+    position: relative;
+  }
+
+  .pos {
+    background-color: cyan;
+    bottom: 60px;
+  }
+
+  .neg {
+    background-color: lightgreen;
+    bottom: -60px;
+  }
+</style>
