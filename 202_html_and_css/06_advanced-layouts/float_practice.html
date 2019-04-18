@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Float practice</title>
+
   <style>
     body {
       background-color: lightgrey;
@@ -11,19 +12,13 @@
     }
 
     section {
-      /*overflow: hidden;*/
-      background-color: coral;
-      width: 750px;
+      background-color: white;
+      max-width: 1000px;
       margin: 0 auto;
     }
 
-    section::after {
-      content: '';
-      clear: both;
-      display: block;
-    }
-
-    article, aside {
+    article, 
+    aside {
       box-sizing: border-box;
       padding: 1rem;
       float: left;
@@ -31,12 +26,19 @@
 
     article {
       background: powderblue;
-      width: 500px;
+      width: 70%;
     }
 
     aside {
+      overflow: hidden;
       background: yellow;
-      width: 250px;
+      float: none;
+    }
+
+    footer {
+      padding: 1rem;
+      background: lightgreen;
+      clear: both;
     }
   </style>
 </head>
@@ -63,6 +65,10 @@
         Suspendisse bibendum libero quis est condimentum luctus. Aliquam laoreet porta tellus, molestie feugiat enim elementum a. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer nunc est, semper id luctus vel, lacinia in nunc. Nulla posuere ornare cursus. Phasellus vel purus tincidunt, ultrices dui at, ullamcorper nulla.
       </p>
     </aside>
+    <footer>
+      efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed congue, arcu sed varius condimentum, nulla tortor euismod elit, euismod imperdiet purus ante id mi. In hac habitasse platea dictumst. Vestibulum lorem mi, dictum vitae ante a, varius elementum lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam interdum tincidunt faucibus. Vivamus varius sollicitudin est at scelerisque.
+    </footer>
   </section>
+
 </body>
 </html>
