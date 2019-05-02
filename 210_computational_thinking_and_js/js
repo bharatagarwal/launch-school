@@ -1,0 +1,10 @@
+#! /usr/bin/env node
+
+var repl = require('repl');
+
+alert = console.log;
+cl = console.log;
+
+exit = 'process.exit()';
+
+repl.start();
