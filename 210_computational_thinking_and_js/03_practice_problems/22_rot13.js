@@ -13,8 +13,10 @@ function rotate(character, characterCase) {
   let startingPoint = characterCase === 'lower' ? 97 : 65;
 
   let charCode = character.charCodeAt(0);
+  
   let alphabetPlace = charCode - startingPoint;
   let newAlphabetPlace = startingPoint + ((alphabetPlace + 13) % 26);
+
   return String.fromCharCode(newAlphabetPlace)
 }
 
