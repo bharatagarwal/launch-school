@@ -92,8 +92,8 @@ function summariseExams(summaryObject) {
   summaryObject.exams = summaryObject.exams.map(function (grades) {
     return {
       average: averageRoundedToFirstDigit(grades),
-      minimum: grades.reduce((lowest, a) => a <= lowest ? lowest : a),
-      maximum: grades.reduce((highest, a) => a >= highest ? highest : a),
+      minimum: grades.reduce((lowest, a) => a >= lowest ? lowest : a),
+      maximum: grades.reduce((highest, a) => a <= highest ? highest : a),
     };
   });
 }
