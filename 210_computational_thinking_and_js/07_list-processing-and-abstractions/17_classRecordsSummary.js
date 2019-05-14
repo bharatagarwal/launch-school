@@ -1,4 +1,4 @@
-let studentScores = {
+var studentScores = {
   student1: {
     id: 123456789,
     scores: {
@@ -37,31 +37,32 @@ let studentScores = {
 };
 
 function generateClassRecordSummary(scores) {
-  const summaryObject = {
+  var summaryObject = {
     studentGrades: [],
     exams: [[], [], [], []],
   };
 
-  // for each student, compute their score
-  // generate grade
-  // store exam scores for appropriate index for exam
-  // map over exams values, and generate objects for return value.
-
   Object.keys(scores).forEach((student) => {
-    let studentAverageScore = 0;
-    let examScores = scores[student].scores.exams.reduce((sum, score) => sum + score);
-    let exerciseScores = scores[student].scores.exercises.reduce((sum, score) => sum + score);
+    let examScores = scores[student].scores.exams;
+    let exerciseScores = scores[student].scores.exercises
+    let averageScore = calculateAverageScore(examScores, exerciseScores);
 
-    summaryObject.exams.forEach(function(exam, index) {
-      exam.push(scores[student].scores.exams[index]);
-    });
-
-    studentAverageScore = Math.round((examScores / 4) * 0.65 + exerciseScores * 0.35);
-    summaryObject.studentGrades.push(grade(studentAverageScore));
+    let studentGrade = grade(averageScore);
+    summaryObject.studentGrades.push(studentGrade);
+    
+    recordStudentExamPerformance(summaryObject.exams, examScores)
   })
 
   summariseExams(summaryObject);
   return summaryObject;
+}
+
+function calculateAverageScore(examsArray, exerciseArray) {
+  let examTotal = examsArray.reduce((sum, score) => sum + score);
+  let exerciseTotal = exerciseArray.reduce((sum, score) => sum + score);
+  let averageScore = (examTotal / 4) * 0.65 + exerciseTotal * 0.35;
+
+  return Math.round(averageScore);
 }
 
 function grade(score) {
@@ -80,25 +81,27 @@ function grade(score) {
   }
 }
 
+function recordStudentExamPerformance(recordArray, examScores) {
+  recordArray.forEach((exam, index) => {
+    recordArray[index].push(examScores[index]);
+  });
+}
+
+
 function summariseExams(summaryObject) {
   summaryObject.exams = summaryObject.exams.map(function (grades) {
     return {
-      average: Math.round((grades.reduce((sum, a) => sum + a) * 10 / grades.size)) / 10,
+      average: averageRoundedToFirstDigit(grades),
       minimum: grades.reduce((lowest, a) => a <= lowest ? lowest : a),
       maximum: grades.reduce((highest, a) => a >= highest ? highest : a),
     };
   });
 }
 
-console.log(generateClassRecordSummary(studentScores));
+function averageRoundedToFirstDigit(grades) {
+  let gradeTotal = grades.reduce((sum, grade) => sum + grade);
+  let gradeAverage = gradeTotal / grades.length;
+  return Math.round(gradeAverage * 10) / 10;
+}
 
-// returnskey: "value", 
-// {
-//   studentGrades: [ '87 (B)', '73 (D)', '84 (C)', '86 (B)', '56 (F)' ],
-//   exams: [
-//     { average: 75.6, minimum: 50, maximum: 100 },
-//     { average: 86.4, minimum: 70, maximum: 100 },
-//     { average: 87.6, minimum: 60, maximum: 100 },
-//     { average: 91.8, minimum: 80, maximum: 100 },
-//   ],
-// }
+console.log(generateClassRecordSummary(studentScores));
