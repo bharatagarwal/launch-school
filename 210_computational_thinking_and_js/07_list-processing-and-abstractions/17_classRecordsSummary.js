@@ -1,4 +1,4 @@
-var studentScores = {
+let studentScores = {
   student1: {
     id: 123456789,
     scores: {
@@ -37,7 +37,7 @@ var studentScores = {
 };
 
 function generateClassRecordSummary(scores) {
-  var summaryObject = {
+  let summaryObject = {
     studentGrades: [],
     exams: [[], [], [], []],
   };
