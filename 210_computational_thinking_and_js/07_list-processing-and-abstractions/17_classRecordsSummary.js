@@ -87,7 +87,6 @@ function recordStudentExamPerformance(recordArray, examScores) {
   });
 }
 
-
 function summariseExams(summaryObject) {
   summaryObject.exams = summaryObject.exams.map(function (grades) {
     return {
