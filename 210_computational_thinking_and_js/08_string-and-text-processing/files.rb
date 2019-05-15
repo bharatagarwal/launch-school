@@ -1,12 +1,14 @@
 require 'fileutils'
 
 copy_and_paste = <<~NAMES
-12 Total Square Area
-13 Processing Releases
-14 Octal
-15 Anagrams
-16 Formatting Bands
-17 Class Records Summary
+5	Reverse a String	completed
+6	Acronym	completed
+7	Email Validation	completed
+8	Matching Parentheses	completed
+9	Sentiment Analysis 1	completed
+10	Sentiment Analysis 2	completed
+11	Mail Count	completed
+12	Longest Sentence	completed
 NAMES
 
 def generate_filenames(heredoc, filetype)
