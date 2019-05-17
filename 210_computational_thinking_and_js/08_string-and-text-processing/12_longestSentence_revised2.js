@@ -1,6 +1,6 @@
 function longestSentence(text) {
   debugger;
-  let sentences = text.match(/(.*?\.)/g);
+  let sentences = text.match(/(.*?[!\.\?])\s*/g);
   let wordCounts = sentences.map((sentence) => getWordCount(sentence));
   let maxCount = maxFromArray(wordCounts);
   let indexOfLongestSentence = wordCounts.indexOf(maxCount);
@@ -8,6 +8,7 @@ function longestSentence(text) {
   console.log(sentences[indexOfLongestSentence]);
   console.log('');
   console.log(`The longest sentence has ${maxCount} words.`)
+  console.log('');
 }
 
 function getWordCount(sentence) {
@@ -56,3 +57,5 @@ var longText = 'Four score and seven years ago our fathers brought forth' +
   ' earth.';
 
 longestSentence(longText);
+longestSentence("That is extremely wonderful! To be or not to be.");
+longestSentence("Isn't that wonderful? To be or not to be.");

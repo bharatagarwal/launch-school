@@ -1,14 +1,16 @@
 require 'fileutils'
 
 copy_and_paste = <<~NAMES
-5	Reverse a String	completed
-6	Acronym	completed
-7	Email Validation	completed
-8	Matching Parentheses	completed
-9	Sentiment Analysis 1	completed
-10	Sentiment Analysis 2	completed
-11	Mail Count	completed
-12	Longest Sentence	completed
+1	Double Char Part 1	Not completed
+2	Double Char Part 2	Not completed
+3	Reverse Number	Not completed
+4	Get the Middle Character	Not completed
+5	Always Return Negative	Not completed
+6	Counting Up	Not completed
+7	Name Swapping	Not completed
+8	Sequence Count	Not completed
+9	Reverse It Part 1	Not completed
+10	Reverse It Part 2	Not completed
 NAMES
 
 def generate_filenames(heredoc, filetype)

@@ -1,6 +1,6 @@
 function longestSentence(text) {
   debugger;
-  let sentences = text.match(/(.*?\.)/g);
+  let sentences = text.match(/(.*?[!\.\?])\s*/g);
   let wordCounts = sentences.map((sentence) => getWordCount(sentence));
   let maxCount = maxFromArray(wordCounts);
   let indexOfLongestSentence = wordCounts.indexOf(maxCount);
@@ -11,7 +11,7 @@ function longestSentence(text) {
 }
 
 function getWordCount(sentence) {
-  let words = sentence.match(/\b([a-z]+)\b/gi);
+  let words = sentence.match(/(\S+)/g);
   return words.length;
 }
 
@@ -55,4 +55,7 @@ var longText = 'Four score and seven years ago our fathers brought forth' +
   ' the people, for the people, shall not perish from the' +
   ' earth.';
 
+console.log(longText);
 longestSentence(longText);
+longestSentence("That is extremely wonderful! To be or not to be.");
+longestSentence("Isn't that wonderful? To be or not to be.");
