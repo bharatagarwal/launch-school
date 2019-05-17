@@ -1,8 +1,11 @@
 function longestSentence(text) {
   let sentences = text.match(/(.*?[!\.\?])\s*/g);
+
   let wordCounts = sentences.map((sentence) => getWordCount(sentence));
   let maxCount = maxFromArray(wordCounts);
+
   let indexOfLongestSentence = wordCounts.indexOf(maxCount);
+
   console.log(sentences[indexOfLongestSentence]);
   console.log('');
   console.log(`The longest sentence has ${maxCount} words.`)
