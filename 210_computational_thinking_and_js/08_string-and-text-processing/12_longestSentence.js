@@ -1,5 +1,4 @@
 function longestSentence(text) {
-  debugger;
   let sentences = text.match(/(.*?\.)/g);
   let wordCounts = sentences.map((sentence) => getWordCount(sentence));
   let maxCount = maxFromArray(wordCounts);
