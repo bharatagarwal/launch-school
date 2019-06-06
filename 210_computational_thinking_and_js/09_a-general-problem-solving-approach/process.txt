@@ -1,5 +1,0 @@
--- input
--- output
--- definitions
--- rules
--- test cases

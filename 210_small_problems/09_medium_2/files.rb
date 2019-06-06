@@ -1,16 +1,13 @@
 require 'fileutils'
 
 copy_and_paste = <<~NAMES
-1	Double Char Part 1	Not completed
-2	Double Char Part 2	Not completed
-3	Reverse Number	Not completed
-4	Get the Middle Character	Not completed
-5	Always Return Negative	Not completed
-6	Counting Up	Not completed
-7	Name Swapping	Not completed
-8	Sequence Count	Not completed
-9	Reverse It Part 1	Not completed
-10	Reverse It Part 2	Not completed
+1	Lettercase Percentage Ratio	Not completed
+2	Triangle Sides	Not completed
+3	Tri-Angles	Not completed
+4	Unlucky Days	Not completed
+5	Next Featured Number Higher than a Given Value	Not completed
+6	Sum Square - Square Sum	Not completed
+7	Bubble Sort	Not completed
 NAMES
 
 def generate_filenames(heredoc, filetype)

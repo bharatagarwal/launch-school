@@ -11,7 +11,9 @@ function isPalindromicNumber(number) {
   return isRealPalindrome(String(number));
 }
 
-console.log(isPalindromicNumber(34543));        // true
-console.log(isPalindromicNumber(123210));       // false
-console.log(isPalindromicNumber(22));           // true
-console.log(isPalindromicNumber(5));            // true
+// console.log(isPalindromicNumber(34543));        // true
+// console.log(isPalindromicNumber(123210));       // false
+// console.log(isPalindromicNumber(22));           // true
+// console.log(isPalindromicNumber(5));            // true
+console.log(isPalindrome('0880')); // true
+console.log(isPalindromicNumber(0880)); // false/
