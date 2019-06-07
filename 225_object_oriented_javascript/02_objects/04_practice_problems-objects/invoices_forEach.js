@@ -2,7 +2,6 @@ let invoices = {
   unpaid: [],
 }
 
-console.log(invoices);
 
 invoices.add = function(name, amount) {
   this.unpaid.push({
