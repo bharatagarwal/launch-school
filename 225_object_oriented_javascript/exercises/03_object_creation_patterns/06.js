@@ -136,9 +136,8 @@ var ReportManager = {
   },
 
   createReporter: function(skuCode) {
-    
+    // return (function() {
       var item = this.items.getItem(skuCode);
-      
       return {
         itemInfo: function() {
           Object.keys(item).forEach(function(key) {
@@ -146,7 +145,8 @@ var ReportManager = {
           });
         },
       };
-    },
+    // }).bind(this)();
+  },
 
   reportInStock: function() {
     console.log(this.items.inStock().map(item =>item.itemName).join(', '));
