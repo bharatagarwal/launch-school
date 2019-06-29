@@ -197,4 +197,16 @@ console.log('');
 
 var basketBallReporter = ReportManager.createReporter('BASSP');
 console.log(`items with SKU code BASSP:`);
-basketBallReporter.itemInfo();
+basketBallReporter.itemInfo();  
+
+console.log(ReportManager.items);
+// returns: 
+// quantity: 0
+// { items:
+//    [ { skuCode: 'BASSP',
+//        itemName: 'basket ball',
+//        category: 'sports',
+//        quantity: 0 },
+//      { skuCode: 'FOOSP',
+//        itemName: 'football',
+// .....
