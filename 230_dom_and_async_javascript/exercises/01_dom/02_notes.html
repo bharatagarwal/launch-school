@@ -1,0 +1,65 @@
+<div id="1">
+  <h1 id="2">Hello, <em id="3">World</em></h1>
+  <p id="4">
+    Welcome to wonderland. This is an
+    <span id="5">awesome</span> place.
+  </p>
+  <a href="#" id="6"><strong id="7">Enter</strong></a>
+  <div id="8"><p id="9"><a href="#" id="10">Go back</a></p></div>
+</div>
+
+id = 1
+------
+
+1. empty text node (enter)
+2. h1 parent node
+  3. text node 1 inside h1
+  4. em element node
+    5. world text node
+6. empty text node (enter)
+7. p tag
+  8. text node (enter + welome to wonder.. + enter)
+  9. span node
+    10. text node inside span
+  11. text node (place + enter)
+12. empty text node (enter)
+13. a tag node
+  14. strong node
+    15. text inside strong
+16. empty text node (enter)
+17. div node
+  18. p node inside div
+    19. a node
+      20. go back text node
+21. empty text node
+
+id = 2 - ignore outermost from now on
+-----
+2. h1 parent node
+  3. text node 1 inside h1
+  4. em element node
+    5. world text node
+
+id = 3
+-----
+4. em element node
+    5. world text node
+
+id = 4
+-----
+
+7. p tag
+  8. text node (enter + welome to wonder.. + enter)
+  9. span node
+    10. text node inside span
+  11. text node (place + enter)
+
+<div id="1">
+  <h1 id="2">Hello, <em id="3">World</em></h1>
+  <p id="4">
+    Welcome to wonderland. This is an
+    <span id="5">awesome</span> place.
+  </p>
+  <a href="#" id="6"><strong id="7">Enter</strong></a>
+  <div id="8"><p id="9"><a href="#" id="10">Go back</a></p></div>
+</div>

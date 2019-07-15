@@ -1,0 +1,119 @@
+Detailed Syllabus
+=====
+
+The DOM
+-----
+
+~~ The Document Object Model (DOM)~~
+~~ A Hierarchy of Nodes ~~
+~~ Node Properties ~~
+~~ Determining the Type of a Node ~~
+~~ Inheritance and Finding Documentation ~~
+~~ Traversing Nodes ~~
+~~ Element Attributes ~~
+Practice Problems: Traversing and Accessing Attributes
+Finding DOM Nodes
+Traversing Elements
+Practice Problems: Finding Nodes and Traversing Elements
+Creating and Moving DOM Nodes
+The Browser Object Model (BOM)
+Practice Problems: The DOM
+
+Event-Driven and Asynchronous Programming
+-----
+
+Asynchronous Execution with setTimeout
+Repeating Execution with setInterval
+User Interfaces and Events
+A Simple Example
+Page Lifecycle Events
+User Events
+Adding Event Listeners
+The Event Object
+Capturing and Bubbling
+Preventing Propagation and Default Behaviors
+Event Delegation
+What is the Event Loop?
+Assignment: Guessing Game
+Assignment: Build an Input Box
+Douglas Crockford: An Inconvenient API
+
+Making HTTP Requests from JavaScript
+-----
+
+HTTP Review
+Book: Working with Web APIs
+Network Programming in JavaScript
+Making a Request with XMLHttpRequest
+XMLHttpRequest Events
+Data Serialization
+Example: Loading HTML via XHR
+Example: Submitting a Form via XHR
+Example: Loading JSON via XHR
+Example: Sending JSON via XHR
+Cross-Domain XMLHttpRequests with CORS
+Project: Search Autocomplete, Part 1 - Introduction and Setup
+Project: Search Autocomplete, Part 2 - Setting up the UI
+Project: Search Autocomplete, Part 3 - Talking to the server
+Project: Search Autocomplete, Part 4 - Improving User Experience
+Project: Search Autocomplete, Part 5 - Throttling XHR requests
+
+jQuery
+-----
+
+Douglas Crockford Lecture: The Metamorphosis of Ajax
+Read: Introduction to jQuery
+Demo: jQuery Overview
+Read: jQuery Events
+Read: jQuery DOM Traversal
+Practice Problems: Using jQuery Selectors
+Practice Problems: jQuery Events
+Assignment: Arithmetic Calculator
+Assignment: Removing jQuery
+Assignment: Grocery List
+Assignment: DOM Shuffling
+Assignment: Team Member Profile Modals
+Assignment: Photo Gallery Slideshow
+Lecture: Chrome Debugging Tools for Front End Development
+Assignment: Refactoring
+
+Putting it All Together
+-----
+
+Read: jQuery Animations
+Assignment: Animating a Cartoon Strip
+HTML Data Attributes
+Project: Search Filtering, Part 1: Structure and Styles
+Project: Search Filtering, Part 2: Interactivity
+Project: Dynamic Animations, Part 1: Structure and Styles
+Project: Dynamic Animations, Part 2: Animations
+Project: Guess a Word, Part 1: Structure and Styles
+Project: Guess a Word, Part 2: Core Functions
+Project: Guess a Word, Part 3: Event Handling and Game Play
+Project: Guess a Word, Part 4: OLOO Pattern Solution
+
+Advanced jQuery and Dynamic Content Creation
+-----
+
+jQuery Event Delegation
+Assignment: Managing Collections in JavaScript
+HTML Templating With JavaScript
+Practice Problems: Handlebars Basics
+Assignment: Managing Collections in JavaScript with Handlebars
+AJAX Requests
+Project: Photo Gallery - Introduction and Server Setup
+Project: Photo Gallery, Part 1 - Fetch Data and Render on Page Load
+Project: Photo Gallery, Part 2 - Slide Show
+Project: Photo Gallery, Part 3 - Like, Favorite and Comment
+
+New JavaScript Features
+-----
+
+JavaScript Versions
+Build Tools
+Babel Guide to ES2015
+Let and Const
+Arrow Functions
+Promises
+ES6 Overview videos
+Summary

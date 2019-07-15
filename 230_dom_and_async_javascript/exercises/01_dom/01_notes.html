@@ -1,0 +1,9 @@
+<div>
+  <p>Then press the <em>Draw</em> button.</p>
+</div>
+
+v/s
+
+<div><p>Then press the <em>Draw</em> button.</p></div>
+
+When your source html file has empty text nodes, they get rendered into the dom. when, like here, there's no empty space, even the inserted html and body tags don't insert empty text nodes into the dom.
