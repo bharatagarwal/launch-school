@@ -1,0 +1,10 @@
+<a href="/">View page</a>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('a').addEventListener('click', function(event) {
+      event.preventDefault();
+      alert('Following the link was prevented.');
+    });
+  })
+</script>

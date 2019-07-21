@@ -1,0 +1,191 @@
+<style type="text/css">
+  body {
+  font-family: sans-serif;
+  padding: 0 2em;
+}
+
+table {
+  background: #f5f5f5;
+  border: solid 2px #ddd;
+  border-spacing: 0;
+}
+
+table tr:nth-child(2n+1) td {
+  background: #fff;
+}
+
+table th {
+  text-align: left;
+  font-size: 0.8em;
+  color: #666;
+  padding: 5px;
+    border-right: solid white 1px;
+
+}
+
+table td {
+  padding: 5px 8px;
+  vertical-align: top;
+  border-right: solid white 1px;
+}
+
+table td:last-of-type, table th:last-of-type {
+  border-right: 0;
+}
+
+table td.event {
+  font-style: italic;
+}
+
+table td.length {
+  text-align: right;
+}
+
+table td.code, table th.code {
+  text-align: center;
+}
+
+table td.ms, table th.ms, table tr.header td.ms {
+  text-align: right;
+  width: 50px;
+}
+
+table td.ms, table tr.header td.ms {
+  text-align: right;
+  font-weight: normal;
+}
+
+table tr.header td {
+  background: #ddd;
+  border-right-color: #eee;
+  font-weight: bold;
+}
+
+table pre {
+  margin: 0;
+}
+</style>
+
+<h1>XMLHttpRequest</h1>
+<p>
+  <label><input type="checkbox" id="extraEvents"> Show <code>progress</code> and <code>readystatechange</code> events</label>
+</p>
+<p>
+  <button id="successButton">Successful Request</button>
+  <button id="errorButton">Server Error</button>
+  <button id="redirectButton">Redirect</button>
+  <button id="timeoutButton">Timeout</button>
+  <button id="networkButton">Network Error</button>
+</p>
+
+<table>
+  <thead>
+    <th class="ms">ms</th>
+    <th>Event</th>
+    <th><code>readyState</code></th>
+    <th>description</th>
+    <th><code>length</code></th>
+    <th><code>responseText</code></th>
+  </thead>
+  <tbody id="output">
+  </tbody>
+</table>
+
+<script type="text/javascript">
+  var DOMAIN = 'https://ls-230-xhr-demo.herokuapp.com';
+
+var READY_STATES = [
+  'UNSENT',
+  'OPENED',
+  'HEADERS_RECEIVED',
+  'LOADING',
+  'DONE'
+];
+
+var output;
+var extraCheckbox;
+var start;
+
+function makeRequest(url) {
+  output.innerHTML = '';
+  start = new Date();
+  var showExtraEvents = extraCheckbox.checked;
+  
+  log('request instantiated');
+  
+  var request = new XMLHttpRequest();
+
+  request.timeout = 3000;
+  
+  var events = 'load error abort loadstart loadend timeout'.split(' ');  
+  if (showExtraEvents) {
+    events.push('progress');
+    events.push('readystatechange');
+  }
+  
+  events.forEach(function(eventName) {
+    request.addEventListener(eventName, logger(eventName));
+  });
+  
+  request.addEventListener('loadend', function(event) {
+    var loadedURL = event.target.responseURL.replace(DOMAIN, '');
+    log(`finished loading ${loadedURL}`);
+  });
+  
+  request.open("GET", DOMAIN + url);
+  request.send();
+  
+  log(`request sent to ${url}`);
+}
+
+function logger(eventName) {
+  return function(event) {
+    logEvent(eventName, event.target.readyState, event.target.response);
+  };
+}
+
+function requester(url) {
+  return function() {
+    makeRequest(url);
+  };
+}
+
+function logEvent(eventName, readyState, responseText) {
+  var stateName = READY_STATES[readyState];
+  var tr = document.createElement('tr');
+  var ms = new Date() - start;
+  if (responseText === '') {
+    responseText = '-';
+  }
+  tr.innerHTML = `<td class="ms">+${ms}</td><td class="event">${eventName}</td><td class="code">${readyState}</td><td>${stateName}</td><td class="length">${responseText.length}</td><td><pre><code>${responseText}</code></pre></td>`;
+  output.appendChild(tr);
+}
+
+function log(message) {
+  var tr = document.createElement('tr');
+  tr.classList.add('header');
+  
+  var ms = new Date() - start;
+  
+  tr.innerHTML = `<td class="ms">+${ms}</td><td colspan="5">${message}</td>`;
+  
+  output.appendChild(tr);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  output = document.getElementById('output');
+  extraCheckbox = document.getElementById('extraEvents');
+  
+  var buttonMap = {
+    successButton: '/status/200?stream=true',
+    errorButton: '/status/500',
+    timeoutButton: '/status/200?delay=4000',
+    redirectButton: '/status/302',
+    networkButton: '/error/abort'
+  };
+  
+  for (var buttonName in buttonMap) {
+    document.getElementById(buttonName).addEventListener('click',  requester(buttonMap[buttonName]));
+  }
+});
+</script>

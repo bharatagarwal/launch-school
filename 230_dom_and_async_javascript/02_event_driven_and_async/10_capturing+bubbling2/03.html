@@ -1,0 +1,71 @@
+<style>
+#elem1 {
+  background-color: green;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#elem2 {
+  background-color: blue;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 150px;
+  height: 150px;
+}
+
+#elem3 {
+  background-color: red;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 100px;
+  height: 100px;
+  line-height: 25px;
+}
+
+#elem4 {
+  background-color: yellow;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+}
+</style>
+
+<body>
+
+<div id="elem1">1
+  <section id="elem2">2
+    <article id="elem3">3
+      <main id="elem4">4
+      </main>
+    </article>
+  </section>
+</div>
+
+<input type=text>
+
+</body>
+
+<script>
+var elem1 = document.querySelector('#elem1'); // DIV
+
+document.addEventListener('keypress', function(event) {
+  setTimeout(function() {
+    alert(event.code);
+  }, 1000);
+});
+
+elem1.addEventListener('click', function(event) {
+  setTimeout(function() {
+    alert(event.target.tagName);     
+  }, 1000);
+});
+
+</script>

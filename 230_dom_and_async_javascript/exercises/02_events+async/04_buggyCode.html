@@ -1,0 +1,31 @@
+<!-- The code below is buggy. The person who created the code expects that nothing will happen when the user clicks on the image. This, however, isn't the case; clicking the image still brings the user to another web page.
+
+Study the code and explain the bug.
+ -->
+
+<style>
+
+  img {
+    display: block;
+    width: 15%;
+    margin-top: 10px;
+    cursor: auto;
+  }
+
+</style>
+
+<body>
+  <a href="https://www.launchschool.com">
+  Home
+  <img src="https://d24f1whwu8r3u4.cloudfront.net/assets/launch-logo-b6d01bd15ee9da31457ee3c315845718823aa8a741858be598ab35042a312348.svg" />
+  </a>
+</body>
+
+<script>
+  document.querySelector('img').addEventListener('click', function(event) {
+  event.preventDefault(); // stops click behavior for self and others up in the chain -- which is important for an anchor.
+   event.stopPropagation(); // still a link!
+}, false);
+</script>
+
+<!-- key point is that preventdefault acts on the event, and not the element. -->

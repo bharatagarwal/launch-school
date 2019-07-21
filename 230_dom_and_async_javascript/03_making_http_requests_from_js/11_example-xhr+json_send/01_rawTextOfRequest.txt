@@ -1,0 +1,6 @@
+POST /books HTTP/1.1
+~~ Host: ls-230-book-catalog.herokuapp.com
+Content-Type: application/json
+~~ Accept: */*
+
+{"title": "Eloquent JavaScript", "author": "Marijn Haverbeke"}
