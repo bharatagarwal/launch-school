@@ -47,28 +47,45 @@ Given the HTML below, write some JavaScript code that updates the options on one
   var animalClassificationsValue;
   var animalsValue;
 
-  function setOptions(select, filters) {
-    select.options.length = 0; // clear out existing
+  function setOptions(select, filters, index) {
+    if (index === 0) {
+      setDefaultAnimals();
+      setDefaultClassifications();
+      return;
+    }
+
+    select.options.length = 0;
     filters.forEach(function(value, index) {
       select.options[index] = new Option(value)
     });
   }
 
-  function setDefault(event) {
-    event.preventDefault();
-    setOptions(animalClassifications, ['Classifications', 'Vertebrate', 'Warm-blooded', 'Cold-blooded', 'Mammal', 'Bird']);
-    setOptions(animals,  ['Animals', 'Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich']);  
+  function setDefaultClassifications() {
+    var defaultAnimalClassifications =['Classifications', 'Vertebrate', 'Warm-blooded', 'Cold-blooded', 'Mammal', 'Bird'];
+
+    animalClassifications.options.length = 0;
+    defaultAnimalClassifications.forEach((classification, index) => animalClassifications.options[index] = new Option(classification));
+  }
+
+  function setDefaultAnimals() {
+    var defaultAnimals = ['Animals', 'Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich'];
+    animals.options.length = 0;
+    defaultAnimals.forEach((animal, index) => animals.options[index] = new Option(animal));
   }
 
   animalClassifications.addEventListener('change', function(event) {
     animalClassificationsValue = animalClassifications.options[animalClassifications.selectedIndex].value
-    setOptions(animals, linkedOptions['classifications'][animalClassificationsValue]) 
+    setOptions(animals, linkedOptions['classifications'][animalClassificationsValue], animalClassifications.selectedIndex); 
   });
 
   animals.addEventListener('change', function(event) {
     animalsValue = animals.options[animals.selectedIndex].value
-    setOptions(animalClassifications, linkedOptions['animals'][animalsValue]) 
+    setOptions(animalClassifications, linkedOptions['animals'][animalsValue], animals.selectedIndex) 
   });
 
-  clearFiltersBtn.addEventListener('click', setDefault);
+  clearFiltersBtn.addEventListener('click', function(event) {
+    event.preventDefault();
+    setDefaultAnimals();
+    setDefaultClassifications();
+  });
 </script>
