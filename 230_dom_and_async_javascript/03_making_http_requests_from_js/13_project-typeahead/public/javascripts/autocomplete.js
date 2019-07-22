@@ -6,8 +6,12 @@ var Autocomplete = {
     this.listUI = null;
     this.overlay = null;
 
+    this.visible = false;
+    this.matches = [];
+
     this.wrapInput();
     this.createUI();
+    this.bindEvents();
   },
 
   wrapInput: function() {
@@ -29,6 +33,44 @@ var Autocomplete = {
 
     this.input.parentNode.appendChild(overlay);
     this.overlay = overlay;
+  },
+
+  bindEvents: function() {
+    this.input.addEventListener('input', this.valueChanged.bind(this));
+  },
+
+  valueChanged: function() {
+    var value = this.input.value;
+
+    if (value.length > 0) {
+      this.fetchMatches(value, function(matches) { // to be implemented later
+        this.visible = true;
+        this.matches = matches;
+        this.draw();
+      }.bind(this));
+    } else {
+      this.reset();
+    }
+  },
+
+  fetchMatches: function(query, callback) { 
+    var request = new XMLHttpRequest();
+
+    request.addEventListener('load', function(event) {
+      callback(request.response);
+    });
+
+    request.open('GET', this.url + encodeURIComponent(query));
+    request.responseType = 'json';
+    request.send();
+  },
+
+  draw: function() {
+    console.log(this.matches);
+  },
+
+  reset: function() {
+    console.log('please reset')
   },
 }
 
