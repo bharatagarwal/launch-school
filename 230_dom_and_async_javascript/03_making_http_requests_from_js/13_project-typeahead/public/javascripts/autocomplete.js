@@ -11,7 +11,10 @@ var Autocomplete = {
 
     this.wrapInput();
     this.createUI();
+
     this.bindEvents();
+    
+    this.reset();
   },
 
   wrapInput: function() {
@@ -46,6 +49,7 @@ var Autocomplete = {
       this.fetchMatches(value, function(matches) { // to be implemented later
         this.visible = true;
         this.matches = matches;
+        this.bestMatchIndex = 0;
         this.draw();
       }.bind(this));
     } else {
@@ -66,11 +70,42 @@ var Autocomplete = {
   },
 
   draw: function() {
-    console.log(this.matches);
+    while (this.listUI.lastChild) {
+      this.listUI.removeChild(this.listUI.lastChild);
+    }
+
+    if (!this.visible) {
+      this.overlay.textContent = '';
+      return;
+    }
+
+    if (this.bestMatchIndex !== null && this.matches.length !== 0) {
+      var selected = this.matches[this.bestMatchIndex];
+      this.overlay.textContent = this.generateOverlayContent(this.input.value, selected.name);
+    } else {
+      this.overlay.textContent = '';
+    }
+
+    this.matches.forEach(function(match) {
+      var li = document.createElement('li');
+      li.classList.add('autocomplete-ui-choice');
+
+      li.textContent = match.name;
+      this.listUI.appendChild(li);
+    }.bind(this));
+  },
+
+  generateOverlayContent: function(value, match) {
+    var end = match.substr(value.length);
+    return value + end;
   },
 
   reset: function() {
-    console.log('please reset')
+    this.visible = false;
+    this.matches = [];
+    this.bestMatchIndex = null;
+
+    this.draw();
   },
 }
 
