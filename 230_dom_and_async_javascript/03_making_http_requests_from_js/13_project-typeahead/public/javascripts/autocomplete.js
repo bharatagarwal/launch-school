@@ -41,10 +41,15 @@ var Autocomplete = {
   bindEvents: function() {
     this.input.addEventListener('input', this.valueChanged.bind(this));
     this.input.addEventListener('keydown', this.handleKeydown.bind(this));
+    this.listUI.addEventListener('click', function(event) {
+      this.input.value = event.target.textContent;
+      this.reset();
+    }.bind(this));
   },
 
   valueChanged: function() {
     var value = this.input.value;
+    this.previousValue = value;
 
     if (value.length > 0) {
       this.fetchMatches(value, function(matches) { // to be implemented later
@@ -106,6 +111,14 @@ var Autocomplete = {
         }
         this.reset();
         break;
+      case 'Enter':
+        this.reset();
+        break;
+
+      case 'Escape':
+        this.input.value = this.previousValue;
+        this.reset();
+        break;
     }
   },
 
@@ -150,6 +163,7 @@ var Autocomplete = {
     this.matches = [];
     this.bestMatchIndex = null;
     this.selectedIndex = null;
+    this.previousValue = null;
 
     this.draw();
   },
