@@ -8,12 +8,15 @@ var COUNTRIES_PATH = path.join(__dirname, '../data/countries.json');
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Autocomplete!' });
 });
+// root folder will lead to browser interface
+// rendering the view template index.pug
 
 router.get('/countries', function(req, res, next) {
   var query = req.query.matching.toLowerCase() || '';
   var searchResults = searchCountry(query);
   res.json(searchResults);
 });
+// this will return a json object
 
 function searchCountry(query) {
   if (query.length === 0) return [];
