@@ -12,6 +12,8 @@ var Autocomplete = {
     this.wrapInput();
     this.createUI();
 
+    this.valueChanged = debounce(this.valueChanged.bind(this), 100);
+
     this.bindEvents();
     
     this.reset();
@@ -39,7 +41,7 @@ var Autocomplete = {
   },
 
   bindEvents: function() {
-    this.input.addEventListener('input', this.valueChanged.bind(this));
+    this.input.addEventListener('input', this.valueChanged);
     this.input.addEventListener('keydown', this.handleKeydown.bind(this));
     this.listUI.addEventListener('click', function(event) {
       this.input.value = event.target.textContent;
