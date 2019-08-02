@@ -1,0 +1,45 @@
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<ul>
+  <li><a href=#>Apples</a></li>
+  <li><a href=#>Bananas</a></li>
+  <li><a href=#>Oranges</a></li>
+</ul>
+
+<p>Choose your favorite fruit!</p>
+
+
+<form action=# method=post>
+  <fieldset style='border-width: 0px'>
+    <input type=text />
+    <input type=submit value=Choose />
+  </fieldset>
+</form>
+
+<script>
+  $(function() {
+    var $p = $('p');
+    var OUTPUT = 'Your favourite fruit is ';
+
+    $('a').click(function(e) {
+      e.preventDefault();
+      var $anchor = $(this);
+      $p.text(OUTPUT + $anchor.text().slice(0, $anchor.text().length - 1));
+    });
+
+  $('form').submit(function(e) {
+    e.preventDefault();
+    var $input = $(this).find('input[type=text]');
+    $p.text(OUTPUT + $input.val());
+  });
+
+
+});
+  // equivalent to
+
+  // document.addEventListener('DOMContentLoaded', function() {
+  //   document.querySelector('a').addEventListener('click', function(event) {
+  //     event.preventDefault();
+  //   });
+  // });
+</script>

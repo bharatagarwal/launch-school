@@ -1,0 +1,182 @@
+<style>
+ #newStudentForm {
+   background: #ccc;
+   padding: 15px;
+   margin-top: 15px;
+ }
+</style>
+
+<h1>Schedules</h1>
+<form method="post" action="/api/bookings">
+  <p id=wait>Please wait for the schedules to load...</p>
+  <label for="id">Please select one schedule</label>
+  <select id="id" name="id">
+    <!-- <option>Bharat</option> -->
+  </select>
+  <br>
+  <label for="student_email">Email:</label>
+  <input type="email" id="student_email" name="student_email" required>
+  <input id="btnSubmit" type="submit">
+</form>
+
+<script>
+  function populateOptions(arrayOfSchedules) {
+    var selectionList = document.querySelector('select#id');
+    var optionElement;
+    arrayOfSchedules.forEach(schedule => {
+      optionElement = document.createElement('option');
+      optionElement.textContent = [schedule.staff_name, schedule.date, schedule.time].join(' | ');
+      selectionList.appendChild(optionElement);
+    });
+  }
+
+  function formDataToJson(formData) {
+    var json = {};
+    for (var pair of formData.entries()) {
+      json[pair[0]] = pair[1];
+    }
+
+    return json;
+  }
+
+  var form = document.querySelector('form');
+  var scheduleData;
+  var submittedEmail;
+  var newForm;
+  var xhrForNewStudent;
+
+  function createNewStudentForm(email, bookingId) {
+    var div = document.createElement('div');
+    var h1 = document.createElement('h1');
+    h1.textContent = 'Please provide new student details';
+    div.appendChild(h1);
+    
+    var form = document.createElement('form');
+    form.id = 'new-user';
+    form.action = '/api/student';
+
+    var emailLabel = document.createElement('label');
+    emailLabel.name = 'email';
+    emailLabel.textContent = 'Email: ';
+
+    var emailInput = document.createElement('input');
+    emailInput.id = 'email';
+    emailInput.name = 'email';
+    emailInput.value = email;
+
+    form.appendChild(emailLabel);
+    form.appendChild(emailInput);
+    form.appendChild(document.createElement('br'));
+
+    var nameLabel = document.createElement('label');
+    nameLabel.name = 'name';
+    nameLabel.textContent = 'Name: ';
+
+    var nameInput = document.createElement('input');
+    nameInput.id = 'name';
+    nameInput.name = 'name';
+
+    form.appendChild(nameLabel);
+    form.appendChild(nameInput);
+    form.appendChild(document.createElement('br'));
+
+    var bookingIdLabel = document.createElement('label');
+    bookingIdLabel.name = 'booking-id';
+    bookingIdLabel.textContent = 'Booking Id: ';
+
+    var bookingIdInput = document.createElement('input');
+    bookingIdInput.id = 'booking-id';
+    bookingIdInput.name = 'booking_sequence';
+    bookingIdInput.value = bookingId;
+
+    form.appendChild(bookingIdLabel);
+    form.appendChild(bookingIdInput);
+    form.appendChild(document.createElement('br'));
+
+    var submitButton = document.createElement('input');
+    submitButton.type = 'submit'
+
+    form.appendChild(submitButton);
+    div.appendChild(form);
+    document.body.appendChild(div)
+  }
+
+
+  document.addEventListener('DOMContentLoaded', function(event) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://localhost:3000/api/schedules');
+    xhr.timeout = 1000;
+    xhr.responseType = 'json';
+    xhr.send();
+
+    xhr.addEventListener('load', function(event) {
+      document.querySelector('p#wait').style.display = 'none';
+      
+      scheduleData = xhr.response;
+      scheduleData = scheduleData.filter(schedule => schedule.student_email === null);
+
+      var xhrForStaffData = new XMLHttpRequest();
+      xhrForStaffData.open('GET', 'http://localhost:3000/api/staff_members');
+      xhrForStaffData.responseType = 'json';
+      xhrForStaffData.send();
+
+      xhrForStaffData.addEventListener('load', function(event) {
+        var staffData = xhrForStaffData.response;
+        scheduleData.forEach(schedule => {
+          var relevantStaff = staffData.filter(staffInfo => staffInfo.id === schedule.staff_id)[0];
+          schedule['staff_name'] = relevantStaff.name;
+        });
+        populateOptions(scheduleData);
+      });
+    });
+
+    xhr.addEventListener('timeout', function(e) {
+      console.log('timed out');
+      xhr.open('GET', 'http://localhost:3000/api/schedules');
+      xhr.timeout = 1000;
+      xhr.responseType = 'json';
+      xhr.send();
+    })
+  });
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    var submittedEmail = form.querySelector('#student_email').value;
+    var scheduleObject = {
+      id: scheduleData[document.querySelector('select').selectedIndex].id,
+      student_email: submittedEmail
+    };
+    
+    var xhrForNewBooking = new XMLHttpRequest();
+    xhrForNewBooking.open('POST', 'http://localhost:3000/api/bookings');
+    xhrForNewBooking.setRequestHeader('Content-Type', 'application/json');
+    var json = JSON.stringify(scheduleObject);
+    xhrForNewBooking.send(json);
+
+    xhrForNewBooking.addEventListener('load', function(e) {
+      if (xhrForNewBooking.status === 204) {
+        console.log('success!');
+      } else {
+        var bookingId = parseInt(xhrForNewBooking.response.replace(/.*ence:\ /, ''), 10);
+        createNewStudentForm(submittedEmail, bookingId);
+
+        var newForm = document.querySelector('#new-user');
+        newForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+
+          var studentInfo = new FormData(newForm);
+          var json = formDataToJson(studentInfo);
+          console.log(JSON.stringify(json));
+          xhrForNewStudent = new XMLHttpRequest();
+          xhrForNewStudent.open('POST', 'http://localhost:3000/api/students');
+          xhrForNewStudent.setRequestHeader('Content-Type', 'application/json');
+          xhrForNewStudent.send(JSON.stringify(json));
+
+          xhrForNewStudent.addEventListener('load', function(e) {
+            console.log(xhrForNewStudent.status, xhrForNewStudent.response);
+          });
+        })
+      }
+    });
+  });
+</script>

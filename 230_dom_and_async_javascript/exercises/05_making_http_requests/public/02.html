@@ -1,0 +1,42 @@
+<script>
+  function retrieveSchedules() {
+    var response;
+    var request = new XMLHttpRequest();
+    request.open('GET', 'http://localhost:3000/api/schedules');
+    request.timeout = 2000;
+    request.responseType = 'json';
+    var requestTime = new Date().getTime();
+
+    request.addEventListener('load', (event) => {
+      var responseTime = new Date().getTime();
+      console.log(request.response);
+      console.log('duration:', responseTime - requestTime, 'ms');
+      response = JSON.parse(request.response);
+
+      if (response.length === 0) {
+        console.log('There are no schedules for booking.');
+      } else {  
+
+        var tallyById = {};
+        response.forEach(schedule => {
+          tallyById[schedule.staff_id] = tallyById[schedule.staff_id] || 0;
+          tallyById[schedule.staff_id] += 1;
+        });
+
+        Object.keys(tallyById).forEach(id => console.log(`staff ${id}: ${tallyById[id]}`));
+      }
+    });
+
+    request.addEventListener('timeout', function(event) {
+      request.open('GET', 'http://localhost:3000/api/schedules');
+      request.timeout = 2000;
+      request.responseType = 'json';
+      request.send();
+    });
+
+    request.send();
+  }
+
+  retrieveSchedules();
+
+</script>

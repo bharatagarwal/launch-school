@@ -1,0 +1,33 @@
+Implement two functions: one for cancelling schedules and the other for cancelling of bookings. The functions take a scheduleId and a bookingId as arguments respectively.
+
+<script>
+function cancelSchedule(scheduleId) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('DELETE', 'http://localhost:3000/api/schedules/' + String(scheduleId));
+  xhr.send();
+  xhr.addEventListener('load', function() {
+    if (xhr.status === 204) {
+      console.log('Success!');
+    } else {
+      console.log('Sorry!');
+      console.log(xhr.status);
+      console.log(xhr.response);
+    }
+  });
+}
+
+function cancelBooking(bookingId) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('PUT', 'http://localhost:3000/api/bookings/' + String(bookingId));
+  xhr.send();
+  xhr.addEventListener('load', function() {
+    if (xhr.status === 204) {
+      console.log('Success!');
+    } else {
+      console.log('Sorry!');
+      console.log(xhr.status);
+      console.log(xhr.response);
+    }
+  });
+}
+</script>

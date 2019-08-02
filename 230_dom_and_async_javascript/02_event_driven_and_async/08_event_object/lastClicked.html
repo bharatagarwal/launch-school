@@ -1,12 +1,5 @@
 <html>
-
-<script>
-document.addEventListener('click', function(event) {
-  var element = event.target;
-  var p = document.getElementById('message');
-  p.textContent = element.tagName;
-});
-</script>
+<script src=https://code.jquery.com/jquery-1.12.4.js></script>
 
 <style>
   body { padding: 1em; }
@@ -31,5 +24,20 @@ document.addEventListener('click', function(event) {
 
 <p>The last clicked element was: <span id="message">none</span>.</p>
 </body>
+<script>
+document.addEventListener('click', function(event) {
+  // var element = event.target;
+  // var p = document.getElementById('message');
+  // p.textContent = element.tagName;
+
+  console.log(event.target); // <span>First</span>
+  console.log(event.currentTarget); // document
+});
+// $(document).click(function(e) {
+//   // clicking on 'First';
+//   console.log(e.target); // <span>First</span>
+//   console.log(e.currentTarget) // document
+// })
+</script>
 
 </html>

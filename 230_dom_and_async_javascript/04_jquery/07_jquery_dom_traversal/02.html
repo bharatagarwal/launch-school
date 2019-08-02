@@ -1,0 +1,25 @@
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<ul id="navigation">
+  <li>
+    <a href="#">Categories</a>
+    <ul>
+      <li><a id="html" href="#">HTML</a></li>
+      <li><a id="css" href="#">CSS</a></li>
+      <li><a id="javascript" href="#">Javascript</a></li>
+    </ul>
+  </li>
+</ul>
+
+<style>
+  .categories {
+    font-size: 20px;
+  }
+</style>
+
+<script>
+  $('#javascript').closest('ul').addClass('categories');
+  // .children()
+  // Description: Get the children of each element in the set of matched elements, optionally filtered by a selector.
+
+</script>

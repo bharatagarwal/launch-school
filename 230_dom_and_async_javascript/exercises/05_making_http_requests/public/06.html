@@ -1,0 +1,52 @@
+<h1>Bookings</h1>
+<ul id=booking_list>
+</ul>
+
+<script>
+  var list = document.querySelector('ul#booking_list');
+  var currentElement;
+  var newList;
+
+  (function(){
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://localhost:3000/api/bookings');
+    xhr.responseType = 'json';
+    xhr.send();
+    xhr.addEventListener('load', function(e) {
+      var dates = xhr.response;
+      dates.forEach(date => {
+        var li = document.createElement('li');
+        li.textContent = date;
+        li.renderCount = 0;
+        list.appendChild(li);
+      });
+    })
+  })();
+
+  list.addEventListener('click', function(event) {
+    currentElement = event.target;
+    var date = currentElement.textContent;
+    if (currentElement.tagName === 'LI' && currentElement.renderCount === 0) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'http://localhost:3000/api/bookings/' + date);
+      xhr.responseType = 'json';
+      xhr.send();
+
+      xhr.addEventListener('load', function(e) {
+        newList = document.createElement('ul');
+        var schedulesForDate = xhr.response;
+
+        schedulesForDate.forEach(schedule => {
+          var newListItem = document.createElement('li');
+          newListItem.textContent = schedule.join(' | ');
+          newList.appendChild(newListItem);
+        });
+
+        currentElement.appendChild(newList);
+        currentElement.renderCount += 1;
+      });
+    }
+  });
+
+
+</script>

@@ -1,0 +1,21 @@
+How many staff are there? 5
+Staff - Retreives all available staff members
+http localhost:3000/api/staff_members
+
+How many students are there? 5
+http localhost:3000/api/students 
+Student - Retreives all registered students
+
+How many schedules exist? 9
+http localhost:3000/api/schedules
+Schedule - Retreives all available schedules
+
+How many schedules have bookings? 3
+http localhost:3000/api/schedules; 
+See those that have a student email and staff id
+
+Do all staff have schedules?
+hard to say.
+
+Did all students book a schedule?
+hard to say.
