@@ -1,1 +1,0 @@
-OOP gives us flexibility in using pre-written code for new purposes.

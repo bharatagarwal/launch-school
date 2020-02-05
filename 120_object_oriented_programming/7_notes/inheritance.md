@@ -1,3 +1,0 @@
-Inheritance can be a great way to remove duplication in your code base. There is an acronym that you'll see often in the Ruby community, "DRY". This stands for "Don't Repeat Yourself". It means that if you find yourself writing the same logic over and over again in your programs, there are ways to extract that logic to one place for reuse.
-
-Class based inheritance works great when it's used to model hierarchical domains.
