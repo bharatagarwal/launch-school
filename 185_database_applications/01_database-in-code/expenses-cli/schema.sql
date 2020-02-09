@@ -10,7 +10,7 @@ create table expenses (
 )
 
 alter table expenses
-add constrain positive_amount
+add constraint positive_amount
 check (amount > 0.00);
 
 alter table expenses 

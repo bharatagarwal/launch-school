@@ -1,3 +1,19 @@
+class Deck
+  SUITS = [:hearts, :spades, :clubs, :diamonds]
+  VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, :jack, :queen, :king, :ace]
+
+  attr_reader :cards
+  def initialize
+    @cards = SUITS.product(VALUES).shuffle
+  end
+end
+
+class Card
+  def initialize
+    
+  end
+end
+
 class Participant
   attr_reader :cards
 
@@ -40,19 +56,6 @@ class Dealer < Participant
       player.cards << deck.cards.pop
       cards << deck.cards.pop
     end
-  end
-end
-
-class Deck
-  attr_reader :cards
-  def initialize
-    @cards = SUITS.product(VALUES).shuffle
-  end
-end
-
-class Card
-  def initialize
-    
   end
 end
 

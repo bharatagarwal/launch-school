@@ -188,4 +188,3 @@ class CLI
 end
 
 CLI.new.run(ARGV)
-puts Time.now - time
